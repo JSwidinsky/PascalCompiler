@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10.2)
 project(PascalCompiler)
 
-set(CMAKE_CXX_STANDARD 14)
+include_directories(include)
 
-add_executable(PascalCompiler plc.cpp src/Token.cpp src/Token.h src/Symbol.h src/SymbolTable.cpp src/SymbolTable.h src/Scanner.cpp src/Scanner.h src/Administration.cpp src/Administration.h)
+file(GLOB SOURCES "src/*.cpp" "plc.cpp")
+
+add_executable(PascalCompiler ${SOURCES})

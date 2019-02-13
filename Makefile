@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/josh/Documents/PascalCompiler2
+CMAKE_SOURCE_DIR = /home/josh/Documents/PascalCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/josh/Documents/PascalCompiler2
+CMAKE_BINARY_DIR = /home/josh/Documents/PascalCompiler
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler2/CMakeFiles /home/josh/Documents/PascalCompiler2/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler/CMakeFiles /home/josh/Documents/PascalCompiler/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler2/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -176,6 +176,33 @@ src/Administration.s: src/Administration.cpp.s
 src/Administration.cpp.s:
 	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s
 .PHONY : src/Administration.cpp.s
+
+src/Parser.o: src/Parser.cpp.o
+
+.PHONY : src/Parser.o
+
+# target to build an object file
+src/Parser.cpp.o:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o
+.PHONY : src/Parser.cpp.o
+
+src/Parser.i: src/Parser.cpp.i
+
+.PHONY : src/Parser.i
+
+# target to preprocess a source file
+src/Parser.cpp.i:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Parser.cpp.i
+.PHONY : src/Parser.cpp.i
+
+src/Parser.s: src/Parser.cpp.s
+
+.PHONY : src/Parser.s
+
+# target to generate assembly for a file
+src/Parser.cpp.s:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Parser.cpp.s
+.PHONY : src/Parser.cpp.s
 
 src/Scanner.o: src/Scanner.cpp.o
 
@@ -273,6 +300,9 @@ help:
 	@echo "... src/Administration.o"
 	@echo "... src/Administration.i"
 	@echo "... src/Administration.s"
+	@echo "... src/Parser.o"
+	@echo "... src/Parser.i"
+	@echo "... src/Parser.s"
 	@echo "... src/Scanner.o"
 	@echo "... src/Scanner.i"
 	@echo "... src/Scanner.s"

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/josh/Documents/PascalCompiler2
+CMAKE_SOURCE_DIR = /home/josh/Documents/PascalCompiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/josh/Documents/PascalCompiler2
+CMAKE_BINARY_DIR = /home/josh/Documents/PascalCompiler
 
 # Include any dependencies generated for this target.
 include CMakeFiles/PascalCompiler.dir/depend.make
@@ -57,114 +57,18 @@ include CMakeFiles/PascalCompiler.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/PascalCompiler.dir/flags.make
 
-CMakeFiles/PascalCompiler.dir/plc.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
-CMakeFiles/PascalCompiler.dir/plc.cpp.o: plc.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/PascalCompiler.dir/plc.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/plc.cpp.o -c /home/josh/Documents/PascalCompiler2/plc.cpp
-
-CMakeFiles/PascalCompiler.dir/plc.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/plc.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler2/plc.cpp > CMakeFiles/PascalCompiler.dir/plc.cpp.i
-
-CMakeFiles/PascalCompiler.dir/plc.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/plc.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler2/plc.cpp -o CMakeFiles/PascalCompiler.dir/plc.cpp.s
-
-CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires:
-
-.PHONY : CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires
-
-CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides: CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires
-	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides.build
-.PHONY : CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides
-
-CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/plc.cpp.o
-
-
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: src/Token.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Token.cpp.o -c /home/josh/Documents/PascalCompiler2/src/Token.cpp
-
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/Token.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler2/src/Token.cpp > CMakeFiles/PascalCompiler.dir/src/Token.cpp.i
-
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/Token.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler2/src/Token.cpp -o CMakeFiles/PascalCompiler.dir/src/Token.cpp.s
-
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires:
-
-.PHONY : CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires
-
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires
-	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides.build
-.PHONY : CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides
-
-CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o
-
-
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: src/SymbolTable.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o -c /home/josh/Documents/PascalCompiler2/src/SymbolTable.cpp
-
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler2/src/SymbolTable.cpp > CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i
-
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler2/src/SymbolTable.cpp -o CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.s
-
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires:
-
-.PHONY : CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires
-
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires
-	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides.build
-.PHONY : CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides
-
-CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o
-
-
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o: src/Scanner.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o -c /home/josh/Documents/PascalCompiler2/src/Scanner.cpp
-
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler2/src/Scanner.cpp > CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i
-
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler2/src/Scanner.cpp -o CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.s
-
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires:
-
-.PHONY : CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
-
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
-	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides.build
-.PHONY : CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides
-
-CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o
-
-
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o: src/Administration.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o -c /home/josh/Documents/PascalCompiler2/src/Administration.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o -c /home/josh/Documents/PascalCompiler/src/Administration.cpp
 
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/Administration.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler2/src/Administration.cpp > CMakeFiles/PascalCompiler.dir/src/Administration.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/src/Administration.cpp > CMakeFiles/PascalCompiler.dir/src/Administration.cpp.i
 
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler2/src/Administration.cpp -o CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/src/Administration.cpp -o CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s
 
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.requires:
 
@@ -177,25 +81,147 @@ CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.provides: CMakeFiles/Pasc
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
 
 
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o: src/Parser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o -c /home/josh/Documents/PascalCompiler/src/Parser.cpp
+
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/Parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/src/Parser.cpp > CMakeFiles/PascalCompiler.dir/src/Parser.cpp.i
+
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/Parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/src/Parser.cpp -o CMakeFiles/PascalCompiler.dir/src/Parser.cpp.s
+
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.requires:
+
+.PHONY : CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.requires
+
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.provides.build
+.PHONY : CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.provides
+
+CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o
+
+
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o: src/Scanner.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o -c /home/josh/Documents/PascalCompiler/src/Scanner.cpp
+
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/src/Scanner.cpp > CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i
+
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/src/Scanner.cpp -o CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.s
+
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires:
+
+.PHONY : CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
+
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides.build
+.PHONY : CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides
+
+CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o
+
+
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: src/SymbolTable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o -c /home/josh/Documents/PascalCompiler/src/SymbolTable.cpp
+
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/src/SymbolTable.cpp > CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i
+
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/src/SymbolTable.cpp -o CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.s
+
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires:
+
+.PHONY : CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires
+
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides.build
+.PHONY : CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides
+
+CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o
+
+
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: src/Token.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Token.cpp.o -c /home/josh/Documents/PascalCompiler/src/Token.cpp
+
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/Token.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/src/Token.cpp > CMakeFiles/PascalCompiler.dir/src/Token.cpp.i
+
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/Token.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/src/Token.cpp -o CMakeFiles/PascalCompiler.dir/src/Token.cpp.s
+
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires:
+
+.PHONY : CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires
+
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides.build
+.PHONY : CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides
+
+CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o
+
+
+CMakeFiles/PascalCompiler.dir/plc.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
+CMakeFiles/PascalCompiler.dir/plc.cpp.o: plc.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/PascalCompiler.dir/plc.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/plc.cpp.o -c /home/josh/Documents/PascalCompiler/plc.cpp
+
+CMakeFiles/PascalCompiler.dir/plc.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/plc.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/plc.cpp > CMakeFiles/PascalCompiler.dir/plc.cpp.i
+
+CMakeFiles/PascalCompiler.dir/plc.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/plc.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/plc.cpp -o CMakeFiles/PascalCompiler.dir/plc.cpp.s
+
+CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires:
+
+.PHONY : CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires
+
+CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides: CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides.build
+.PHONY : CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides
+
+CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/plc.cpp.o
+
+
 # Object files for target PascalCompiler
 PascalCompiler_OBJECTS = \
-"CMakeFiles/PascalCompiler.dir/plc.cpp.o" \
-"CMakeFiles/PascalCompiler.dir/src/Token.cpp.o" \
-"CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o" \
+"CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o" \
+"CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o" \
 "CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o" \
-"CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o"
+"CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o" \
+"CMakeFiles/PascalCompiler.dir/src/Token.cpp.o" \
+"CMakeFiles/PascalCompiler.dir/plc.cpp.o"
 
 # External object files for target PascalCompiler
 PascalCompiler_EXTERNAL_OBJECTS =
 
-PascalCompiler: CMakeFiles/PascalCompiler.dir/plc.cpp.o
-PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o
-PascalCompiler: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o
-PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
+PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o
+PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o
+PascalCompiler: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o
+PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o
+PascalCompiler: CMakeFiles/PascalCompiler.dir/plc.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/build.make
 PascalCompiler: CMakeFiles/PascalCompiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/josh/Documents/PascalCompiler2/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable PascalCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable PascalCompiler"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/PascalCompiler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -203,11 +229,12 @@ CMakeFiles/PascalCompiler.dir/build: PascalCompiler
 
 .PHONY : CMakeFiles/PascalCompiler.dir/build
 
-CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires
-CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires
-CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires
-CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
 CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.requires
+CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.requires
+CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
+CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires
+CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.requires
+CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/plc.cpp.o.requires
 
 .PHONY : CMakeFiles/PascalCompiler.dir/requires
 
@@ -216,6 +243,6 @@ CMakeFiles/PascalCompiler.dir/clean:
 .PHONY : CMakeFiles/PascalCompiler.dir/clean
 
 CMakeFiles/PascalCompiler.dir/depend:
-	cd /home/josh/Documents/PascalCompiler2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josh/Documents/PascalCompiler2 /home/josh/Documents/PascalCompiler2 /home/josh/Documents/PascalCompiler2 /home/josh/Documents/PascalCompiler2 /home/josh/Documents/PascalCompiler2/CMakeFiles/PascalCompiler.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/josh/Documents/PascalCompiler && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/josh/Documents/PascalCompiler /home/josh/Documents/PascalCompiler /home/josh/Documents/PascalCompiler /home/josh/Documents/PascalCompiler /home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/PascalCompiler.dir/depend
 

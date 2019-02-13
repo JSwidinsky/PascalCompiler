@@ -4,16 +4,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/josh/Documents/PascalCompiler2/plc.cpp" "/home/josh/Documents/PascalCompiler2/CMakeFiles/PascalCompiler.dir/plc.cpp.o"
-  "/home/josh/Documents/PascalCompiler2/src/Administration.cpp" "/home/josh/Documents/PascalCompiler2/CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o"
-  "/home/josh/Documents/PascalCompiler2/src/Scanner.cpp" "/home/josh/Documents/PascalCompiler2/CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
-  "/home/josh/Documents/PascalCompiler2/src/SymbolTable.cpp" "/home/josh/Documents/PascalCompiler2/CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
-  "/home/josh/Documents/PascalCompiler2/src/Token.cpp" "/home/josh/Documents/PascalCompiler2/CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
+  "/home/josh/Documents/PascalCompiler/plc.cpp" "/home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/plc.cpp.o"
+  "/home/josh/Documents/PascalCompiler/src/Administration.cpp" "/home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o"
+  "/home/josh/Documents/PascalCompiler/src/Parser.cpp" "/home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o"
+  "/home/josh/Documents/PascalCompiler/src/Scanner.cpp" "/home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
+  "/home/josh/Documents/PascalCompiler/src/SymbolTable.cpp" "/home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
+  "/home/josh/Documents/PascalCompiler/src/Token.cpp" "/home/josh/Documents/PascalCompiler/CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "include"
   )
 
 # Targets to which this target links.

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
 
-#include "./src/SymbolTable.h"
-#include "./src/Scanner.h"
-#include "./src/Administration.h"
+#include "./include/SymbolTable.h"
+#include "./include/Scanner.h"
+#include "./include/Administration.h"
 
 using namespace std;
 

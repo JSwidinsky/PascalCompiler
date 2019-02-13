@@ -1,0 +1,59 @@
+$PL program to test all functionality of the scanner
+
+$here are all the reserved words
+begin end const array integer Boolean proc skip read write call
+if do fi od false true
+
+$here are all the special symbols that could appear in a PL program
+. , ; [ ] & | ~ < = > + - * / \ ( ) := -> []
+
+$here are some good identifiers and some bad identifiers
+HelloWorld test_variable56 TestVariable__46_
+
+__ftas
+56set
+
+$here are two integer literals, one that will overflow and one that wont
+6362
+636293758293
+
+
+$here is a sample program that appears in Brinch Hansen Appendix B
+begin
+	const n = 54; integer array A[n];
+	integer x, i; Boolean found;
+
+proc Search
+begin integer m;
+      i, m := 1, n;
+      do i < m ->
+      	 if A[i] = x -> m := i; []
+	 ~(A[i]=x)-> i := i + 1;
+	 fi;
+      od;
+      found := A[i] = x;
+end;
+
+$input table
+i := 1;
+do ~(i>n)->read A[i]; i:=i+1; od;
+
+read x;
+do ~(x=0)->
+   call Search;
+   if found -> write x, i; []
+   ~found -> write x;
+   fi;
+   read x;
+od;
+end.
+
+$we are now going to add errors to test if the compiler quits
+@
+__5244
+^
+%
+?
+{
+}
+`
