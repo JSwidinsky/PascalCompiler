@@ -1,4 +1,4 @@
-#include "Scanner.h"
+#include "../include/Scanner.h"
 
 #include <iostream>
 #include <string>
@@ -41,15 +41,15 @@ Token* Scanner::GetToken()
     }
     else
     {
-        string ErrMessage = "ERROR: LINE: ";
+        string ErrMessage = "ERROR LINE: ";
         ErrMessage += to_string(LineNum);
-        ErrMessage += ": Unrecognized character ";
+        ErrMessage += " --- Unrecognized character ";
         ErrMessage += CurrentSymbol;
 
         //remove the rest of the current line we are on, and start fresh at the next line
         //this will be handled better in the next phases
         this->RemoveLine();
-        this->ReverseRead();
+        //this->ReverseRead();
         throw runtime_error(ErrMessage);
     }
 
@@ -58,7 +58,12 @@ Token* Scanner::GetToken()
 
 bool Scanner::AtEndOfFile() const
 {
-    return InputPLProgram.eof() || LookAheadSymbol == EOF || InputPLProgram.peek() == EOF;
+    return InputPLProgram.eof() || CurrentSymbol == EOF || InputPLProgram.peek() == EOF;
+}
+
+int Scanner::GetLineNum() const
+{
+    return LineNum;
 }
 
 
@@ -147,14 +152,14 @@ Token* Scanner::RecognizeNumeral()
 
         if(Value > MAX_INT)
         {
-            string ErrMessage = "ERROR: LINE: ";
+            string ErrMessage = "ERROR LINE: ";
             ErrMessage += to_string(LineNum);
-            ErrMessage += ": Size of integer literal exceeds the maximum integer sized allowed (2^32 - 1)";
+            ErrMessage += " --- Size of integer literal exceeds the maximum integer sized allowed (2^32 - 1)";
 
             //remove the rest of the current line we are on, and start fresh at the next line
             //this will be handled better in the next phases
             this->RemoveLine();
-            this->ReverseRead();
+            //this->ReverseRead();
             throw runtime_error(ErrMessage);
         }
 
@@ -164,14 +169,16 @@ Token* Scanner::RecognizeNumeral()
     if(this->IsAlpha(CurrentSymbol))
     {
         //we have found an invalid identifer, so remove the rest of the line and throw an error
-        string ErrMessage = "ERROR: LINE: ";
+        string ErrMessage = "ERROR LINE: ";
         ErrMessage += to_string(LineNum);
-        ErrMessage += " Invalid identifier found";
+        ErrMessage += " --- Invalid identifier found";
 
         this->RemoveLine();
-        this->ReverseRead();
+        //this->ReverseRead();
         throw runtime_error(ErrMessage);
     }
+
+    this->ReverseRead();
 
     //make a new token with the value attached to it
     TokenAttribute Attr;
@@ -262,16 +269,17 @@ void Scanner::RecognizeSeparators()
     {
         if(CurrentSymbol == '$')
         {
+            cout << "Removing comment on line " << LineNum << endl;
             this->RemoveLine();
         }
-        else
+        else if(this->IsBlank(CurrentSymbol))
         {
             if(CurrentSymbol == '\n')
             {
                 ++LineNum;
             }
-            GetNextSymbol();
         }
+        GetNextSymbol();
     }
 }
 
@@ -295,5 +303,5 @@ void Scanner::RemoveLine()
         GetNextSymbol();
     }
 
-    GetNextSymbol();
+    //GetNextSymbol();
 }

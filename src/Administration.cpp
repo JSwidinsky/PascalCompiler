@@ -1,4 +1,4 @@
-#include "Administration.h"
+#include "../include/Administration.h"
 
 #include <iostream>
 #include <exception>
@@ -68,7 +68,7 @@ void Administration::Scan()
 
 void Administration::PrintToken(Token* TokenToPrint) const
 {
-    OutFile << "Token Symbol: ";
+    OutFile << "Token Symbol (line " << PLScanner->GetLineNum() << "): ";
 
     //this is a pretty horrid way to print the enum name, but it works for now
     switch(TokenToPrint->GetSymbolName())

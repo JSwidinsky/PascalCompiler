@@ -23,6 +23,9 @@ public:
     /** Simple function that determines if we have made it to the end of the input file */
     bool AtEndOfFile() const;
 
+    /** Returns the current line number we are on */
+    int GetLineNum() const;
+
 
 private:
     /** Helper function that returns true if the character c is an alphabetic character */

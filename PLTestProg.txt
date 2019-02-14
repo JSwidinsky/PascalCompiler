@@ -13,9 +13,9 @@ HelloWorld test_variable56 TestVariable__46_
 __ftas
 56set
 
-$here are two integer literals, one that will overflow and one that wont
+$here are two integer literals, one that will overflow and one that won't
 6362
-636293758293
+63629374443
 
 
 $here is a sample program that appears in Brinch Hansen Appendix B
