@@ -4,6 +4,7 @@
 #include "./include/SymbolTable.h"
 #include "./include/Scanner.h"
 #include "./include/Administration.h"
+#include "./include/Parser.h"
 
 using namespace std;
 
@@ -31,12 +32,15 @@ int main(int argc, char* argv[])
 
     SymbolTable* Table = new SymbolTable();
     Scanner* ScannerObject = new Scanner(InputPLFile, Table);
-    Administration* Compiler = new Administration(InputPLFile, OutputExecutable, ScannerObject);
+    Parser* ParserObject = new Parser();
+    Administration* Compiler = new Administration(InputPLFile, OutputExecutable, ScannerObject, ParserObject);
     Compiler->Scan();
+    Compiler->Parse();
 
     delete Table;
     delete ScannerObject;
     delete Compiler;
+    delete ParserObject;
 
     return 0;
 }

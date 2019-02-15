@@ -2,50 +2,26 @@
 
 #include <iostream>
 #include <exception>
+#include <queue>
 using namespace std;
 
-Administration::Administration(ifstream& InputFile, ofstream& OutputFile, Scanner* Scan)
+Administration::Administration(ifstream& InputFile, ofstream& OutputFile, Scanner* Scan, Parser* Parse)
     : OutFile(OutputFile)
 {
     PLScanner = Scan;
+    PLParser = Parse;
 
     ErrorCount = 0;
 }
 
 void Administration::Scan()
 {
+    queue<Token*> TokenQueue;
     while (!PLScanner->AtEndOfFile())
     {
         try
         {
-            Token* NextToken = PLScanner->GetToken();
-
-            this->PrintToken(NextToken);
-
-            //for now, delete the token if it is not in the symbol table
-            //this will change in the later phases, but for now it eliminates the memory leaks
-            switch(NextToken->GetSymbolName())
-            {
-                case Symbol::BEGIN:
-                case Symbol::END:
-                case Symbol::CONST:
-                case Symbol::ARRAY:
-                case Symbol::INTEGER:
-                case Symbol::BOOLEAN:
-                case Symbol::PROC:
-                case Symbol::SKIP:
-                case Symbol::READ:
-                case Symbol::WRITE:
-                case Symbol::CALL:
-                case Symbol::IF:
-                case Symbol::DO:
-                case Symbol::FI:
-                case Symbol::OD:
-                case Symbol::FALSE:
-                case Symbol::TRUE:
-                case Symbol::ID:break;
-                default: delete NextToken; break;
-            }
+            TokenQueue.emplace(PLScanner->GetToken());
         }
         catch (runtime_error &err)
         {
@@ -63,12 +39,17 @@ void Administration::Scan()
         }
     }
 
-    cout << "\nNum errors detected: " << ErrorCount << endl;
+    PLParser->GiveTokenQueue(TokenQueue);
+}
+
+void Administration::Parse()
+{
+    PLParser->BeginParsing();
 }
 
 void Administration::PrintToken(Token* TokenToPrint) const
 {
-    OutFile << "Token Symbol (line " << PLScanner->GetLineNum() << "): ";
+    OutFile << "Token Symbol: ";
 
     //this is a pretty horrid way to print the enum name, but it works for now
     switch(TokenToPrint->GetSymbolName())
@@ -91,7 +72,7 @@ void Administration::PrintToken(Token* TokenToPrint) const
         case Symbol::FALSE: OutFile << "FALSE" << endl; break;
         case Symbol::TRUE: OutFile << "TRUE" << endl; break;
         case Symbol::ID: OutFile << "ID " << TokenToPrint->GetLexeme() << endl; break;
-        case Symbol::NUMERAL: OutFile << "NUMERAL" << endl; break;
+        case Symbol::NUMERAL: OutFile << "NUMERAL " << TokenToPrint->GetValue() << endl; break;
         case Symbol::PERIOD: OutFile << "PERID" << endl; break;
         case Symbol::COMMA: OutFile << "COMMA" << endl; break;
         case Symbol::SEMICOLON: OutFile << "SEMICOLON" << endl; break;

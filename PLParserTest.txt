@@ -1,0 +1,3 @@
+begin
+const n = 500;
+end. 

@@ -6,11 +6,31 @@
 
 #IncludeRegexTransform: 
 
+/home/josh/Documents/PascalCompiler/./include/./Parser.h
+queue
+-
+./Token.h
+/home/josh/Documents/PascalCompiler/./include/././Token.h
+
+/home/josh/Documents/PascalCompiler/./include/./Token.h
+string
+-
+Symbol.h
+/home/josh/Documents/PascalCompiler/./include/./Symbol.h
+
 /home/josh/Documents/PascalCompiler/./include/Administration.h
 fstream
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
+./Parser.h
+/home/josh/Documents/PascalCompiler/./include/./Parser.h
+
+/home/josh/Documents/PascalCompiler/./include/Parser.h
+queue
+-
+./Token.h
+/home/josh/Documents/PascalCompiler/./include/./Token.h
 
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
 fstream
@@ -38,11 +58,39 @@ string
 Symbol.h
 /home/josh/Documents/PascalCompiler/./include/Symbol.h
 
+/home/josh/Documents/PascalCompiler/include/././Token.h
+string
+-
+Symbol.h
+/home/josh/Documents/PascalCompiler/include/././Symbol.h
+
+/home/josh/Documents/PascalCompiler/include/./Parser.h
+queue
+-
+./Token.h
+/home/josh/Documents/PascalCompiler/include/././Token.h
+
+/home/josh/Documents/PascalCompiler/include/./Symbol.h
+
+/home/josh/Documents/PascalCompiler/include/./Token.h
+string
+-
+Symbol.h
+/home/josh/Documents/PascalCompiler/include/./Symbol.h
+
 /home/josh/Documents/PascalCompiler/include/Administration.h
 fstream
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/include/Scanner.h
+./Parser.h
+/home/josh/Documents/PascalCompiler/include/./Parser.h
+
+/home/josh/Documents/PascalCompiler/include/Parser.h
+queue
+-
+./Token.h
+/home/josh/Documents/PascalCompiler/include/./Token.h
 
 /home/josh/Documents/PascalCompiler/include/Scanner.h
 fstream
@@ -81,6 +129,8 @@ fstream
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
 ./include/Administration.h
 /home/josh/Documents/PascalCompiler/./include/Administration.h
+./include/Parser.h
+/home/josh/Documents/PascalCompiler/./include/Parser.h
 
 /home/josh/Documents/PascalCompiler/src/Administration.cpp
 ../include/Administration.h
@@ -89,8 +139,14 @@ iostream
 -
 exception
 -
+queue
+-
 
 /home/josh/Documents/PascalCompiler/src/Parser.cpp
+../include/Parser.h
+/home/josh/Documents/PascalCompiler/include/Parser.h
+iostream
+-
 
 /home/josh/Documents/PascalCompiler/src/Scanner.cpp
 ../include/Scanner.h

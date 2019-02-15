@@ -49,7 +49,6 @@ Token* Scanner::GetToken()
         //remove the rest of the current line we are on, and start fresh at the next line
         //this will be handled better in the next phases
         this->RemoveLine();
-        //this->ReverseRead();
         throw runtime_error(ErrMessage);
     }
 
@@ -59,13 +58,13 @@ Token* Scanner::GetToken()
 bool Scanner::AtEndOfFile() const
 {
     return InputPLProgram.eof() || CurrentSymbol == EOF || InputPLProgram.peek() == EOF;
+    //return CurrentSymbol == EOF;
 }
 
 int Scanner::GetLineNum() const
 {
     return LineNum;
 }
-
 
 bool Scanner::IsAlpha(const char c) const
 {
@@ -159,7 +158,6 @@ Token* Scanner::RecognizeNumeral()
             //remove the rest of the current line we are on, and start fresh at the next line
             //this will be handled better in the next phases
             this->RemoveLine();
-            //this->ReverseRead();
             throw runtime_error(ErrMessage);
         }
 
@@ -174,7 +172,6 @@ Token* Scanner::RecognizeNumeral()
         ErrMessage += " --- Invalid identifier found";
 
         this->RemoveLine();
-        //this->ReverseRead();
         throw runtime_error(ErrMessage);
     }
 
@@ -269,7 +266,6 @@ void Scanner::RecognizeSeparators()
     {
         if(CurrentSymbol == '$')
         {
-            cout << "Removing comment on line " << LineNum << endl;
             this->RemoveLine();
         }
         else if(this->IsBlank(CurrentSymbol))
@@ -302,6 +298,4 @@ void Scanner::RemoveLine()
     {
         GetNextSymbol();
     }
-
-    //GetNextSymbol();
 }
