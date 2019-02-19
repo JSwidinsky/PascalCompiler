@@ -18,38 +18,41 @@ Scanner::Scanner(ifstream& InputPLFile, SymbolTable* Table)
 
 Token* Scanner::GetToken()
 {
+    Token* NewToken = nullptr;
     GetNextSymbol();
 
-    //remove all whitespace and comments until we reach a valid character
-    if(this->IsBlank(CurrentSymbol) || CurrentSymbol == '$')
+    if(!this->AtEndOfFile())
     {
-        RecognizeSeparators();
-    }
+        //remove all whitespace and comments until we reach a valid character
+        if(this->IsBlank(CurrentSymbol) || CurrentSymbol == '$')
+        {
+            RecognizeSeparators();
+        }
 
-    Token* NewToken;
-    if(this->IsAlpha(CurrentSymbol))
-    {
-        NewToken = this->RecognizeName();
-    }
-    else if(this->IsNumeric(CurrentSymbol))
-    {
-        NewToken = this->RecognizeNumeral();
-    }
-    else if(this->IsSpecial(CurrentSymbol))
-    {
-        NewToken = this->RecognizeSpecial();
-    }
-    else
-    {
-        string ErrMessage = "ERROR LINE: ";
-        ErrMessage += to_string(LineNum);
-        ErrMessage += " --- Unrecognized character ";
-        ErrMessage += CurrentSymbol;
+        if(this->IsAlpha(CurrentSymbol))
+        {
+            NewToken = this->RecognizeName();
+        }
+        else if(this->IsNumeric(CurrentSymbol))
+        {
+            NewToken = this->RecognizeNumeral();
+        }
+        else if(this->IsSpecial(CurrentSymbol))
+        {
+            NewToken = this->RecognizeSpecial();
+        }
+        else
+        {
+            string ErrMessage = "ERROR LINE: ";
+            ErrMessage += to_string(LineNum);
+            ErrMessage += " --- Unrecognized character ";
+            ErrMessage += CurrentSymbol;
 
-        //remove the rest of the current line we are on, and start fresh at the next line
-        //this will be handled better in the next phases
-        this->RemoveLine();
-        throw runtime_error(ErrMessage);
+            //remove the rest of the current line we are on, and start fresh at the next line
+            //this will be handled better in the next phases
+            this->RemoveLine();
+            throw runtime_error(ErrMessage);
+        }
     }
 
     return NewToken;
@@ -57,8 +60,8 @@ Token* Scanner::GetToken()
 
 bool Scanner::AtEndOfFile() const
 {
-    return InputPLProgram.eof() || CurrentSymbol == EOF || InputPLProgram.peek() == EOF;
-    //return CurrentSymbol == EOF;
+    //return InputPLProgram.eof() || CurrentSymbol == EOF || InputPLProgram.peek() == EOF;
+    return CurrentSymbol == EOF;
 }
 
 int Scanner::GetLineNum() const
@@ -132,10 +135,7 @@ Token* Scanner::RecognizeName()
     else
     {
         //we must make a new token for the new identifier
-        TokenAttribute Attr;
-        Attr.Lexeme = Lexeme;
-        Attr.Value = IndexInTable;
-        Token* NewToken = new Token(Symbol::ID, Attr);
+        Token* NewToken = new Token(Symbol::ID, TokenAttribute(IndexInTable, Lexeme));
         HashTable->Insert(NewToken);
         return NewToken;
     }
@@ -178,9 +178,7 @@ Token* Scanner::RecognizeNumeral()
     this->ReverseRead();
 
     //make a new token with the value attached to it
-    TokenAttribute Attr;
-    Attr.Value = Value;
-    Token* NewToken = new Token(Symbol::NUMERAL, Attr);
+    Token* NewToken = new Token(Symbol::NUMERAL, TokenAttribute(Value, ""));
     return NewToken;
 }
 
@@ -191,7 +189,6 @@ Token* Scanner::RecognizeSpecial()
     bool IsLookAheadSpecial = false;
 
     Token* SpecialToken;
-    TokenAttribute Attr;
 
     //is the next symbol potentially part of this operator?
     if(this->IsSpecial(LookAheadSymbol) && LookAheadSymbol != '$')
@@ -201,22 +198,19 @@ Token* Scanner::RecognizeSpecial()
         {
             Lexeme += CurrentSymbol;
             Lexeme += LookAheadSymbol;
-            Attr.Lexeme = Lexeme;
-            SpecialToken = new Token(Symbol::SUBSCRIPT, Attr);
+            SpecialToken = new Token(Symbol::SUBSCRIPT, TokenAttribute(-1, Lexeme));
         }
         else if(CurrentSymbol == ':' && LookAheadSymbol == '=')  //assignment operator
         {
             Lexeme += CurrentSymbol;
             Lexeme += LookAheadSymbol;
-            Attr.Lexeme = Lexeme;
-            SpecialToken = new Token(Symbol::ASSIGN, Attr);
+            SpecialToken = new Token(Symbol::ASSIGN, TokenAttribute(-1, Lexeme));
         }
         else if(CurrentSymbol == '-' && LookAheadSymbol == '>')  //arrow operator
         {
             Lexeme += CurrentSymbol;
             Lexeme += LookAheadSymbol;
-            Attr.Lexeme = Lexeme;
-            SpecialToken = new Token(Symbol::ARROW, Attr);
+            SpecialToken = new Token(Symbol::ARROW, TokenAttribute(-1, Lexeme));
         }
         else
         {
@@ -227,28 +221,28 @@ Token* Scanner::RecognizeSpecial()
     //make a new token with the proper symbol type attached to it
     if(!IsLookAheadSpecial)
     {
-        Attr.Lexeme = CurrentSymbol;
+        Lexeme = CurrentSymbol;
 
         switch(CurrentSymbol)
         {
-            case '.': SpecialToken = new Token(Symbol::PERIOD, Attr); break;
-            case ',': SpecialToken = new Token(Symbol::COMMA, Attr); break;
-            case ';': SpecialToken = new Token(Symbol::SEMICOLON, Attr); break;
-            case '[': SpecialToken = new Token(Symbol::SQUARELEFT, Attr); break;
-            case ']': SpecialToken = new Token(Symbol::SQUARERIGHT, Attr); break;
-            case '&': SpecialToken = new Token(Symbol::AND, Attr); break;
-            case '|': SpecialToken = new Token(Symbol::OR, Attr); break;
-            case '~': SpecialToken = new Token(Symbol::NEGATE, Attr); break;
-            case '<': SpecialToken = new Token(Symbol::LESSTHAN, Attr); break;
-            case '=': SpecialToken = new Token(Symbol::EQUAL, Attr); break;
-            case '>': SpecialToken = new Token(Symbol::GREATERTHAN, Attr); break;
-            case '+': SpecialToken = new Token(Symbol::PLUS, Attr); break;
-            case '-': SpecialToken = new Token(Symbol::MINUS, Attr); break;
-            case '*': SpecialToken = new Token(Symbol::MULTIPLY, Attr); break;
-            case '/': SpecialToken = new Token(Symbol::DIVIDE, Attr); break;
-            case '\\': SpecialToken = new Token(Symbol::MOD, Attr); break;
-            case '(': SpecialToken = new Token(Symbol::BRACKETLEFT, Attr); break;
-            case ')': SpecialToken = new Token(Symbol::BRACKETRIGHT, Attr); break;
+            case '.': SpecialToken = new Token(Symbol::PERIOD, TokenAttribute(-1, Lexeme)); break;
+            case ',': SpecialToken = new Token(Symbol::COMMA, TokenAttribute(-1, Lexeme)); break;
+            case ';': SpecialToken = new Token(Symbol::SEMICOLON, TokenAttribute(-1, Lexeme)); break;
+            case '[': SpecialToken = new Token(Symbol::SQUARELEFT, TokenAttribute(-1, Lexeme)); break;
+            case ']': SpecialToken = new Token(Symbol::SQUARERIGHT, TokenAttribute(-1, Lexeme)); break;
+            case '&': SpecialToken = new Token(Symbol::AND, TokenAttribute(-1, Lexeme)); break;
+            case '|': SpecialToken = new Token(Symbol::OR, TokenAttribute(-1, Lexeme)); break;
+            case '~': SpecialToken = new Token(Symbol::NEGATE, TokenAttribute(-1, Lexeme)); break;
+            case '<': SpecialToken = new Token(Symbol::LESSTHAN, TokenAttribute(-1, Lexeme)); break;
+            case '=': SpecialToken = new Token(Symbol::EQUAL, TokenAttribute(-1, Lexeme)); break;
+            case '>': SpecialToken = new Token(Symbol::GREATERTHAN, TokenAttribute(-1, Lexeme)); break;
+            case '+': SpecialToken = new Token(Symbol::PLUS, TokenAttribute(-1, Lexeme)); break;
+            case '-': SpecialToken = new Token(Symbol::MINUS, TokenAttribute(-1, Lexeme)); break;
+            case '*': SpecialToken = new Token(Symbol::MULTIPLY, TokenAttribute(-1, Lexeme)); break;
+            case '/': SpecialToken = new Token(Symbol::DIVIDE, TokenAttribute(-1, Lexeme)); break;
+            case '\\': SpecialToken = new Token(Symbol::MOD, TokenAttribute(-1, Lexeme)); break;
+            case '(': SpecialToken = new Token(Symbol::BRACKETLEFT, TokenAttribute(-1, Lexeme)); break;
+            case ')': SpecialToken = new Token(Symbol::BRACKETRIGHT, TokenAttribute(-1, Lexeme)); break;
         }
     }
     else

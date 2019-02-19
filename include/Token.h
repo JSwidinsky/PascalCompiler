@@ -8,6 +8,8 @@ using namespace std;
 
 struct TokenAttribute
 {
+    TokenAttribute(int V, string Lex)
+    : Value(V), Lexeme(Lex) {}
     /**
      * Value related to this token
      * For numerical literals, this is the value of that number
@@ -35,6 +37,8 @@ public:
     string GetLexeme() const;
     Symbol::Symbol GetSymbolName() const;
     int GetValue() const;
+
+    bool CheckTerminalSymbol(Symbol::Symbol SymbolToCompare) const;
 
     void PrintToken() const;
 

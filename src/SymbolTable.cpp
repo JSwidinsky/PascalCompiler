@@ -64,58 +64,58 @@ bool SymbolTable::IsFull() const
 
 void SymbolTable::InitReserved()
 {
-    TokenAttribute Attr;
+    string Lexeme;
 
-    Attr.Lexeme = "begin";
-    this->Insert(new Token(Symbol::BEGIN, Attr));
+    Lexeme = "begin";
+    this->Insert(new Token(Symbol::BEGIN, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "end";
-    this->Insert(new Token(Symbol::END, Attr));
+    Lexeme = "end";
+    this->Insert(new Token(Symbol::END, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "const";
-    this->Insert(new Token(Symbol::CONST, Attr));
+    Lexeme = "const";
+    this->Insert(new Token(Symbol::CONST, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "array";
-    this->Insert(new Token(Symbol::ARRAY, Attr));
+    Lexeme = "array";
+    this->Insert(new Token(Symbol::ARRAY, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "integer";
-    this->Insert(new Token(Symbol::INTEGER, Attr));
+    Lexeme = "integer";
+    this->Insert(new Token(Symbol::INTEGER, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "Boolean";
-    this->Insert(new Token(Symbol::BOOLEAN, Attr));
+    Lexeme = "Boolean";
+    this->Insert(new Token(Symbol::BOOLEAN, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "proc";
-    this->Insert(new Token(Symbol::PROC, Attr));
+    Lexeme = "proc";
+    this->Insert(new Token(Symbol::PROC, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "skip";
-    this->Insert(new Token(Symbol::SKIP, Attr));
+    Lexeme = "skip";
+    this->Insert(new Token(Symbol::SKIP, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "read";
-    this->Insert(new Token(Symbol::READ, Attr));
+    Lexeme = "read";
+    this->Insert(new Token(Symbol::READ, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "write";
-    this->Insert(new Token(Symbol::WRITE, Attr));
+    Lexeme = "write";
+    this->Insert(new Token(Symbol::WRITE, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "call";
-    this->Insert(new Token(Symbol::CALL, Attr));
+    Lexeme = "call";
+    this->Insert(new Token(Symbol::CALL, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "if";
-    this->Insert(new Token(Symbol::IF, Attr));
+    Lexeme = "if";
+    this->Insert(new Token(Symbol::IF, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "do";
-    this->Insert(new Token(Symbol::DO, Attr));
+    Lexeme = "do";
+    this->Insert(new Token(Symbol::DO, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "fi";
-    this->Insert(new Token(Symbol::FI, Attr));
+    Lexeme = "fi";
+    this->Insert(new Token(Symbol::FI, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "od";
-    this->Insert(new Token(Symbol::OD, Attr));
+    Lexeme = "od";
+    this->Insert(new Token(Symbol::OD, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "false";
-    this->Insert(new Token(Symbol::FALSE, Attr));
+    Lexeme = "false";
+    this->Insert(new Token(Symbol::FALSE, TokenAttribute(-1, Lexeme)));
 
-    Attr.Lexeme = "true";
-    this->Insert(new Token(Symbol::TRUE, Attr));
+    Lexeme = "true";
+    this->Insert(new Token(Symbol::TRUE, TokenAttribute(-1, Lexeme)));
 }
 
 int SymbolTable::HashLexeme(string Lexeme) const

@@ -1,3 +1,10 @@
 begin
-const n = 500;
-end. 
+const n = 10; integer array A[n];
+integer x; Boolean found;
+
+proc myFunc begin
+integer MyInt; Boolean b;
+Boolean array B[4];
+end;
+
+end.

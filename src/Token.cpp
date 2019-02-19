@@ -4,13 +4,11 @@
 using namespace std;
 
 Token::Token()
+    : Attribute(TokenAttribute(-1, ""))
 {}
 
 Token::Token(Symbol::Symbol Terminal, TokenAttribute Attr)
-{
-    TerminalSymbolName = Terminal;
-    Attribute = Attr;
-}
+    : TerminalSymbolName(Terminal), Attribute(Attr) {}
 
 string Token::GetLexeme() const
 {
@@ -25,6 +23,11 @@ Symbol::Symbol Token::GetSymbolName() const
 int Token::GetValue() const
 {
     return Attribute.Value;
+}
+
+bool Token::CheckTerminalSymbol(Symbol::Symbol SymbolToCompare) const
+{
+    return this->TerminalSymbolName == SymbolToCompare;
 }
 
 void Token::PrintToken() const

@@ -17,11 +17,22 @@ Administration::Administration(ifstream& InputFile, ofstream& OutputFile, Scanne
 void Administration::Scan()
 {
     queue<Token*> TokenQueue;
-    while (!PLScanner->AtEndOfFile())
+    while (true)
     {
         try
         {
-            TokenQueue.emplace(PLScanner->GetToken());
+            Token* TokenToAdd = PLScanner->GetToken();
+
+            if(TokenToAdd)
+            {
+                TokenQueue.emplace(TokenToAdd);
+            }
+            else
+            {
+                break;
+            }
+
+            TokenToAdd = nullptr;
         }
         catch (runtime_error &err)
         {
