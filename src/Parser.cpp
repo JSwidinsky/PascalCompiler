@@ -1,7 +1,7 @@
 #include "../include/Parser.h"
 #include <iostream>
 
-#define ERROR_TEXT "ERROR LINE _____:"
+#define PRINT_ERROR(n, s) cerr << "ERROR LINE " << n << ": " << s << endl;
 
 Parser::Parser()
 {
@@ -33,7 +33,7 @@ void Parser::Program()
     if(!LookAheadToken || !LookAheadToken->CheckTerminalSymbol(Symbol::PERIOD))
     {
         //bad!
-        cerr << ERROR_TEXT <<  " Expected '.' at end of program declaration" << endl;
+        PRINT_ERROR(0, "Expected '.' at end of program declaration");
     }
 }
 
@@ -41,7 +41,7 @@ void Parser::Block()
 {
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::BEGIN))
     {
-        cerr << ERROR_TEXT << " Expected 'begin' at begining of block declaration" << endl;
+        PRINT_ERROR(0, "Expected 'begin' at begining of block declaration");
     }
     else
     {
@@ -52,7 +52,7 @@ void Parser::Block()
 
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::END))
     {
-        cerr << ERROR_TEXT << " Expected 'end' at end of block declaration" << endl;
+        PRINT_ERROR(0, "Expected 'end' at end of block declaration");
     }
 
     GetNextToken();
@@ -84,7 +84,7 @@ void Parser::DefinitionPart()
 
         if(!LookAheadToken->CheckTerminalSymbol(Symbol::SEMICOLON))
         {
-            cerr << ERROR_TEXT << " Expected ';' after definition statement" << endl;
+            PRINT_ERROR(0, "Expected ';' after definition statement");
         }
         else
         {
@@ -97,24 +97,30 @@ void Parser::ConstDefinition()
 {
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::CONST))
     {
-        cerr << ERROR_TEXT << " Expected const declaration" << endl;
+        PRINT_ERROR(0, "Expected 'const' before variable identifier declaration");
     }
-
-    GetNextToken();
-
-    if(!(LookAheadToken->GetSymbolName() == Symbol::ID))
+    else
     {
-        cerr << ERROR_TEXT << " Expected identifier after const declaration" << endl;
+        GetNextToken();
     }
 
-    GetNextToken();
-
-    if(!(LookAheadToken->GetSymbolName() == Symbol::EQUAL))
+    if(!LookAheadToken->CheckTerminalSymbol(Symbol::ID))
     {
-        cerr << ERROR_TEXT << " Expected '=' operator after const identifier declaration" << endl;
+        PRINT_ERROR(0, "Expected identifier after const declaration");
+    }
+    else
+    {
+        GetNextToken();
     }
 
-    GetNextToken();
+    if(!LookAheadToken->CheckTerminalSymbol(Symbol::EQUAL))
+    {
+        PRINT_ERROR(0, "Expected '=' operator after const identifier declaration");
+    }
+    else
+    {
+        GetNextToken();
+    }
 
     Constant();
 }
@@ -141,7 +147,7 @@ void Parser::VariableDefinitionPrime()
     {
         if(!LookAheadToken->CheckTerminalSymbol(Symbol::SQUARELEFT))
         {
-            cerr << ERROR_TEXT << " Expected '[' after array identifier declaration" << endl;
+            PRINT_ERROR(0, "Expected '[' after array identifier declaration");
         }
         else
         {
@@ -152,7 +158,7 @@ void Parser::VariableDefinitionPrime()
 
         if(!LookAheadToken->CheckTerminalSymbol(Symbol::SQUARERIGHT))
         {
-            cerr << ERROR_TEXT << " Expected ']' after array constant declaration" << endl;
+            PRINT_ERROR(0, "Expected ']' after array constant declaration");
         }
         else
         {
@@ -166,7 +172,7 @@ void Parser::TypeSymbol()
 {
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::INTEGER) && !LookAheadToken->CheckTerminalSymbol(Symbol::BOOLEAN))
     {
-        cerr << ERROR_TEXT << " Expected 'integer' or 'Boolean' at beginning of non-const variable definition" << endl;
+        PRINT_ERROR(0, "Expected 'integer' or 'Boolean' at beginning of non-const variable definition");
     }
     else
     {
@@ -178,7 +184,7 @@ void Parser::VariableList()
 {
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::ID))
     {
-        cerr << ERROR_TEXT << " Expected identifier after variable type declaration" << endl;
+        PRINT_ERROR(0, "Expected identifier after variable type declaration");
     }
     else
     {
@@ -191,7 +197,7 @@ void Parser::VariableList()
 
         if(!LookAheadToken->CheckTerminalSymbol(Symbol::ID))
         {
-            cerr << ERROR_TEXT << " Expected variable identifier declaration after comma in variable declaration list" << endl;
+            PRINT_ERROR(0, "Expected variable identifier declaration after comma in variable declaration list");
         }
         else
         {
@@ -204,7 +210,7 @@ void Parser::ProcedureDefinition()
 {
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::PROC))
     {
-        cerr << ERROR_TEXT << " Expected 'proc' at beginning of procedure definition" << endl;
+        PRINT_ERROR(0, "Expected 'proc' at beginning of procedure definition");
     }
     else
     {
@@ -213,7 +219,7 @@ void Parser::ProcedureDefinition()
 
     if(!LookAheadToken->CheckTerminalSymbol(Symbol::ID))
     {
-        cerr << ERROR_TEXT << " Expected procedure identifier after 'proc' declaration" << endl;
+        PRINT_ERROR(0, " Expected procedure identifier after 'proc' declaration");
     }
     else
     {
@@ -240,6 +246,6 @@ void Parser::Constant()
     }
     else
     {
-        cerr << ERROR_TEXT << " Expected numeral, boolean, or const identifier as const declaration" << endl;
+        PRINT_ERROR(0, "Expected numeral, boolean, or const identifier as const declaration" );
     }
 }

@@ -17,7 +17,10 @@ public:
 private:
     void GetNextToken();
 
-    /** Start of the grammar rule definitions */
+    /** 
+     * Start of the grammar rule definitions 
+     * Note that the names of the functionsa are the same as the grammar rules for PL 
+     */ 
     void Program();
     void Block();
     void DefinitionPart();
@@ -56,7 +59,7 @@ private:
     //void Numeral();
     //void BooleanSymbol();
     //void Name();
-
+    /** End grammar rule definitions */
 
     Token* LookAheadToken;
     queue<Token*> TokenQueue;
