@@ -30,17 +30,10 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    SymbolTable* Table = new SymbolTable();
-    Scanner* ScannerObject = new Scanner(InputPLFile, Table);
-    Parser* ParserObject = new Parser();
-    Administration* Compiler = new Administration(InputPLFile, OutputExecutable, ScannerObject, ParserObject);
-    Compiler->Scan();
-    Compiler->Parse();
+    Administration* Compiler = new Administration(InputPLFile, OutputExecutable);
+    Compiler->Compile();
 
-    delete Table;
-    delete ScannerObject;
     delete Compiler;
-    delete ParserObject;
 
     return 0;
 }

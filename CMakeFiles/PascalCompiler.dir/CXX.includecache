@@ -6,9 +6,21 @@
 
 #IncludeRegexTransform: 
 
+/home/josh/Documents/PascalCompiler/./include/./Administration.h
+fstream
+-
+string
+-
+Scanner.h
+/home/josh/Documents/PascalCompiler/./include/./Scanner.h
+./Parser.h
+/home/josh/Documents/PascalCompiler/./include/././Parser.h
+
 /home/josh/Documents/PascalCompiler/./include/./Parser.h
 queue
 -
+./Administration.h
+/home/josh/Documents/PascalCompiler/./include/././Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/./include/././Token.h
 
@@ -21,6 +33,8 @@ Symbol.h
 /home/josh/Documents/PascalCompiler/./include/Administration.h
 fstream
 -
+string
+-
 Scanner.h
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
 ./Parser.h
@@ -29,6 +43,8 @@ Scanner.h
 /home/josh/Documents/PascalCompiler/./include/Parser.h
 queue
 -
+./Administration.h
+/home/josh/Documents/PascalCompiler/./include/./Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/./include/./Token.h
 
@@ -58,19 +74,67 @@ string
 Symbol.h
 /home/josh/Documents/PascalCompiler/./include/Symbol.h
 
+/home/josh/Documents/PascalCompiler/include/././Administration.h
+fstream
+-
+string
+-
+Scanner.h
+/home/josh/Documents/PascalCompiler/include/././Scanner.h
+./Parser.h
+/home/josh/Documents/PascalCompiler/include/./././Parser.h
+
+/home/josh/Documents/PascalCompiler/include/././Parser.h
+queue
+-
+./Administration.h
+/home/josh/Documents/PascalCompiler/include/./././Administration.h
+./Token.h
+/home/josh/Documents/PascalCompiler/include/./././Token.h
+
 /home/josh/Documents/PascalCompiler/include/././Token.h
 string
 -
 Symbol.h
 /home/josh/Documents/PascalCompiler/include/././Symbol.h
 
+/home/josh/Documents/PascalCompiler/include/./Administration.h
+fstream
+-
+string
+-
+Scanner.h
+/home/josh/Documents/PascalCompiler/include/./Scanner.h
+./Parser.h
+/home/josh/Documents/PascalCompiler/include/././Parser.h
+
 /home/josh/Documents/PascalCompiler/include/./Parser.h
 queue
 -
+./Administration.h
+/home/josh/Documents/PascalCompiler/include/././Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/include/././Token.h
 
+/home/josh/Documents/PascalCompiler/include/./Scanner.h
+fstream
+-
+string
+-
+Token.h
+/home/josh/Documents/PascalCompiler/include/./Token.h
+SymbolTable.h
+/home/josh/Documents/PascalCompiler/include/./SymbolTable.h
+
 /home/josh/Documents/PascalCompiler/include/./Symbol.h
+
+/home/josh/Documents/PascalCompiler/include/./SymbolTable.h
+vector
+-
+string
+-
+Token.h
+/home/josh/Documents/PascalCompiler/include/./Token.h
 
 /home/josh/Documents/PascalCompiler/include/./Token.h
 string
@@ -81,6 +145,8 @@ Symbol.h
 /home/josh/Documents/PascalCompiler/include/Administration.h
 fstream
 -
+string
+-
 Scanner.h
 /home/josh/Documents/PascalCompiler/include/Scanner.h
 ./Parser.h
@@ -89,6 +155,8 @@ Scanner.h
 /home/josh/Documents/PascalCompiler/include/Parser.h
 queue
 -
+./Administration.h
+/home/josh/Documents/PascalCompiler/include/./Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/include/./Token.h
 
@@ -135,6 +203,8 @@ fstream
 /home/josh/Documents/PascalCompiler/src/Administration.cpp
 ../include/Administration.h
 /home/josh/Documents/PascalCompiler/include/Administration.h
+../include/SymbolTable.h
+/home/josh/Documents/PascalCompiler/include/SymbolTable.h
 iostream
 -
 exception

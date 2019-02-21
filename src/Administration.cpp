@@ -1,61 +1,62 @@
 #include "../include/Administration.h"
-
+#include "../include/SymbolTable.h"
 #include <iostream>
 #include <exception>
 #include <queue>
 using namespace std;
 
-Administration::Administration(ifstream& InputFile, ofstream& OutputFile, Scanner* Scan, Parser* Parse)
-    : OutFile(OutputFile)
-{
-    PLScanner = Scan;
-    PLParser = Parse;
+//simple macro to print an error (on line n) with string message s
+#define PRINT_ERROR(n, s) cerr << "ERROR LINE " << n << ": " << s << endl
 
+
+Administration::Administration(ifstream& InputFile, ofstream& OutputFile)
+    : InFile(InputFile), OutFile(OutputFile)
+{
     ErrorCount = 0;
 }
 
-void Administration::Scan()
+void Administration::Compile()
 {
-    queue<Token*> TokenQueue;
+    SymbolTable* HashTable = new SymbolTable();
+    PLScanner = new Scanner(InFile, HashTable);
+
+    PLParser = new Parser(this);
+
+    PLParser->BeginParsing();
+}
+
+Token* Administration::GetNextToken()
+{
     while (true)
     {
         try
         {
             Token* TokenToAdd = PLScanner->GetToken();
 
-            if(TokenToAdd)
-            {
-                TokenQueue.emplace(TokenToAdd);
-            }
-            else
-            {
-                break;
-            }
-
-            TokenToAdd = nullptr;
+            return TokenToAdd;
         }
         catch (runtime_error &err)
         {
-            //we have caught an error
-            ++ErrorCount;
-
-            cerr << err.what() << endl;
-
-            //bail on compilation if the error count exceeds the maximum allowed errors
-            if(ErrorCount > MAX_ERROR_COUNT)
-            {
-                cout << "Error count exceeds " << MAX_ERROR_COUNT << ". Compilation aborted." << endl;
-                exit(1);
-            }
+            ReportError(err.what());
         }
     }
-
-    PLParser->GiveTokenQueue(TokenQueue);
 }
 
 void Administration::Parse()
 {
     PLParser->BeginParsing();
+}
+
+void Administration::ReportError(string ErrMessage)
+{
+    PRINT_ERROR(PLScanner->GetLineNum(), ErrMessage);
+
+    ++ErrorCount;
+    //if(ErrorCount > MAX_ERROR_COUNT)
+    {
+        cout << "Error count exceeds " << MAX_ERROR_COUNT << ". Compilation aborted." << endl;
+        exit(1);
+    }
 }
 
 void Administration::PrintToken(Token* TokenToPrint) const

@@ -136,7 +136,7 @@ Token* Scanner::RecognizeName()
     {
         //we must make a new token for the new identifier
         Token* NewToken = new Token(Symbol::ID, TokenAttribute(IndexInTable, Lexeme));
-        HashTable->Insert(NewToken);
+        IndexInTable = HashTable->Insert(NewToken);
         return NewToken;
     }
 }
