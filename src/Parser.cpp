@@ -31,7 +31,6 @@ void Parser::Match(const Symbol::Symbol symbol)
     {
         Admin->ReportError("");
     }
-    
 }
 
 void Parser::Program()
@@ -432,7 +431,26 @@ void Parser::Factor()
 {
     PRINT("Factor");
 
-    
+    if(LookAheadToken->CheckTerminalSymbol(Symbol::NUMERAL) || LookAheadToken->CheckTerminalSymbol(Symbol::TRUE)
+       || LookAheadToken->CheckTerminalSymbol(Symbol::FALSE))
+    {
+        Constant();    
+    }
+    else if(LookAheadToken->CheckTerminalSymbol(Symbol::ID))
+    {
+        VariableAccess();
+    }
+    else if(LookAheadToken->CheckTerminalSymbol(Symbol::BRACKETLEFT))
+    {
+        Match(Symbol::BRACKETLEFT);
+        Expression();
+        Match(Symbol::BRACKETRIGHT);
+    }
+    else if(LookAheadToken->CheckTerminalSymbol(Symbol::NEGATE))
+    {
+        Match(Symbol::NEGATE);
+        Factor();
+    }
 }
 
 void Parser::PrimaryOperator()
