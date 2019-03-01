@@ -11,7 +11,7 @@ begin integer m;
 	 fi;
       od;
       found := A[i] = x;
-end;
+      end;
 
 $input table
 i := 1;

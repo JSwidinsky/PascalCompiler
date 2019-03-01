@@ -13,16 +13,8 @@ string
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/./include/./Scanner.h
-./Parser.h
-/home/josh/Documents/PascalCompiler/./include/././Parser.h
-
+Parser.h
 /home/josh/Documents/PascalCompiler/./include/./Parser.h
-queue
--
-./Administration.h
-/home/josh/Documents/PascalCompiler/./include/././Administration.h
-./Token.h
-/home/josh/Documents/PascalCompiler/./include/././Token.h
 
 /home/josh/Documents/PascalCompiler/./include/./Token.h
 string
@@ -37,8 +29,8 @@ string
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
-./Parser.h
-/home/josh/Documents/PascalCompiler/./include/./Parser.h
+Parser.h
+/home/josh/Documents/PascalCompiler/./include/Parser.h
 
 /home/josh/Documents/PascalCompiler/./include/Parser.h
 queue
@@ -74,30 +66,6 @@ string
 Symbol.h
 /home/josh/Documents/PascalCompiler/./include/Symbol.h
 
-/home/josh/Documents/PascalCompiler/include/././Administration.h
-fstream
--
-string
--
-Scanner.h
-/home/josh/Documents/PascalCompiler/include/././Scanner.h
-./Parser.h
-/home/josh/Documents/PascalCompiler/include/./././Parser.h
-
-/home/josh/Documents/PascalCompiler/include/././Parser.h
-queue
--
-./Administration.h
-/home/josh/Documents/PascalCompiler/include/./././Administration.h
-./Token.h
-/home/josh/Documents/PascalCompiler/include/./././Token.h
-
-/home/josh/Documents/PascalCompiler/include/././Token.h
-string
--
-Symbol.h
-/home/josh/Documents/PascalCompiler/include/././Symbol.h
-
 /home/josh/Documents/PascalCompiler/include/./Administration.h
 fstream
 -
@@ -105,8 +73,8 @@ string
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/include/./Scanner.h
-./Parser.h
-/home/josh/Documents/PascalCompiler/include/././Parser.h
+Parser.h
+/home/josh/Documents/PascalCompiler/include/./Parser.h
 
 /home/josh/Documents/PascalCompiler/include/./Parser.h
 queue
@@ -149,8 +117,8 @@ string
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/include/Scanner.h
-./Parser.h
-/home/josh/Documents/PascalCompiler/include/./Parser.h
+Parser.h
+/home/josh/Documents/PascalCompiler/include/Parser.h
 
 /home/josh/Documents/PascalCompiler/include/Parser.h
 queue
@@ -216,6 +184,8 @@ queue
 ../include/Parser.h
 /home/josh/Documents/PascalCompiler/include/Parser.h
 iostream
+-
+string
 -
 
 /home/josh/Documents/PascalCompiler/src/Scanner.cpp

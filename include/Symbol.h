@@ -9,6 +9,7 @@ namespace Symbol
 {
     enum Symbol
     {
+        DUMMYVAL,
         //Keywords of the language PL
         BEGIN, END, CONST, ARRAY, INTEGER, BOOLEAN, PROC, SKIP,
         READ, WRITE, CALL, IF, DO, FI, OD, FALSE, TRUE,

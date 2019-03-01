@@ -40,8 +40,6 @@ public:
 
     bool CheckTerminalSymbol(Symbol::Symbol SymbolToCompare) const;
 
-    void PrintToken() const;
-
 private:
     Symbol::Symbol TerminalSymbolName;
     TokenAttribute Attribute;

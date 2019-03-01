@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include "Scanner.h"
-#include "./Parser.h"
+#include "Parser.h"
 
 //the maximum number of errors allowed before compilation bails
 #define MAX_ERROR_COUNT 10
@@ -20,15 +20,12 @@ public:
 
     /** Call the scanner to scan the input file and return the next token it finds */
     Token* GetNextToken();
-    
-    /** Call the parser to parse the input tokens */
-    void Parse();
 
     void ReportError(std::string ErrMessage);
 
-private:
-    void PrintToken(Token* TokenToPrint) const;
+    string TokenToString(const Symbol::Symbol symbol);
 
+private:
     ifstream& InFile;
     ofstream& OutFile;
     Scanner* PLScanner;
