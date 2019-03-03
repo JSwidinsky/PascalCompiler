@@ -158,6 +158,7 @@ void Parser::Program(StopSet Sts)
 {
     PRINT("Program");
 
+    //Block(Union(Union(Union(Union(Sts, Symbol::PERIOD), CreateSet(EDefinitionPart)), CreateSet(EStatementPart)), Symbol::END));
     Block(Union(Sts, Symbol::PERIOD));
 
     Match(Symbol::PERIOD, Sts);
@@ -166,7 +167,7 @@ void Parser::Program(StopSet Sts)
 void Parser::Block(StopSet Sts)
 {
     PRINT("Block");
-    Match(Symbol::BEGIN, Sts);
+    Match(Symbol::BEGIN, Union(Union(Union(Sts, CreateSet(EDefinitionPart)), CreateSet(EStatementPart)), Symbol::END));
 
     DefinitionPart(Union(Union(Union(Sts, CreateSet(EStatementPart)), Symbol::END), CreateSet(EDefinition)));
 
@@ -210,11 +211,11 @@ void Parser::Definition(StopSet Sts)
 void Parser::ConstDefinition(StopSet Sts)
 {
     PRINT("ConstDefinition");
-    Match(Symbol::CONST, Sts);
+    Match(Symbol::CONST, Union(Union(Union(Sts, Symbol::EQUAL), CreateSet(EName)), CreateSet(EConstant)));
 
     Name(Union(Union(Sts, Symbol::EQUAL), CreateSet(EConstant)));
 
-    Match(Symbol::EQUAL, Sts);
+    Match(Symbol::EQUAL, Union(Sts, CreateSet(EConstant)));
 
     Constant(Sts);
 }
@@ -233,11 +234,11 @@ void Parser::VariableDefinitionPrime(StopSet Sts)
 
     if (Check(Symbol::ARRAY))
     {
-        Match(Symbol::ARRAY, Sts);
+        Match(Symbol::ARRAY, Union(Union(Union(Union(Sts, CreateSet(EVariableList)), Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
-        Match(Symbol::SQUARELEFT, Sts);
+        Match(Symbol::SQUARELEFT, Union(Union(Sts, CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         Constant(Union(Sts, Symbol::SQUARERIGHT));
 
@@ -274,7 +275,7 @@ void Parser::VariableList(StopSet Sts)
 
     while (Check(Symbol::COMMA))
     {
-        Match(Symbol::COMMA, Sts);
+        Match(Symbol::COMMA, Union(Sts, CreateSet(EName)));
 
         Name(Sts);
     }
@@ -283,7 +284,7 @@ void Parser::VariableList(StopSet Sts)
 void Parser::ProcedureDefinition(StopSet Sts)
 {
     PRINT("ProcedureDefinition");
-    Match(Symbol::PROC, Sts);
+    Match(Symbol::PROC, Union(Union(Sts, CreateSet(EName)), CreateSet(EBlock)));
 
     Name(Union(Sts, CreateSet(EBlock)));
 
@@ -347,7 +348,7 @@ void Parser::EmptyStatement(StopSet Sts)
 void Parser::ReadStatement(StopSet Sts)
 {
     PRINT("ReadStatement");
-    Match(Symbol::READ, Sts);
+    Match(Symbol::READ, Union(Sts, CreateSet(EVariableAccessList)));
 
     VariableAccessList(Sts);
 }
@@ -359,7 +360,7 @@ void Parser::VariableAccessList(StopSet Sts)
 
     while (Check(Symbol::COMMA))
     {
-        Match(Symbol::COMMA, Sts);
+        Match(Symbol::COMMA, Union(Sts, CreateSet(EVariableAccess)));
 
         VariableAccess(Sts);
     }
@@ -368,7 +369,7 @@ void Parser::VariableAccessList(StopSet Sts)
 void Parser::WriteStatement(StopSet Sts)
 {
     PRINT("WriteStatement");
-    Match(Symbol::WRITE, Sts);
+    Match(Symbol::WRITE, Union(Sts, CreateSet(EExpressionList)));
 
     ExpressionList(Sts);
 }
@@ -380,7 +381,7 @@ void Parser::ExpressionList(StopSet Sts)
 
     while (Check(Symbol::COMMA))
     {
-        Match(Symbol::COMMA, Sts);
+        Match(Symbol::COMMA, Union(Sts, CreateSet(EExpression)));
 
         Expression(Sts);
     }
@@ -391,7 +392,7 @@ void Parser::AssignmentStatement(StopSet Sts)
     PRINT("AssignmentStatement");
     VariableAccessList(Union(Union(Sts, Symbol::ASSIGN), CreateSet(EExpressionList)));
 
-    Match(Symbol::ASSIGN, Sts);
+    Match(Symbol::ASSIGN, Union(Sts, CreateSet(EExpressionList)));
 
     ExpressionList(Sts);
 }
@@ -399,7 +400,7 @@ void Parser::AssignmentStatement(StopSet Sts)
 void Parser::ProcedureStatement(StopSet Sts)
 {
     PRINT("ProcedureStatement");
-    Match(Symbol::CALL, Sts);
+    Match(Symbol::CALL, Union(Sts, CreateSet(EName)));
 
     Name(Sts);
 }
@@ -407,7 +408,7 @@ void Parser::ProcedureStatement(StopSet Sts)
 void Parser::IfStatement(StopSet Sts)
 {
     PRINT("IfStatement");
-    Match(Symbol::IF, Sts);
+    Match(Symbol::IF, Union(Union(Sts, CreateSet(EGuardedCommandList)), Symbol::FI));
 
     GuardedCommandList(Union(Sts, Symbol::FI));
 
@@ -417,7 +418,7 @@ void Parser::IfStatement(StopSet Sts)
 void Parser::DoStatement(StopSet Sts)
 {
     PRINT("DoStatement");
-    Match(Symbol::DO, Sts);
+    Match(Symbol::DO, Union(Union(Sts, CreateSet(EGuardedCommandList)), Symbol::OD));
 
     GuardedCommandList(Union(Sts, Symbol::OD));
 
@@ -431,7 +432,7 @@ void Parser::GuardedCommandList(StopSet Sts)
 
     while (Check(Symbol::SUBSCRIPT))
     {
-        Match(Symbol::SUBSCRIPT, Sts);
+        Match(Symbol::SUBSCRIPT, Union(Sts, CreateSet(EGuardedCommand)));
 
         GuardedCommand(Sts);
     }
@@ -442,7 +443,7 @@ void Parser::GuardedCommand(StopSet Sts)
     PRINT("GuardedCommand");
     Expression(Union(Union(Sts, Symbol::ARROW), CreateSet(EStatementPart)));
 
-    Match(Symbol::ARROW, Sts);
+    Match(Symbol::ARROW, Union(Sts, CreateSet(EStatementPart)));
 
     StatementPart(Sts);
 }
@@ -518,7 +519,7 @@ void Parser::SimpleExpression(StopSet Sts)
     PRINT("SimpleExpression");
     if (Check(Symbol::MINUS))
     {
-        Match(Symbol::MINUS, Sts);
+        Match(Symbol::MINUS, Union(Sts, CreateSet(ETerm)));
     }
 
     Term(Union(Sts, CreateSet(EAddingOperator))); //WARNNING: is this correct?
@@ -599,13 +600,13 @@ void Parser::Factor(StopSet Sts)
     }
     else if (Check(Symbol::BRACKETLEFT))
     {
-        Match(Symbol::BRACKETLEFT, Sts);
+        Match(Symbol::BRACKETLEFT, Union(Union(Sts, CreateSet(EExpression)), Symbol::BRACKETLEFT));
         Expression(Union(Sts, Symbol::BRACKETRIGHT));
         Match(Symbol::BRACKETRIGHT, Sts);
     }
     else if (Check(Symbol::NEGATE))
     {
-        Match(Symbol::NEGATE, Sts);
+        Match(Symbol::NEGATE, Union(Sts, CreateSet(EFactor)));
         Factor(Sts);
     }
     else
@@ -629,7 +630,7 @@ void Parser::VariableAccess(StopSet Sts)
 void Parser::IndexedSelector(StopSet Sts)
 {
     PRINT("IndexedSelector");
-    Match(Symbol::SQUARELEFT, Sts);
+    Match(Symbol::SQUARELEFT, Union(Union(Sts, CreateSet(EExpression)), Symbol::SQUARERIGHT));
 
     Expression(Union(Sts, Symbol::SQUARERIGHT));
 

@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/josh/Documents/PascalCompiler/PascalCompiler",
-            "args": ["./PLParserTest.txt", "./out.txt"],
+            "args": ["./TestFiles/ParserBad1.txt", "./out.txt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

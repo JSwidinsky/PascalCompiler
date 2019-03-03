@@ -1,3 +1,6 @@
+$First test input file
+$this is a valid program, and should pass parsing with zero errors
+
 begin
 	const n = 54; integer array A[n];
 	integer x, i; Boolean found;
