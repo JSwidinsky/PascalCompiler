@@ -203,6 +203,7 @@ void Parser::Definition(StopSet Sts)
     }
     else
     {
+        //can we ever get here?
         SyntaxError(string("DEFINITION before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
     
@@ -263,6 +264,7 @@ void Parser::TypeSymbol(StopSet Sts)
     }
     else
     {
+        //can we ever get here currently?
         SyntaxError(string("TYPE SYMBOL before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
     
@@ -335,6 +337,7 @@ void Parser::Statement(StopSet Sts)
     }
     else
     {
+        //can we ever get here?
         SyntaxError(string("STATEMENT before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }    
 }
@@ -474,6 +477,7 @@ void Parser::PrimaryOperator(StopSet Sts)
     }
     else
     {
+        //can we ever get here currently?
         SyntaxError(string("PRIMARY OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
     
@@ -509,6 +513,7 @@ void Parser::RelationalOperator(StopSet Sts)
     }
     else
     {
+        //can we ever get here currently?
         SyntaxError(string("RELATIONAL OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
     
@@ -679,8 +684,7 @@ void Parser::BooleanSymbol(StopSet Sts)
     else
     {
         SyntaxError(string("BOOLEAN SYMBOL before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
-    }
-    
+    }    
 }
 
 void Parser::Name(StopSet Sts)

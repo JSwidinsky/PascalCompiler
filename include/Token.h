@@ -43,6 +43,9 @@ public:
 private:
     Symbol::Symbol TerminalSymbolName;
     TokenAttribute Attribute;
+
+    /** The line number where this token was found and created */
+    int LineNum;
 };
 
 

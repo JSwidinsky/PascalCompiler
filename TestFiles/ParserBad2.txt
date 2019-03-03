@@ -1,0 +1,11 @@
+begin
+    const myBool = true;
+
+    := 5;
+
+    $currently, this will not be hit, as the above error will cause the parser to check next for the token END
+    if A[i] = x -> i := 60+34*45 []
+	 ~(A[i]=x)-> i := i + 1;
+	fi;
+
+end.
