@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <exception>
+#include <stdexcept>
 
 using namespace std;
 

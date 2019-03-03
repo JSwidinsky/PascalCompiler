@@ -175,7 +175,7 @@ fstream
 /home/josh/Documents/PascalCompiler/include/SymbolTable.h
 iostream
 -
-exception
+stdexcept
 -
 queue
 -
@@ -195,7 +195,7 @@ iostream
 -
 string
 -
-exception
+stdexcept
 -
 
 /home/josh/Documents/PascalCompiler/src/SymbolTable.cpp

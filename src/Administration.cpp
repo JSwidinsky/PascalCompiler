@@ -1,7 +1,7 @@
 #include "../include/Administration.h"
 #include "../include/SymbolTable.h"
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <queue>
 using namespace std;
 
