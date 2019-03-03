@@ -1,11 +1,22 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <queue>
+#include <set>
 #include "./Administration.h"
 #include "./Token.h"
 
 class Administration;
+
+typedef set<Symbol::Symbol> StopSet;
+
+enum GrammarRules 
+{
+    EProgram, EBlock, EDefinitionPart, EDefinition, EConstantDefinition, EVariableDefinition, EVariableDefinitionPrime,
+    ETypeSymbol, EVariableList, EProcedureDefinition, EStatementPart, EStatement, EEmptyStatement, EReadStatement, EVariableAccessList,
+    EWriteStatement, EExpressionList, EAssignmentStatement, EProcedureStatement, EIfStatement, EDoStatement, EGuardedCommandList,
+    EGuardedCommand, EExpression, EPrimaryOperator, EPrimaryExpression, ERelationalOperator, ESimpleExpression, EAddingOperator, ETerm,
+    EMultiplyingOperator, EFactor, EVariableAccess, EIndexedSelector, EConstant, ENumeral, EBooleanSymbol, EName
+};
 
 class Parser
 {
@@ -21,9 +32,8 @@ private:
      * Matches a given symbol with the look-ahead token; if they agree, the next token is fetched
      * If they do not agree, the function calls a syntax error
      * @param symbol Token symbol we are to compare with the look ahead token
-     * FunctionID The integer id of the function who called us; used for error handling in the FOLLOW set of a grammar rule
      */
-    void Match(const Symbol::Symbol symbol, int FunctionID);
+    void Match(const Symbol::Symbol symbol, StopSet Sts);
 
     /**
      * Checks if a symbol is in the FOLLOW set for a particular non-terminal, which is passed as the function id
@@ -31,52 +41,58 @@ private:
      * @param FunctionID id of the function that the parser is currently in
      * @return true if symbol is in the FOLLOW set, false otherwise
      */
-    bool Member(const Symbol::Symbol symbol, int FunctionID);
+    bool Member(const Symbol::Symbol symbol, StopSet Sts);
+
+    bool Member(const Symbol::Symbol symbol, int FirstSetID);
     bool Check(const Symbol::Symbol symbol);
+
+    StopSet CreateSet(int FirstSetIndex);
+    StopSet Union(const StopSet S1, const StopSet S2);
+    StopSet Union(const StopSet S, const Symbol::Symbol symbol);
+
 
     /** 
      * Start of the grammar rule definitions 
      * Note that the names of the functions are the same as the grammar rules for PL 
-     * Each of them have an associated ID for proper error handling, which are given as comments besides the function name
      */ 
-    void Program();                     //ID: 0
-    void Block();                       //ID: 1
-    void DefinitionPart();              //ID: 2
-    void Definition();                  //ID: 3
-    void ConstDefinition();             //ID: 4
-    void VariableDefinition();          //ID: 5
-    void VariableDefinitionPrime();     //ID: 6
-    void TypeSymbol();                  //ID: 7
-    void VariableList();                //ID: 8
-    void ProcedureDefinition();         //ID: 9
-    void StatementPart();               //ID: 10
-    void Statement();                   //ID: 11
-    void EmptyStatement();              //ID: 12
-    void ReadStatement();               //ID: 13
-    void VariableAccessList();          //ID: 14
-    void WriteStatement();              //ID: 15
-    void ExpressionList();              //ID: 16
-    void AssignmentStatement();         //ID: 17
-    void ProcedureStatement();          //ID: 18
-    void IfStatement();                 //ID: 19
-    void DoStatement();                 //ID: 20
-    void GuardedCommandList();          //ID: 21
-    void GuardedCommand();              //ID: 22
-    void Expression();                  //ID: 23
-    void PrimaryOperator();             //ID: 24
-    void PrimaryExpression();           //ID: 25
-    void RelationalOperator();          //ID: 26
-    void SimpleExpression();            //ID: 27
-    void AddingOperator();              //ID: 28
-    void Term();                        //ID: 29
-    void MultiplyingOperator();         //ID: 30
-    void Factor();                      //ID: 31
-    void VariableAccess();              //ID: 32
-    void IndexedSelector();             //ID: 33
-    void Constant();                    //ID: 34
-    void Numeral();                     //ID: 35
-    void BooleanSymbol();               //ID: 36
-    void Name();                        //ID: 37
+    void Program(StopSet Sts);                     
+    void Block(StopSet Sts);                       
+    void DefinitionPart(StopSet Sts);              
+    void Definition(StopSet Sts);                  
+    void ConstDefinition(StopSet Sts);             
+    void VariableDefinition(StopSet Sts);          
+    void VariableDefinitionPrime(StopSet Sts);     
+    void TypeSymbol(StopSet Sts);                      
+    void VariableList(StopSet Sts);                
+    void ProcedureDefinition(StopSet Sts);         
+    void StatementPart(StopSet Sts);               
+    void Statement(StopSet Sts);                   
+    void EmptyStatement(StopSet Sts);              
+    void ReadStatement(StopSet Sts);               
+    void VariableAccessList(StopSet Sts);          
+    void WriteStatement(StopSet Sts);              
+    void ExpressionList(StopSet Sts);              
+    void AssignmentStatement(StopSet Sts);             
+    void ProcedureStatement(StopSet Sts);          
+    void IfStatement(StopSet Sts);                     
+    void DoStatement(StopSet Sts);                 
+    void GuardedCommandList(StopSet Sts);          
+    void GuardedCommand(StopSet Sts);              
+    void Expression(StopSet Sts);                  
+    void PrimaryOperator(StopSet Sts);             
+    void PrimaryExpression(StopSet Sts);           
+    void RelationalOperator(StopSet Sts);             
+    void SimpleExpression(StopSet Sts);            
+    void AddingOperator(StopSet Sts);                
+    void Term(StopSet Sts);                        
+    void MultiplyingOperator(StopSet Sts);         
+    void Factor(StopSet Sts);                          
+    void VariableAccess(StopSet Sts);              
+    void IndexedSelector(StopSet Sts);             
+    void Constant(StopSet Sts);                    
+    void Numeral(StopSet Sts);                     
+    void BooleanSymbol(StopSet Sts);                   
+    void Name(StopSet Sts);                        
     /** End grammar rule definitions */
 
     Administration* Admin;

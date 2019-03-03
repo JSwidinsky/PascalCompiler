@@ -5,49 +5,49 @@
 #define PRINT(s) cout << s << endl
 
 //an array containing the follow set for each function, listed in the order the functions were defined in
-Symbol::Symbol FollowSet[38][25] = 
-{
-    {},
-    {Symbol::PERIOD, Symbol::SEMICOLON},
-    {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO, Symbol::END},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::ID, Symbol::ARRAY},
-    {Symbol::SEMICOLON, Symbol::SQUARELEFT},
-    {Symbol::SEMICOLON},
-    {Symbol::END, Symbol::SUBSCRIPT, Symbol::FI, Symbol::OD},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::SEMICOLON},
-    {Symbol::FI, Symbol::OD},
-    {Symbol::SUBSCRIPT, Symbol::FI, Symbol::OD},
-    {Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT},
-    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETRIGHT, Symbol::NEGATE},
-    {Symbol::COMMA, Symbol::SEMICOLON,Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR},
-    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-    {Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-    {Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-    {Symbol::ID, Symbol::BEGIN, Symbol::SQUARELEFT, Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD, Symbol::PLUS, Symbol::MINUS, Symbol::COMMA, Symbol::SEMICOLON, Symbol::ARROW, Symbol::BRACKETRIGHT, Symbol::SQUARERIGHT, Symbol::AND, Symbol::OR, Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
+Symbol::Symbol FirstSet[50][50] =
+    {
+        {Symbol::BEGIN},
+        {Symbol::BEGIN},
+        {Symbol::CONST, Symbol::INTEGER, Symbol::BOOLEAN, Symbol::PROC},
+        {Symbol::CONST, Symbol::INTEGER, Symbol::BOOLEAN, Symbol::PROC},
+        {Symbol::CONST},
+        {Symbol::INTEGER, Symbol::BOOLEAN},
+        {Symbol::ID, Symbol::ARRAY},
+        {Symbol::INTEGER, Symbol::BOOLEAN},
+        {Symbol::ID},
+        {Symbol::PROC},
+        {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO},
+        {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO},
+        {Symbol::SKIP},
+        {Symbol::READ},
+        {Symbol::ID},
+        {Symbol::WRITE},
+        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::ID},
+        {Symbol::CALL},
+        {Symbol::IF},
+        {Symbol::DO},
+        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::AND, Symbol::OR},
+        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
+        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::PLUS, Symbol::MINUS},
+        {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD},
+        {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+        {Symbol::ID},
+        {Symbol::SQUARELEFT},
+        {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID},
+        {},
+        {Symbol::FALSE, Symbol::TRUE},
+        {},
 };
 
-Parser::Parser(Administration* A)
+Parser::Parser(Administration *A)
 {
     Admin = A;
 
@@ -56,8 +56,11 @@ Parser::Parser(Administration* A)
 
 void Parser::BeginParsing()
 {
+    StopSet Sts;
+    Sts.insert(Symbol::ENDFILE);
+
     //call the first grammar rule, and let recursion handle the rest!
-    Program();
+    Program(Sts);
 }
 
 void Parser::GetNextToken()
@@ -65,30 +68,37 @@ void Parser::GetNextToken()
     LookAheadToken = Admin->GetNextToken();
 }
 
-void Parser::Match(const Symbol::Symbol symbol, int FunctionID)
+void Parser::Match(const Symbol::Symbol symbol, StopSet Sts)
 {
-    if(Check(symbol))
+    if (Check(symbol))
     {
         GetNextToken();
     }
     else
     {
         Admin->ReportError(string("Syntax Error --- Expected ") + Admin->TokenToString(symbol) + string(" before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()));
-        while(!Member(LookAheadToken->GetSymbolName(), FunctionID))
+        while (!Member(LookAheadToken->GetSymbolName(), Sts))
         {
             GetNextToken();
         }
     }
 }
 
-bool Parser::Member(const Symbol::Symbol symbol, int FunctionID)
+bool Parser::Member(const Symbol::Symbol symbol, StopSet Sts)
 {
-    for(int i = 0; i < 25; i++)
+    return Sts.find(symbol) != Sts.end();
+}
+
+bool Parser::Member(const Symbol::Symbol symbol, int FirstSetID)
+{
+    int j = 0;
+    while (FirstSet[FirstSetID][j] != Symbol::DUMMYVAL)
     {
-        if(FollowSet[FunctionID][i] == symbol)
+        if (FirstSet[FirstSetID][j] == symbol)
         {
             return true;
         }
+        ++j;
     }
     return false;
 }
@@ -98,501 +108,522 @@ bool Parser::Check(const Symbol::Symbol symbol)
     return LookAheadToken->CheckTerminalSymbol(symbol);
 }
 
-void Parser::Program()
+StopSet Parser::CreateSet(int FirstSetIndex)
+{
+    StopSet S;
+
+    int j = 0;
+    while (FirstSet[FirstSetIndex][j] != Symbol::DUMMYVAL)
+    {
+        S.insert(FirstSet[FirstSetIndex][j]);
+        ++j;
+    }
+
+    return S;
+}
+
+StopSet Parser::Union(const StopSet S1, const StopSet S2)
+{
+    StopSet Sts(S1);
+
+    for (auto it = S2.begin(); it != S2.end(); ++it)
+    {
+        Sts.insert(*it);
+    }
+
+    return Sts;
+}
+
+StopSet Parser::Union(const StopSet S, const Symbol::Symbol symbol)
+{
+    StopSet Sts(S);
+
+    Sts.insert(symbol);
+
+    return Sts;
+}
+
+void Parser::Program(StopSet Sts)
 {
     PRINT("Program");
-    Block();
 
-    Match(Symbol::PERIOD, 0);
+    Block(Union(Sts, Symbol::PERIOD));
+
+    Match(Symbol::PERIOD, Sts);
 }
 
-void Parser::Block()
+void Parser::Block(StopSet Sts)
 {
     PRINT("Block");
-    Match(Symbol::BEGIN, 1);
+    Match(Symbol::BEGIN, Sts);
 
-    DefinitionPart();
+    DefinitionPart(Union(Union(Union(Sts, CreateSet(EStatementPart)), Symbol::END), CreateSet(EDefinition)));
 
-    StatementPart();
+    StatementPart(Union(Union(Sts, Symbol::END), CreateSet(EStatement)));
 
-    Match(Symbol::END, 1);
+    Match(Symbol::END, Sts);
 }
 
-void Parser::DefinitionPart()
+void Parser::DefinitionPart(StopSet Sts)
 {
     PRINT("DefinitionPart");
-    if(Check(Symbol::CONST) || Check(Symbol::INTEGER) || Check(Symbol::BOOLEAN) || Check(Symbol::PROC))
+    while (Member(LookAheadToken->GetSymbolName(), EDefinition))
     {
-        Definition();
-    }
-    else
-    {
-        return;
-    }
+        Definition(Union(Sts, Symbol::SEMICOLON));
 
-    Match(Symbol::SEMICOLON, 2);
-
-    DefinitionPart();
+        Match(Symbol::SEMICOLON, Sts);
+    }
 }
 
-void Parser::Definition()
+void Parser::Definition(StopSet Sts)
 {
-    if(Check(Symbol::CONST))
+    if (Member(LookAheadToken->GetSymbolName(), EConstantDefinition))
     {
-        ConstDefinition();
+        ConstDefinition(Sts);
     }
-    else if(Check(Symbol::INTEGER) || Check(Symbol::BOOLEAN))
+    else if (Member(LookAheadToken->GetSymbolName(), EVariableDefinition))
     {
-        VariableDefinition();
+        VariableDefinition(Sts);
     }
-    else if(Check(Symbol::PROC))
+    else if (Member(LookAheadToken->GetSymbolName(), EProcedureDefinition))
     {
-        ProcedureDefinition();
+        ProcedureDefinition(Sts);
     }
 }
 
-void Parser::ConstDefinition()
+void Parser::ConstDefinition(StopSet Sts)
 {
     PRINT("ConstDefinition");
-    Match(Symbol::CONST, 3);
+    Match(Symbol::CONST, Sts);
 
-    Name();
+    Name(Union(Union(Sts, Symbol::EQUAL), CreateSet(EConstant)));
 
-    Match(Symbol::EQUAL, 4);
+    Match(Symbol::EQUAL, Sts);
 
-    Constant();
+    Constant(Sts);
 }
 
-void Parser::VariableDefinition()
+void Parser::VariableDefinition(StopSet Sts)
 {
     PRINT("VariableDefinition");
-    TypeSymbol();
+    TypeSymbol(Union(Sts, CreateSet(EVariableDefinitionPrime)));
 
-    VariableDefinitionPrime();
+    VariableDefinitionPrime(Sts);
 }
 
-void Parser::VariableDefinitionPrime()
+void Parser::VariableDefinitionPrime(StopSet Sts)
 {
     PRINT("VariableDefinitionPrime");
-    bool IsArray = false;
-    if(Check(Symbol::ARRAY))
+
+    if (Check(Symbol::ARRAY))
     {
-        Match(Symbol::ARRAY, 6);
-        IsArray = true;
+        Match(Symbol::ARRAY, Sts);
+
+        VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
+
+        Match(Symbol::SQUARELEFT, Sts);
+
+        Constant(Union(Sts, Symbol::SQUARERIGHT));
+
+        Match(Symbol::SQUARERIGHT, Sts);
     }
-
-    VariableList();
-
-    if(IsArray)
+    else
     {
-        Match(Symbol::SQUARELEFT, 6);
-
-        Constant();
-
-        Match(Symbol::SQUARERIGHT, 6);
+        VariableList(Sts);
     }
 }
 
-
-void Parser::TypeSymbol()
+void Parser::TypeSymbol(StopSet Sts)
 {
     PRINT("TypeSymbol");
-    if(Check(Symbol::INTEGER))
+    if (Check(Symbol::INTEGER))
     {
-        Match(Symbol::INTEGER, 7);
+        Match(Symbol::INTEGER, Sts);
     }
-    else if(Check(Symbol::BOOLEAN))
+    else if (Check(Symbol::BOOLEAN))
     {
-        Match(Symbol::BOOLEAN, 7);
+        Match(Symbol::BOOLEAN, Sts);
     }
 }
 
-void Parser::VariableList()
+void Parser::VariableList(StopSet Sts)
 {
     PRINT("VariableList");
-    Name();
+    Name(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
 
-    while(Check(Symbol::COMMA))
+    while (Check(Symbol::COMMA))
     {
-        Match(Symbol::COMMA, 8);
+        Match(Symbol::COMMA, Sts);
 
-        Name();
+        Name(Sts);
     }
 }
 
-void Parser::ProcedureDefinition()
+void Parser::ProcedureDefinition(StopSet Sts)
 {
     PRINT("ProcedureDefinition");
-    Match(Symbol::PROC, 9);
+    Match(Symbol::PROC, Sts);
 
-    Name();
+    Name(Union(Sts, CreateSet(EBlock)));
 
-    Block();
+    Block(Sts);
 }
 
-void Parser::StatementPart()
+void Parser::StatementPart(StopSet Sts)
 {
     PRINT("StatementPart");
-    if(Check(Symbol::SKIP) || Check(Symbol::READ) || Check(Symbol::WRITE) || Check(Symbol::ID) || Check(Symbol::CALL) 
-        || Check(Symbol::IF) || Check(Symbol::DO))
+    while (Member(LookAheadToken->GetSymbolName(), EStatement))
     {
-        Statement();
-    }
-    else
-    {
-        return;
-    }
+        Statement(Union(Sts, Symbol::SEMICOLON));
 
-    Match(Symbol::SEMICOLON, 10);
-
-    StatementPart();
+        Match(Symbol::SEMICOLON, Sts);
+    }
 }
 
-void Parser::Statement()
+void Parser::Statement(StopSet Sts)
 {
     PRINT("Statement");
-    if(Check(Symbol::SKIP))
+    if (Check(Symbol::SKIP))
     {
-        EmptyStatement();
+        EmptyStatement(Sts);
     }
-    else if(Check(Symbol::READ))
+    else if (Check(Symbol::READ))
     {
-        ReadStatement();
+        ReadStatement(Sts);
     }
-    else if(Check(Symbol::WRITE))
+    else if (Check(Symbol::WRITE))
     {
-        WriteStatement();
+        WriteStatement(Sts);
     }
-    else if(Check(Symbol::ID))
+    else if (Check(Symbol::ID))
     {
-        AssignmentStatement();
+        AssignmentStatement(Sts);
     }
-    else if(Check(Symbol::CALL))
+    else if (Check(Symbol::CALL))
     {
-        ProcedureStatement();
+        ProcedureStatement(Sts);
     }
-    else if(Check(Symbol::IF))
+    else if (Check(Symbol::IF))
     {
-        IfStatement();
+        IfStatement(Sts);
     }
-    else if(Check(Symbol::DO))
+    else if (Check(Symbol::DO))
     {
-        DoStatement();
+        DoStatement(Sts);
     }
 }
 
-void Parser::EmptyStatement()
+void Parser::EmptyStatement(StopSet Sts)
 {
     PRINT("EmptyStatement");
-    Match(Symbol::SKIP, 12);
+    Match(Symbol::SKIP, Sts);
 }
 
-void Parser::ReadStatement()
+void Parser::ReadStatement(StopSet Sts)
 {
     PRINT("ReadStatement");
-    Match(Symbol::READ, 13);
+    Match(Symbol::READ, Sts);
 
-    VariableAccessList();
+    VariableAccessList(Sts);
 }
 
-void Parser::VariableAccessList()
+void Parser::VariableAccessList(StopSet Sts)
 {
     PRINT("VariableAccessList");
-    VariableAccess();
+    VariableAccess(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
 
-    while(Check(Symbol::COMMA))
+    while (Check(Symbol::COMMA))
     {
-        Match(Symbol::COMMA, 14);
+        Match(Symbol::COMMA, Sts);
 
-        VariableAccess();
+        VariableAccess(Sts);
     }
 }
 
-void Parser::WriteStatement()
+void Parser::WriteStatement(StopSet Sts)
 {
     PRINT("WriteStatement");
-    Match(Symbol::WRITE, 15);
+    Match(Symbol::WRITE, Sts);
 
-    ExpressionList();
+    ExpressionList(Sts);
 }
 
-void Parser::ExpressionList()
+void Parser::ExpressionList(StopSet Sts)
 {
     PRINT("ExpressionList");
-    Expression();
+    Expression(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
 
-    while(Check(Symbol::COMMA))
+    while (Check(Symbol::COMMA))
     {
-        Match(Symbol::COMMA, 16);
+        Match(Symbol::COMMA, Sts);
 
-        Expression();
+        Expression(Sts);
     }
 }
 
-void Parser::AssignmentStatement()
+void Parser::AssignmentStatement(StopSet Sts)
 {
     PRINT("AssignmentStatement");
-    VariableAccessList();
+    VariableAccessList(Union(Union(Sts, Symbol::ASSIGN), CreateSet(EExpressionList)));
 
-    Match(Symbol::ASSIGN, 17);
+    Match(Symbol::ASSIGN, Sts);
 
-    ExpressionList();
+    ExpressionList(Sts);
 }
 
-void Parser::ProcedureStatement()
+void Parser::ProcedureStatement(StopSet Sts)
 {
     PRINT("ProcedureStatement");
-    Match(Symbol::CALL, 18);
+    Match(Symbol::CALL, Sts);
 
-    Name();
+    Name(Sts);
 }
 
-void Parser::IfStatement()
+void Parser::IfStatement(StopSet Sts)
 {
     PRINT("IfStatement");
-    Match(Symbol::IF, 19);
+    Match(Symbol::IF, Sts);
 
-    GuardedCommandList();
+    GuardedCommandList(Union(Sts, Symbol::FI));
 
-    Match(Symbol::FI, 19);
+    Match(Symbol::FI, Sts);
 }
 
-void Parser::DoStatement()
+void Parser::DoStatement(StopSet Sts)
 {
     PRINT("DoStatement");
-    Match(Symbol::DO, 20);
+    Match(Symbol::DO, Sts);
 
-    GuardedCommandList();
+    GuardedCommandList(Union(Sts, Symbol::OD));
 
-    Match(Symbol::OD, 20);
+    Match(Symbol::OD, Sts);
 }
 
-void Parser::GuardedCommandList()
+void Parser::GuardedCommandList(StopSet Sts)
 {
     PRINT("GuardedCommandList");
-    GuardedCommand();
+    GuardedCommand(Union(Sts, Symbol::SUBSCRIPT)); //WARNING: is this correct?
 
-    while(Check(Symbol::SUBSCRIPT))
+    while (Check(Symbol::SUBSCRIPT))
     {
-        Match(Symbol::SUBSCRIPT, 21);
+        Match(Symbol::SUBSCRIPT, Sts);
 
-        GuardedCommand();
+        GuardedCommand(Sts);
     }
 }
 
-void Parser::GuardedCommand()
+void Parser::GuardedCommand(StopSet Sts)
 {
     PRINT("GuardedCommand");
-    Expression();
+    Expression(Union(Union(Sts, Symbol::ARROW), CreateSet(EStatementPart)));
 
-    Match(Symbol::ARROW, 22);
-    
-    StatementPart();
+    Match(Symbol::ARROW, Sts);
+
+    StatementPart(Sts);
 }
 
-void Parser::Expression()
+void Parser::Expression(StopSet Sts)
 {
     PRINT("Expression");
-    PrimaryExpression();
+    PrimaryExpression(Union(Sts, CreateSet(EPrimaryOperator))); //WARNING: is this correct?
 
-    while(Check(Symbol::AND) || Check(Symbol::OR))
+    while (Check(Symbol::AND) || Check(Symbol::OR))
     {
-        PrimaryOperator();
+        PrimaryOperator(Union(Sts, CreateSet(EPrimaryExpression)));
 
-        PrimaryExpression();
+        PrimaryExpression(Sts);
     }
 }
 
-void Parser::PrimaryOperator()
+void Parser::PrimaryOperator(StopSet Sts)
 {
     PRINT("PrimaryOperator");
-    if(Check(Symbol::AND))
+    if (Check(Symbol::AND))
     {
-        Match(Symbol::AND, 24);
+        Match(Symbol::AND, Sts);
     }
     else
     {
-        Match(Symbol::OR, 24);
+        Match(Symbol::OR, Sts);
     }
 }
 
-void Parser::PrimaryExpression()
+void Parser::PrimaryExpression(StopSet Sts)
 {
     PRINT("PrimaryExpression");
-    SimpleExpression();
+    SimpleExpression(Union(Sts, CreateSet(ERelationalOperator))); //WARNING: is this correct?
 
-    if(Check(Symbol::LESSTHAN) || Check(Symbol::EQUAL) || Check(Symbol::GREATERTHAN))
+    if (Member(LookAheadToken->GetSymbolName(), ERelationalOperator))
     {
-        RelationalOperator();
+        RelationalOperator(Union(Sts, CreateSet(ESimpleExpression)));
 
-        SimpleExpression();
+        SimpleExpression(Sts);
     }
 }
 
-void Parser::RelationalOperator()
+void Parser::RelationalOperator(StopSet Sts)
 {
     PRINT("RelationalOperator");
-    if(Check(Symbol::LESSTHAN))
+    if (Check(Symbol::LESSTHAN))
     {
-        Match(Symbol::LESSTHAN, 26);
+        Match(Symbol::LESSTHAN, Sts);
     }
-    else if(Check(Symbol::EQUAL))
+    else if (Check(Symbol::EQUAL))
     {
-        Match(Symbol::EQUAL, 26);
+        Match(Symbol::EQUAL, Sts);
     }
-    else if(Check(Symbol::GREATERTHAN))
+    else if (Check(Symbol::GREATERTHAN))
     {
-        Match(Symbol::GREATERTHAN, 26);
+        Match(Symbol::GREATERTHAN, Sts);
     }
 }
 
-void Parser::SimpleExpression()
+void Parser::SimpleExpression(StopSet Sts)
 {
     PRINT("SimpleExpression");
-    if(Check(Symbol::MINUS))
+    if (Check(Symbol::MINUS))
     {
-        Match(Symbol::MINUS, 27);
+        Match(Symbol::MINUS, Sts);
     }
 
-    Term();
+    Term(Union(Sts, CreateSet(EAddingOperator))); //WARNNING: is this correct?
 
-    while(Check(Symbol::PLUS) || Check(Symbol::MINUS))
+    while (Member(LookAheadToken->GetSymbolName(), EAddingOperator))
     {
-        AddingOperator();
+        AddingOperator(Union(Sts, CreateSet(ETerm)));
 
-        Term();
+        Term(Sts);
     }
 }
 
-void Parser::AddingOperator()
+void Parser::AddingOperator(StopSet Sts)
 {
     PRINT("AddingOperator");
-    if(Check(Symbol::PLUS))
+    if (Check(Symbol::PLUS))
     {
-        Match(Symbol::PLUS, 28);
+        Match(Symbol::PLUS, Sts);
     }
     else
     {
-        Match(Symbol::MINUS, 28);
+        Match(Symbol::MINUS, Sts);
     }
 }
 
-void Parser::Term()
+void Parser::Term(StopSet Sts)
 {
     PRINT("Term");
-    Factor();
+    Factor(Union(Sts, CreateSet(EMultiplyingOperator))); //WARNING: is this correct?
 
-    while(Check(Symbol::MULTIPLY) || Check(Symbol::DIVIDE) || Check(Symbol::MOD))
+    while (Member(LookAheadToken->GetSymbolName(), EMultiplyingOperator))
     {
-        MultiplyingOperator();
+        MultiplyingOperator(Union(Sts, CreateSet(EFactor)));
 
-        Factor();
+        Factor(Sts);
     }
 }
 
-void Parser::MultiplyingOperator()
+void Parser::MultiplyingOperator(StopSet Sts)
 {
     PRINT("MultiplyingOperator");
-    if(Check(Symbol::MULTIPLY))
+    if (Check(Symbol::MULTIPLY))
     {
-        Match(Symbol::MULTIPLY, 30);
+        Match(Symbol::MULTIPLY, Sts);
     }
-    else if(Check(Symbol::DIVIDE))
+    else if (Check(Symbol::DIVIDE))
     {
-        Match(Symbol::DIVIDE, 30);
+        Match(Symbol::DIVIDE, Sts);
     }
-    else if(Check(Symbol::MOD))
+    else if (Check(Symbol::MOD))
     {
-        Match(Symbol::MOD, 30);
+        Match(Symbol::MOD, Sts);
     }
 }
 
-void Parser::Factor()
+void Parser::Factor(StopSet Sts)
 {
     PRINT("Factor");
 
-    if(Check(Symbol::NUMERAL) || Check(Symbol::TRUE)
-       || Check(Symbol::FALSE))
+    if (Check(Symbol::NUMERAL) || Check(Symbol::TRUE) || Check(Symbol::FALSE))
     {
-        Constant();    
+        Constant(Sts);
     }
-    else if(Check(Symbol::ID))
+    else if (Check(Symbol::ID))
     {
         //this could also be a constant, however we will treat it as a variable access for now, and fix it in the later stage
-        VariableAccess();
+        VariableAccess(Sts);
     }
-    else if(Check(Symbol::BRACKETLEFT))
+    else if (Check(Symbol::BRACKETLEFT))
     {
-        Match(Symbol::BRACKETLEFT, 31);
-        Expression();
-        Match(Symbol::BRACKETRIGHT, 31);
+        Match(Symbol::BRACKETLEFT, Sts);
+        Expression(Union(Sts, Symbol::BRACKETRIGHT));
+        Match(Symbol::BRACKETRIGHT, Sts);
     }
-    else if(Check(Symbol::NEGATE))
+    else if (Check(Symbol::NEGATE))
     {
-        Match(Symbol::NEGATE, 31);
-        Factor();
+        Match(Symbol::NEGATE, Sts);
+        Factor(Sts);
     }
 }
 
-void Parser::VariableAccess()
+void Parser::VariableAccess(StopSet Sts)
 {
     PRINT("VariableAccess");
-    Name();
+    Name(Union(Sts, CreateSet(EIndexedSelector))); //WARNING: is this correct?
 
-    if(Check(Symbol::SQUARELEFT))
+    if (Check(Symbol::SQUARELEFT))
     {
-        IndexedSelector();
+        IndexedSelector(Sts);
     }
 }
 
-void Parser::IndexedSelector()
+void Parser::IndexedSelector(StopSet Sts)
 {
     PRINT("IndexedSelector");
-    Match(Symbol::SQUARELEFT, 33);
+    Match(Symbol::SQUARELEFT, Sts);
 
-    Expression();
+    Expression(Union(Sts, Symbol::SQUARERIGHT));
 
-    Match(Symbol::SQUARERIGHT, 33);
+    Match(Symbol::SQUARERIGHT, Sts);
 }
 
-void Parser::Constant()
+void Parser::Constant(StopSet Sts)
 {
     PRINT("Constant");
-    if(Check(Symbol::NUMERAL))
+    if (Check(Symbol::NUMERAL))
     {
-        Numeral();
+        Numeral(Sts);
     }
-    else if(Check(Symbol::TRUE) || Check(Symbol::FALSE))
+    else if (Check(Symbol::TRUE) || Check(Symbol::FALSE))
     {
-        BooleanSymbol();
+        BooleanSymbol(Sts);
     }
-    else if(Check(Symbol::ID))
+    else if (Check(Symbol::ID))
     {
-        Name();
+        Name(Sts);
     }
 }
 
-void Parser::Numeral()
+void Parser::Numeral(StopSet Sts)
 {
     PRINT("Numeral");
-    Match(Symbol::NUMERAL, 35);
+    Match(Symbol::NUMERAL, Sts);
 }
 
-void Parser::BooleanSymbol()
+void Parser::BooleanSymbol(StopSet Sts)
 {
     PRINT("BooleanSymbol");
-    if(Check(Symbol::TRUE))
+    if (Check(Symbol::TRUE))
     {
-        Match(Symbol::TRUE, 36);
+        Match(Symbol::TRUE, Sts);
     }
-    else if(Check(Symbol::FALSE))
+    else if (Check(Symbol::FALSE))
     {
-        Match(Symbol::FALSE, 36);
+        Match(Symbol::FALSE, Sts);
     }
 }
 
-void Parser::Name()
+void Parser::Name(StopSet Sts)
 {
     PRINT("Name");
-    Match(Symbol::ID, 37);
+    Match(Symbol::ID, Sts);
 }

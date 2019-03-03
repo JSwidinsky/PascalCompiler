@@ -23,6 +23,8 @@ void Administration::Compile()
     PLParser = new Parser(this);
 
     PLParser->BeginParsing();
+
+    cout << "ERROR COUNT: " << ErrorCount << endl;
 }
 
 Token* Administration::GetNextToken()
@@ -77,7 +79,7 @@ string Administration::TokenToString(const Symbol::Symbol symbol)
         case Symbol::TRUE: return "TRUE"; break;
         case Symbol::ID: return "ID "; break;
         case Symbol::NUMERAL: return "NUMERAL "; break;
-        case Symbol::PERIOD: return "PERID"; break;
+        case Symbol::PERIOD: return "PERIOD"; break;
         case Symbol::COMMA: return "COMMA"; break;
         case Symbol::SEMICOLON: return "SEMICOLON"; break;
         case Symbol::SQUARELEFT: return "SQUARELEFT"; break;

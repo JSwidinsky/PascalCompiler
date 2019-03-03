@@ -8,7 +8,7 @@ begin integer m;
       do i < m ->
       	 if A[i] = x -> m := i; []
 	 ~(A[i]=x)-> i := i + 1;
-	 fi;
+	fi;
       od;
       found := A[i] = x;
       end;
