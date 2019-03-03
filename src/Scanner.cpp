@@ -54,6 +54,11 @@ Token* Scanner::GetToken()
             throw runtime_error(ErrMessage);
         }
     }
+    else
+    {
+        NewToken = new Token(Symbol::ENDFILE, TokenAttribute(0, "EOF"));
+    }
+    
 
     return NewToken;
 }

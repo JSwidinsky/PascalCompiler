@@ -15,9 +15,9 @@ begin integer m;
 
 $input table
 i := 1;
-do ~(i>n)->read A[i]; i:=i+1; od;
+do ~(i>n)-> read A[i]; i:=i+1; od;
 
-read x;
+read i;
 do ~(x=0)->
    call Search;
    if found -> write x, i; []

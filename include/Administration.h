@@ -7,8 +7,9 @@
 #include "Parser.h"
 
 //the maximum number of errors allowed before compilation bails
-#define MAX_ERROR_COUNT 10
+#define MAX_ERROR_COUNT 20
 
+//forward declaration of parser class
 class Parser;
 
 class Administration

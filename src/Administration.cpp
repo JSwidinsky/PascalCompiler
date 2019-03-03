@@ -60,6 +60,7 @@ string Administration::TokenToString(const Symbol::Symbol symbol)
 {
     switch(symbol)
     {
+        case Symbol::ENDFILE: return "ENDFILE"; break;
         case Symbol::BEGIN: return "BEGIN"; break;
         case Symbol::END: return "END"; break;
         case Symbol::CONST: return "CONST"; break;

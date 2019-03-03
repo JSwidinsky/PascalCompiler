@@ -2,52 +2,53 @@
 #include <iostream>
 #include <string>
 
-#define PRINT(s) cout << s << endl
+#define PRINT(s) //cout << s << endl
 
 //an array containing the follow set for each function, listed in the order the functions were defined in
+//this does not need to be 50x50, but to avoid going over bounds, we pad the array a bit
 Symbol::Symbol FirstSet[50][50] =
-    {
-        {Symbol::BEGIN},
-        {Symbol::BEGIN},
-        {Symbol::CONST, Symbol::INTEGER, Symbol::BOOLEAN, Symbol::PROC},
-        {Symbol::CONST, Symbol::INTEGER, Symbol::BOOLEAN, Symbol::PROC},
-        {Symbol::CONST},
-        {Symbol::INTEGER, Symbol::BOOLEAN},
-        {Symbol::ID, Symbol::ARRAY},
-        {Symbol::INTEGER, Symbol::BOOLEAN},
-        {Symbol::ID},
-        {Symbol::PROC},
-        {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO},
-        {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO},
-        {Symbol::SKIP},
-        {Symbol::READ},
-        {Symbol::ID},
-        {Symbol::WRITE},
-        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::ID},
-        {Symbol::CALL},
-        {Symbol::IF},
-        {Symbol::DO},
-        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::AND, Symbol::OR},
-        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
-        {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::PLUS, Symbol::MINUS},
-        {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD},
-        {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
-        {Symbol::ID},
-        {Symbol::SQUARELEFT},
-        {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID},
-        {},
-        {Symbol::FALSE, Symbol::TRUE},
-        {},
+{
+    {Symbol::BEGIN},
+    {Symbol::BEGIN},
+    {Symbol::CONST, Symbol::INTEGER, Symbol::BOOLEAN, Symbol::PROC},
+    {Symbol::CONST, Symbol::INTEGER, Symbol::BOOLEAN, Symbol::PROC},
+    {Symbol::CONST},
+    {Symbol::INTEGER, Symbol::BOOLEAN},
+    {Symbol::ID, Symbol::ARRAY},
+    {Symbol::INTEGER, Symbol::BOOLEAN},
+    {Symbol::ID},
+    {Symbol::PROC},
+    {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO},
+    {Symbol::SKIP, Symbol::READ, Symbol::WRITE, Symbol::ID, Symbol::CALL, Symbol::IF, Symbol::DO},
+    {Symbol::SKIP},
+    {Symbol::READ},
+    {Symbol::ID},
+    {Symbol::WRITE},
+    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::ID},
+    {Symbol::CALL},
+    {Symbol::IF},
+    {Symbol::DO},
+    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::AND, Symbol::OR},
+    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::LESSTHAN, Symbol::EQUAL, Symbol::GREATERTHAN},
+    {Symbol::MINUS, Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::PLUS, Symbol::MINUS},
+    {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::MULTIPLY, Symbol::DIVIDE, Symbol::MOD},
+    {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID, Symbol::BRACKETLEFT, Symbol::NEGATE},
+    {Symbol::ID},
+    {Symbol::SQUARELEFT},
+    {Symbol::NUMERAL, Symbol::FALSE, Symbol::TRUE, Symbol::ID},
+    {},
+    {Symbol::FALSE, Symbol::TRUE},
+    {},
 };
 
-Parser::Parser(Administration *A)
+Parser::Parser(Administration* A)
 {
     Admin = A;
 
@@ -65,7 +66,11 @@ void Parser::BeginParsing()
 
 void Parser::GetNextToken()
 {
-    LookAheadToken = Admin->GetNextToken();
+    //only get the next token if we are not at the end of the input file (no more tokens are coming)
+    if(!LookAheadToken || !LookAheadToken->CheckTerminalSymbol(Symbol::ENDFILE))
+    {
+        LookAheadToken = Admin->GetNextToken();
+    }
 }
 
 void Parser::Match(const Symbol::Symbol symbol, StopSet Sts)
@@ -76,11 +81,17 @@ void Parser::Match(const Symbol::Symbol symbol, StopSet Sts)
     }
     else
     {
-        Admin->ReportError(string("Syntax Error --- Expected ") + Admin->TokenToString(symbol) + string(" before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()));
-        while (!Member(LookAheadToken->GetSymbolName(), Sts))
-        {
-            GetNextToken();
-        }
+        SyntaxError(Admin->TokenToString(symbol) + string(" before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+}
+
+void Parser::SyntaxError(string Expected,  StopSet Sts)
+{
+    Admin->ReportError(string("Syntax Error --- Expected ") + Expected);
+
+    while (!Member(LookAheadToken->GetSymbolName(), Sts))
+    {
+        GetNextToken();
     }
 }
 
@@ -189,6 +200,11 @@ void Parser::Definition(StopSet Sts)
     {
         ProcedureDefinition(Sts);
     }
+    else
+    {
+        SyntaxError(string("DEFINITION before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::ConstDefinition(StopSet Sts)
@@ -244,6 +260,11 @@ void Parser::TypeSymbol(StopSet Sts)
     {
         Match(Symbol::BOOLEAN, Sts);
     }
+    else
+    {
+        SyntaxError(string("TYPE SYMBOL before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::VariableList(StopSet Sts)
@@ -311,6 +332,10 @@ void Parser::Statement(StopSet Sts)
     {
         DoStatement(Sts);
     }
+    else
+    {
+        SyntaxError(string("STATEMENT before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }    
 }
 
 void Parser::EmptyStatement(StopSet Sts)
@@ -442,10 +467,15 @@ void Parser::PrimaryOperator(StopSet Sts)
     {
         Match(Symbol::AND, Sts);
     }
-    else
+    else if(Check(Symbol::OR))
     {
         Match(Symbol::OR, Sts);
     }
+    else
+    {
+        SyntaxError(string("PRIMARY OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::PrimaryExpression(StopSet Sts)
@@ -476,6 +506,11 @@ void Parser::RelationalOperator(StopSet Sts)
     {
         Match(Symbol::GREATERTHAN, Sts);
     }
+    else
+    {
+        SyntaxError(string("RELATIONAL OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::SimpleExpression(StopSet Sts)
@@ -503,10 +538,15 @@ void Parser::AddingOperator(StopSet Sts)
     {
         Match(Symbol::PLUS, Sts);
     }
-    else
+    else if(Check(Symbol::MINUS))
     {
         Match(Symbol::MINUS, Sts);
     }
+    else
+    {
+        SyntaxError(string("ADDING OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::Term(StopSet Sts)
@@ -537,6 +577,11 @@ void Parser::MultiplyingOperator(StopSet Sts)
     {
         Match(Symbol::MOD, Sts);
     }
+    else
+    {
+        SyntaxError(string("MULTIPLYING OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::Factor(StopSet Sts)
@@ -563,6 +608,11 @@ void Parser::Factor(StopSet Sts)
         Match(Symbol::NEGATE, Sts);
         Factor(Sts);
     }
+    else
+    {
+        SyntaxError(string("FACTOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);    
+    }
+    
 }
 
 void Parser::VariableAccess(StopSet Sts)
@@ -601,6 +651,11 @@ void Parser::Constant(StopSet Sts)
     {
         Name(Sts);
     }
+    else
+    {
+        SyntaxError(string("CONSTANT before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::Numeral(StopSet Sts)
@@ -620,6 +675,11 @@ void Parser::BooleanSymbol(StopSet Sts)
     {
         Match(Symbol::FALSE, Sts);
     }
+    else
+    {
+        SyntaxError(string("BOOLEAN SYMBOL before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
+    }
+    
 }
 
 void Parser::Name(StopSet Sts)
