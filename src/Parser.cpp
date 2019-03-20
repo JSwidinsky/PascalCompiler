@@ -51,8 +51,17 @@ Symbol::Symbol FirstSet[50][50] =
 Parser::Parser(Administration* A)
 {
     Admin = A;
+    
+    Table = new BlockTable();
 
     GetNextToken();
+}
+
+Parser::~Parser()
+{
+    delete Table;
+    LookAheadToken = nullptr;
+    Admin = nullptr;
 }
 
 void Parser::BeginParsing()
@@ -166,6 +175,8 @@ void Parser::Program(StopSet Sts)
 
 void Parser::Block(StopSet Sts)
 {
+    Table->NewBlock();
+
     PRINT("Block");
     Match(Symbol::BEGIN, Union(Union(Union(Sts, CreateSet(EDefinitionPart)), CreateSet(EStatementPart)), Symbol::END));
 
@@ -174,6 +185,8 @@ void Parser::Block(StopSet Sts)
     StatementPart(Union(Union(Sts, Symbol::END), CreateSet(EStatement)));
 
     Match(Symbol::END, Sts);
+
+    Table->PopBlock();
 }
 
 void Parser::DefinitionPart(StopSet Sts)
@@ -214,34 +227,46 @@ void Parser::ConstDefinition(StopSet Sts)
     PRINT("ConstDefinition");
     Match(Symbol::CONST, Union(Union(Union(Sts, Symbol::EQUAL), CreateSet(EName)), CreateSet(EConstant)));
 
-    Name(Union(Union(Sts, Symbol::EQUAL), CreateSet(EConstant)));
+    int HashIndex = Name(Union(Union(Sts, Symbol::EQUAL), CreateSet(EConstant)));
 
     Match(Symbol::EQUAL, Union(Sts, CreateSet(EConstant)));
 
-    Constant(Sts);
+    int Value;
+    TableEntry::Type TypeOfConstant;
+    Constant(Sts, Value, TypeOfConstant);
+
+    if(!Table->Define(TableEntry(HashIndex, 0, TableEntry::CONSTANT, TypeOfConstant, Value, Table->GetCurrentLevel())))
+    {
+        Admin->ReportError("Ambiguous definition of named constant");
+    }
 }
 
 void Parser::VariableDefinition(StopSet Sts)
 {
     PRINT("VariableDefinition");
-    TypeSymbol(Union(Sts, CreateSet(EVariableDefinitionPrime)));
+    TableEntry::Type TokenType = TypeSymbol(Union(Sts, CreateSet(EVariableDefinitionPrime)));
 
-    VariableDefinitionPrime(Sts);
+    VariableDefinitionPrime(Sts, TokenType);
 }
 
-void Parser::VariableDefinitionPrime(StopSet Sts)
+void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
 {
     PRINT("VariableDefinitionPrime");
+
+    //TODO: finish working on this one
 
     if (Check(Symbol::ARRAY))
     {
         Match(Symbol::ARRAY, Union(Union(Union(Union(Sts, CreateSet(EVariableList)), Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
+        //this needs to return a vector of all the variables that it found and discovered
         VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         Match(Symbol::SQUARELEFT, Union(Union(Sts, CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
-        Constant(Union(Sts, Symbol::SQUARERIGHT));
+        int ArraySize;
+        TableEntry::Type ArraySizeType;
+        Constant(Union(Sts, Symbol::SQUARERIGHT), ArraySize, ArraySizeType);
 
         Match(Symbol::SQUARERIGHT, Sts);
     }
@@ -251,16 +276,18 @@ void Parser::VariableDefinitionPrime(StopSet Sts)
     }
 }
 
-void Parser::TypeSymbol(StopSet Sts)
+TableEntry::Type Parser::TypeSymbol(StopSet Sts)
 {
     PRINT("TypeSymbol");
     if (Check(Symbol::INTEGER))
     {
         Match(Symbol::INTEGER, Sts);
+        return TableEntry::INTEGER;
     }
     else if (Check(Symbol::BOOLEAN))
     {
         Match(Symbol::BOOLEAN, Sts);
+        return TableEntry::BOOLEAN;
     }
     else
     {
@@ -596,7 +623,7 @@ void Parser::Factor(StopSet Sts)
 
     if (Check(Symbol::NUMERAL) || Check(Symbol::TRUE) || Check(Symbol::FALSE))
     {
-        Constant(Sts);
+        //Constant(Sts);
     }
     else if (Check(Symbol::ID))
     {
@@ -642,20 +669,45 @@ void Parser::IndexedSelector(StopSet Sts)
     Match(Symbol::SQUARERIGHT, Sts);
 }
 
-void Parser::Constant(StopSet Sts)
+void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
 {
     PRINT("Constant");
     if (Check(Symbol::NUMERAL))
     {
-        Numeral(Sts);
+        Value = Numeral(Sts);
+        TypeOfConstant = TableEntry::INTEGER;
     }
     else if (Check(Symbol::TRUE) || Check(Symbol::FALSE))
     {
-        BooleanSymbol(Sts);
+        Value = BooleanSymbol(Sts);
+        TypeOfConstant = TableEntry::BOOLEAN;
     }
     else if (Check(Symbol::ID))
     {
-        Name(Sts);
+        //TODO: Verify that if a name appears here, it can only be an integer
+        int HashIndex = Name(Sts);
+
+        bool FindSuccessful;
+        TableEntry Entry = Table->Find(HashIndex, FindSuccessful);
+
+        if(FindSuccessful)
+        {
+            Value = Entry.Value;
+            if(Entry.MyType == TableEntry::INTEGER)
+            {
+                TypeOfConstant = TableEntry::INTEGER;
+            }
+            else
+            {
+                Admin->ReportError("Invalid assignment of named boolean constant");
+            }
+            
+        }
+        else
+        {
+            Admin->ReportError("Use of undefined constant value in assignment statement");
+        }
+        
     }
     else
     {
@@ -664,22 +716,27 @@ void Parser::Constant(StopSet Sts)
     
 }
 
-void Parser::Numeral(StopSet Sts)
+int Parser::Numeral(StopSet Sts)
 {
     PRINT("Numeral");
+    int Value = LookAheadToken->GetValue();
     Match(Symbol::NUMERAL, Sts);
+
+    return Value;
 }
 
-void Parser::BooleanSymbol(StopSet Sts)
+int Parser::BooleanSymbol(StopSet Sts)
 {
     PRINT("BooleanSymbol");
     if (Check(Symbol::TRUE))
     {
         Match(Symbol::TRUE, Sts);
+        return 1;
     }
     else if (Check(Symbol::FALSE))
     {
         Match(Symbol::FALSE, Sts);
+        return 0;
     }
     else
     {
@@ -687,8 +744,11 @@ void Parser::BooleanSymbol(StopSet Sts)
     }    
 }
 
-void Parser::Name(StopSet Sts)
+int Parser::Name(StopSet Sts)
 {
     PRINT("Name");
+    int HashIndex = LookAheadToken->GetValue();
     Match(Symbol::ID, Sts);
+    
+    return HashIndex;
 }

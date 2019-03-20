@@ -17,6 +17,8 @@ class Administration
 public:
     Administration(ifstream& InputFile, ofstream& OutputFile);
 
+    ~Administration();
+
     void Compile();
 
     /** Call the scanner to scan the input file and return the next token it finds */

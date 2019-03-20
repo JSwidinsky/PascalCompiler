@@ -81,9 +81,33 @@ CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.provides: CMakeFiles/Pasc
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
 
 
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o: src/BlockTable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o -c /home/josh/Documents/PascalCompiler/src/BlockTable.cpp
+
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/josh/Documents/PascalCompiler/src/BlockTable.cpp > CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.i
+
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/josh/Documents/PascalCompiler/src/BlockTable.cpp -o CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.s
+
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.requires:
+
+.PHONY : CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.requires
+
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.provides: CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.provides.build
+.PHONY : CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.provides
+
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.provides.build: CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o
+
+
 CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
 CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o: src/Parser.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o -c /home/josh/Documents/PascalCompiler/src/Parser.cpp
 
 CMakeFiles/PascalCompiler.dir/src/Parser.cpp.i: cmake_force
@@ -107,7 +131,7 @@ CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.provides.build: CMakeFiles/Pascal
 
 CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
 CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o: src/Scanner.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o -c /home/josh/Documents/PascalCompiler/src/Scanner.cpp
 
 CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.i: cmake_force
@@ -131,7 +155,7 @@ CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.provides.build: CMakeFiles/Pasca
 
 CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
 CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: src/SymbolTable.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o -c /home/josh/Documents/PascalCompiler/src/SymbolTable.cpp
 
 CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.i: cmake_force
@@ -155,7 +179,7 @@ CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.provides.build: CMakeFiles/P
 
 CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
 CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: src/Token.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/src/Token.cpp.o -c /home/josh/Documents/PascalCompiler/src/Token.cpp
 
 CMakeFiles/PascalCompiler.dir/src/Token.cpp.i: cmake_force
@@ -179,7 +203,7 @@ CMakeFiles/PascalCompiler.dir/src/Token.cpp.o.provides.build: CMakeFiles/PascalC
 
 CMakeFiles/PascalCompiler.dir/plc.cpp.o: CMakeFiles/PascalCompiler.dir/flags.make
 CMakeFiles/PascalCompiler.dir/plc.cpp.o: plc.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/PascalCompiler.dir/plc.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/PascalCompiler.dir/plc.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PascalCompiler.dir/plc.cpp.o -c /home/josh/Documents/PascalCompiler/plc.cpp
 
 CMakeFiles/PascalCompiler.dir/plc.cpp.i: cmake_force
@@ -204,6 +228,7 @@ CMakeFiles/PascalCompiler.dir/plc.cpp.o.provides.build: CMakeFiles/PascalCompile
 # Object files for target PascalCompiler
 PascalCompiler_OBJECTS = \
 "CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o" \
+"CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o" \
 "CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o" \
 "CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o" \
 "CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o" \
@@ -214,6 +239,7 @@ PascalCompiler_OBJECTS = \
 PascalCompiler_EXTERNAL_OBJECTS =
 
 PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
+PascalCompiler: CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o
@@ -221,7 +247,7 @@ PascalCompiler: CMakeFiles/PascalCompiler.dir/src/Token.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/plc.cpp.o
 PascalCompiler: CMakeFiles/PascalCompiler.dir/build.make
 PascalCompiler: CMakeFiles/PascalCompiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable PascalCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable PascalCompiler"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/PascalCompiler.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -230,6 +256,7 @@ CMakeFiles/PascalCompiler.dir/build: PascalCompiler
 .PHONY : CMakeFiles/PascalCompiler.dir/build
 
 CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o.requires
+CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o.requires
 CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o.requires
 CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o.requires
 CMakeFiles/PascalCompiler.dir/requires: CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o.requires

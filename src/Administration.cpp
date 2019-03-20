@@ -15,6 +15,12 @@ Administration::Administration(ifstream& InputFile, ofstream& OutputFile)
     ErrorCount = 0;
 }
 
+Administration::~Administration()
+{
+    delete PLScanner;
+    delete PLParser;
+}
+
 void Administration::Compile()
 {
     SymbolTable* HashTable = new SymbolTable();

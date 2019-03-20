@@ -177,6 +177,33 @@ src/Administration.cpp.s:
 	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s
 .PHONY : src/Administration.cpp.s
 
+src/BlockTable.o: src/BlockTable.cpp.o
+
+.PHONY : src/BlockTable.o
+
+# target to build an object file
+src/BlockTable.cpp.o:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o
+.PHONY : src/BlockTable.cpp.o
+
+src/BlockTable.i: src/BlockTable.cpp.i
+
+.PHONY : src/BlockTable.i
+
+# target to preprocess a source file
+src/BlockTable.cpp.i:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.i
+.PHONY : src/BlockTable.cpp.i
+
+src/BlockTable.s: src/BlockTable.cpp.s
+
+.PHONY : src/BlockTable.s
+
+# target to generate assembly for a file
+src/BlockTable.cpp.s:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.s
+.PHONY : src/BlockTable.cpp.s
+
 src/Parser.o: src/Parser.cpp.o
 
 .PHONY : src/Parser.o
@@ -300,6 +327,9 @@ help:
 	@echo "... src/Administration.o"
 	@echo "... src/Administration.i"
 	@echo "... src/Administration.s"
+	@echo "... src/BlockTable.o"
+	@echo "... src/BlockTable.i"
+	@echo "... src/BlockTable.s"
 	@echo "... src/Parser.o"
 	@echo "... src/Parser.i"
 	@echo "... src/Parser.s"

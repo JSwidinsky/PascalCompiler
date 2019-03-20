@@ -3,6 +3,7 @@
 
 CMakeFiles/PascalCompiler.dir/plc.cpp.o
  /home/josh/Documents/PascalCompiler/./include/./Administration.h
+ /home/josh/Documents/PascalCompiler/./include/./BlockTable.h
  /home/josh/Documents/PascalCompiler/./include/./Token.h
  /home/josh/Documents/PascalCompiler/./include/Administration.h
  /home/josh/Documents/PascalCompiler/./include/Parser.h
@@ -13,6 +14,7 @@ CMakeFiles/PascalCompiler.dir/plc.cpp.o
  /home/josh/Documents/PascalCompiler/plc.cpp
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
  /home/josh/Documents/PascalCompiler/include/./Administration.h
+ /home/josh/Documents/PascalCompiler/include/./BlockTable.h
  /home/josh/Documents/PascalCompiler/include/./Token.h
  /home/josh/Documents/PascalCompiler/include/Administration.h
  /home/josh/Documents/PascalCompiler/include/Parser.h
@@ -21,8 +23,12 @@ CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
  /home/josh/Documents/PascalCompiler/include/SymbolTable.h
  /home/josh/Documents/PascalCompiler/include/Token.h
  /home/josh/Documents/PascalCompiler/src/Administration.cpp
+CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o
+ /home/josh/Documents/PascalCompiler/include/BlockTable.h
+ /home/josh/Documents/PascalCompiler/src/BlockTable.cpp
 CMakeFiles/PascalCompiler.dir/src/Parser.cpp.o
  /home/josh/Documents/PascalCompiler/include/./Administration.h
+ /home/josh/Documents/PascalCompiler/include/./BlockTable.h
  /home/josh/Documents/PascalCompiler/include/./Parser.h
  /home/josh/Documents/PascalCompiler/include/./Scanner.h
  /home/josh/Documents/PascalCompiler/include/./Symbol.h

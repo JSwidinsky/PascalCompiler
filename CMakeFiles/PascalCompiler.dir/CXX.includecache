@@ -16,6 +16,10 @@ Scanner.h
 Parser.h
 /home/josh/Documents/PascalCompiler/./include/./Parser.h
 
+/home/josh/Documents/PascalCompiler/./include/./BlockTable.h
+vector
+-
+
 /home/josh/Documents/PascalCompiler/./include/./Token.h
 string
 -
@@ -39,6 +43,8 @@ set
 /home/josh/Documents/PascalCompiler/./include/./Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/./include/./Token.h
+./BlockTable.h
+/home/josh/Documents/PascalCompiler/./include/./BlockTable.h
 
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
 fstream
@@ -76,6 +82,10 @@ Scanner.h
 Parser.h
 /home/josh/Documents/PascalCompiler/include/./Parser.h
 
+/home/josh/Documents/PascalCompiler/include/./BlockTable.h
+vector
+-
+
 /home/josh/Documents/PascalCompiler/include/./Parser.h
 set
 -
@@ -83,6 +93,8 @@ set
 /home/josh/Documents/PascalCompiler/include/././Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/include/././Token.h
+./BlockTable.h
+/home/josh/Documents/PascalCompiler/include/././BlockTable.h
 
 /home/josh/Documents/PascalCompiler/include/./Scanner.h
 fstream
@@ -120,6 +132,10 @@ Scanner.h
 Parser.h
 /home/josh/Documents/PascalCompiler/include/Parser.h
 
+/home/josh/Documents/PascalCompiler/include/BlockTable.h
+vector
+-
+
 /home/josh/Documents/PascalCompiler/include/Parser.h
 set
 -
@@ -127,6 +143,8 @@ set
 /home/josh/Documents/PascalCompiler/include/./Administration.h
 ./Token.h
 /home/josh/Documents/PascalCompiler/include/./Token.h
+./BlockTable.h
+/home/josh/Documents/PascalCompiler/include/./BlockTable.h
 
 /home/josh/Documents/PascalCompiler/include/Scanner.h
 fstream
@@ -179,6 +197,10 @@ stdexcept
 -
 queue
 -
+
+/home/josh/Documents/PascalCompiler/src/BlockTable.cpp
+../include/BlockTable.h
+/home/josh/Documents/PascalCompiler/include/BlockTable.h
 
 /home/josh/Documents/PascalCompiler/src/Parser.cpp
 ../include/Parser.h

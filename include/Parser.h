@@ -4,6 +4,7 @@
 #include <set>
 #include "./Administration.h"
 #include "./Token.h"
+#include "./BlockTable.h"
 
 //forward declaration of admin class
 class Administration;
@@ -24,6 +25,8 @@ class Parser
 {
 public:
     Parser(Administration* A);
+
+    ~Parser();
 
     /**
      * Begins parsing the tokens
@@ -101,8 +104,8 @@ private:
     void Definition(StopSet Sts);                  
     void ConstDefinition(StopSet Sts);             
     void VariableDefinition(StopSet Sts);          
-    void VariableDefinitionPrime(StopSet Sts);     
-    void TypeSymbol(StopSet Sts);                      
+    void VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType);     
+    TableEntry::Type TypeSymbol(StopSet Sts);   //returns the type of the token that was matched              
     void VariableList(StopSet Sts);                
     void ProcedureDefinition(StopSet Sts);         
     void StatementPart(StopSet Sts);               
@@ -129,14 +132,15 @@ private:
     void Factor(StopSet Sts);                          
     void VariableAccess(StopSet Sts);              
     void IndexedSelector(StopSet Sts);             
-    void Constant(StopSet Sts);                    
-    void Numeral(StopSet Sts);                     
-    void BooleanSymbol(StopSet Sts);                   
-    void Name(StopSet Sts);                        
+    void Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant);                    
+    int Numeral(StopSet Sts);       //numeral returns the value of the literal number       
+    int BooleanSymbol(StopSet Sts); //boolean symbol returns 0 if the bool was false, 1 if the bool was true
+    int Name(StopSet Sts);                
     /** End grammar rule definitions */
 
     Administration* Admin;
     Token* LookAheadToken;
+    BlockTable* Table;
 };
 
 #endif  //PARSER_H
