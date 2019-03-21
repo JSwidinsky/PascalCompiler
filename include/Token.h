@@ -37,6 +37,7 @@ public:
     string GetLexeme() const;
     Symbol::Symbol GetSymbolName() const;
     int GetValue() const;
+    void UpdtateValue(const int NewValue);
 
     bool CheckTerminalSymbol(Symbol::Symbol SymbolToCompare) const;
 

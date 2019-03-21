@@ -1,5 +1,7 @@
 #include "../include/BlockTable.h"
 
+#include <iostream>
+
 BlockTable::BlockTable()
     : CurrentLevel(-1) {}
 
@@ -26,7 +28,7 @@ bool BlockTable::Search(int Index) const
 bool BlockTable::Define(TableEntry NewTableEntry)
 {
     //return false if our new table entry already exists in our table
-    if(!Search(NewTableEntry.Index))
+    if(Search(NewTableEntry.Index))
     {
         return false;
     }
@@ -69,14 +71,14 @@ bool BlockTable::NewBlock()
 
 bool BlockTable::PopBlock()
 {
-    --CurrentLevel;
-
     //TODO: Think of the logic for this function; it may not work
     //don't pop our block if we already have nothing in the table
     if(CurrentLevel < 0)
     {
         return false;
     }
+
+    --CurrentLevel;
 
     Table[CurrentLevel + 1].clear();
     return true;

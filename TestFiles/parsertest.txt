@@ -1,0 +1,47 @@
+$1 Test for minimal syntactically correct PL program
+begin
+$ end
+$.
+
+
+$2 Test for constant definition
+$ begin
+ const C =  true;
+ const l = 100;
+$ const f = false;
+$ ;
+$ end
+$ .
+
+$3 Test variable definition 
+
+Boolean i,j, k;
+$integer array m,n[l]; 
+$integer array n[l]; 
+integer array o,p,q[2];
+$Boolean b,c;
+$end
+$.
+
+$4 Test for procedure definition
+$
+ proc p 
+  begin
+   const a  = 10;
+$   integer i, j;
+   proc q
+   begin
+   end;
+  end;
+
+$5 Test statement part
+const b = true; 
+i,m:=1,n;
+       do (i < m) -> 
+       if A[i]=x->m:=i;[]
+         ~(A[i]=x)->i:=i+1;
+      fi;
+      od;
+end
+.
+

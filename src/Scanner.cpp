@@ -14,6 +14,7 @@ Scanner::Scanner(ifstream& InputPLFile, SymbolTable* Table)
     LineNum = 1;
 
     LookAheadSymbol = InputPLProgram.get();
+    EOFFlag = false;
 }
 
 Token* Scanner::GetToken()
@@ -65,8 +66,8 @@ Token* Scanner::GetToken()
 
 bool Scanner::AtEndOfFile() const
 {
-    //return InputPLProgram.eof() || CurrentSymbol == EOF || InputPLProgram.peek() == EOF;
-    return CurrentSymbol == EOF;
+    //return CurrentSymbol == EOF;
+    return EOFFlag;
 }
 
 int Scanner::GetLineNum() const
@@ -141,7 +142,7 @@ Token* Scanner::RecognizeName()
     {
         //we must make a new token for the new identifier
         Token* NewToken = new Token(Symbol::ID, TokenAttribute(IndexInTable, Lexeme));
-        IndexInTable = HashTable->Insert(NewToken);
+        NewToken->UpdtateValue(HashTable->Insert(NewToken));
         return NewToken;
     }
 }
@@ -282,6 +283,11 @@ void Scanner::GetNextSymbol()
 {
     CurrentSymbol = LookAheadSymbol;
     LookAheadSymbol = InputPLProgram.get();
+
+    if(LookAheadSymbol == EOF)
+    {
+        EOFFlag = true;
+    }
 }
 
 void Scanner::ReverseRead()

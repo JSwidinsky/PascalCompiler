@@ -25,6 +25,11 @@ int Token::GetValue() const
     return Attribute.Value;
 }
 
+void Token::UpdtateValue(const int NewValue)
+{
+    Attribute.Value = NewValue;
+}
+
 bool Token::CheckTerminalSymbol(Symbol::Symbol SymbolToCompare) const
 {
     return this->TerminalSymbolName == SymbolToCompare;

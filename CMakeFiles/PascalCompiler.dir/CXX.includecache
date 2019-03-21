@@ -39,6 +39,8 @@ Parser.h
 /home/josh/Documents/PascalCompiler/./include/Parser.h
 set
 -
+vector
+-
 ./Administration.h
 /home/josh/Documents/PascalCompiler/./include/./Administration.h
 ./Token.h
@@ -89,6 +91,8 @@ vector
 /home/josh/Documents/PascalCompiler/include/./Parser.h
 set
 -
+vector
+-
 ./Administration.h
 /home/josh/Documents/PascalCompiler/include/././Administration.h
 ./Token.h
@@ -138,6 +142,8 @@ vector
 
 /home/josh/Documents/PascalCompiler/include/Parser.h
 set
+-
+vector
 -
 ./Administration.h
 /home/josh/Documents/PascalCompiler/include/./Administration.h
@@ -201,6 +207,8 @@ queue
 /home/josh/Documents/PascalCompiler/src/BlockTable.cpp
 ../include/BlockTable.h
 /home/josh/Documents/PascalCompiler/include/BlockTable.h
+iostream
+-
 
 /home/josh/Documents/PascalCompiler/src/Parser.cpp
 ../include/Parser.h

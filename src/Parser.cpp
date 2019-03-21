@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 #define PRINT(s) //cout << s << endl
 
 //an array containing the follow set for each function, listed in the order the functions were defined in
@@ -175,7 +177,10 @@ void Parser::Program(StopSet Sts)
 
 void Parser::Block(StopSet Sts)
 {
-    Table->NewBlock();
+    if(!Table->NewBlock())
+    {
+        Admin->FatalError("Cannot create new block; block count exceeds maximum allowed blocks");
+    }
 
     PRINT("Block");
     Match(Symbol::BEGIN, Union(Union(Union(Sts, CreateSet(EDefinitionPart)), CreateSet(EStatementPart)), Symbol::END));
@@ -186,7 +191,10 @@ void Parser::Block(StopSet Sts)
 
     Match(Symbol::END, Sts);
 
-    Table->PopBlock();
+    if(!Table->PopBlock())
+    {
+        Admin->FatalError("Cannot remove block; no block to remove");
+    }
 }
 
 void Parser::DefinitionPart(StopSet Sts)
@@ -253,14 +261,12 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
 {
     PRINT("VariableDefinitionPrime");
 
-    //TODO: finish working on this one
-
     if (Check(Symbol::ARRAY))
     {
         Match(Symbol::ARRAY, Union(Union(Union(Union(Sts, CreateSet(EVariableList)), Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         //this needs to return a vector of all the variables that it found and discovered
-        VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
+        vector<int> NameIndicies = VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         Match(Symbol::SQUARELEFT, Union(Union(Sts, CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
@@ -268,11 +274,31 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
         TableEntry::Type ArraySizeType;
         Constant(Union(Sts, Symbol::SQUARERIGHT), ArraySize, ArraySizeType);
 
+        //is this right? are all of the variables defined here arrays?
+        if(ArraySize != -1)
+        {
+            for(const int& HashIndex : NameIndicies)
+            {
+                if(!Table->Define(TableEntry(HashIndex, ArraySize, TableEntry::ARRAY, VariableType, 0, Table->GetCurrentLevel())))
+                {
+                    Admin->ReportError("Ambiguous definition of array name");
+                }
+            }
+        }
+
         Match(Symbol::SQUARERIGHT, Sts);
     }
     else
     {
-        VariableList(Sts);
+        vector<int> NameIndicies = VariableList(Sts);
+
+        for(const int& HashIndex : NameIndicies)
+        {
+            if(!Table->Define(TableEntry(HashIndex, 0, TableEntry::VARIABLE, VariableType, 0, Table->GetCurrentLevel())))
+            {
+                Admin->ReportError("Ambiguous definition of new variable name");
+            }
+        }
     }
 }
 
@@ -297,17 +323,23 @@ TableEntry::Type Parser::TypeSymbol(StopSet Sts)
     
 }
 
-void Parser::VariableList(StopSet Sts)
+vector<int> Parser::VariableList(StopSet Sts)
 {
     PRINT("VariableList");
-    Name(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
 
+    int HashTableIndex = Name(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
+    vector<int> HashIndexList;
+
+    HashIndexList.push_back(HashTableIndex);
     while (Check(Symbol::COMMA))
     {
         Match(Symbol::COMMA, Union(Sts, CreateSet(EName)));
 
-        Name(Sts);
+        HashTableIndex = Name(Sts);
+        HashIndexList.push_back(HashTableIndex);
     }
+
+    return HashIndexList;
 }
 
 void Parser::ProcedureDefinition(StopSet Sts)
@@ -315,7 +347,12 @@ void Parser::ProcedureDefinition(StopSet Sts)
     PRINT("ProcedureDefinition");
     Match(Symbol::PROC, Union(Union(Sts, CreateSet(EName)), CreateSet(EBlock)));
 
-    Name(Union(Sts, CreateSet(EBlock)));
+    int ProcIndex = Name(Union(Sts, CreateSet(EBlock)));
+
+    if(!Table->Define(TableEntry(ProcIndex, 0, TableEntry::PROCEDURE, TableEntry::UNIVERSAL, 0, Table->GetCurrentLevel())))
+    {
+        Admin->ReportError("Ambiguous definition of procedure name");
+    }
 
     Block(Sts);
 }
@@ -383,17 +420,44 @@ void Parser::ReadStatement(StopSet Sts)
     VariableAccessList(Sts);
 }
 
-void Parser::VariableAccessList(StopSet Sts)
+vector<TableEntry::Type> Parser::VariableAccessList(StopSet Sts)
 {
     PRINT("VariableAccessList");
-    VariableAccess(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
+
+    vector<TableEntry::Type> VariableTypes;
+    int Index = VariableAccess(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
+
+    bool WasSuccessful;
+    TableEntry Entry = Table->Find(Index, WasSuccessful);
+
+    if(WasSuccessful)
+    {
+        VariableTypes.push_back(Entry.MyType);
+    }
+    else
+    {
+        Admin->ReportError("Use of undeclared variable in variable access list");
+    }
 
     while (Check(Symbol::COMMA))
     {
         Match(Symbol::COMMA, Union(Sts, CreateSet(EVariableAccess)));
 
-        VariableAccess(Sts);
+        Index = VariableAccess(Sts);
+
+        Entry = Table->Find(Index, WasSuccessful);
+
+        if(WasSuccessful)
+        {
+            VariableTypes.push_back(Entry.MyType);
+        }
+        else
+        {
+            Admin->ReportError("Use of undeclared variable in variable access list");
+        }
     }
+
+    return VariableTypes;
 }
 
 void Parser::WriteStatement(StopSet Sts)
@@ -406,6 +470,7 @@ void Parser::WriteStatement(StopSet Sts)
 
 void Parser::ExpressionList(StopSet Sts)
 {
+    //TODO: Add type checking to this!!
     PRINT("ExpressionList");
     Expression(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
 
@@ -420,7 +485,7 @@ void Parser::ExpressionList(StopSet Sts)
 void Parser::AssignmentStatement(StopSet Sts)
 {
     PRINT("AssignmentStatement");
-    VariableAccessList(Union(Union(Sts, Symbol::ASSIGN), CreateSet(EExpressionList)));
+    vector<TableEntry::Type> VariableTypes = VariableAccessList(Union(Union(Sts, Symbol::ASSIGN), CreateSet(EExpressionList)));
 
     Match(Symbol::ASSIGN, Union(Sts, CreateSet(EExpressionList)));
 
@@ -622,8 +687,9 @@ void Parser::Factor(StopSet Sts)
     PRINT("Factor");
 
     if (Check(Symbol::NUMERAL) || Check(Symbol::TRUE) || Check(Symbol::FALSE))
-    {
-        //Constant(Sts);
+    {  
+        int a; TableEntry::Type b;
+        Constant(Sts, a, b);
     }
     else if (Check(Symbol::ID))
     {
@@ -648,15 +714,16 @@ void Parser::Factor(StopSet Sts)
     
 }
 
-void Parser::VariableAccess(StopSet Sts)
+int Parser::VariableAccess(StopSet Sts)
 {
     PRINT("VariableAccess");
-    Name(Union(Sts, CreateSet(EIndexedSelector))); //WARNING: is this correct?
+    int Index = Name(Union(Sts, CreateSet(EIndexedSelector))); //WARNING: is this correct?
 
     if (Check(Symbol::SQUARELEFT))
     {
         IndexedSelector(Sts);
     }
+    return Index;
 }
 
 void Parser::IndexedSelector(StopSet Sts)
@@ -701,11 +768,11 @@ void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
             {
                 Admin->ReportError("Invalid assignment of named boolean constant");
             }
-            
         }
         else
         {
-            Admin->ReportError("Use of undefined constant value in assignment statement");
+            Admin->ReportError("Use of undefined constant value");
+            Value = -1;
         }
         
     }
@@ -713,7 +780,6 @@ void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
     {
         SyntaxError(string("CONSTANT before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
-    
 }
 
 int Parser::Numeral(StopSet Sts)

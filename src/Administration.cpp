@@ -62,6 +62,13 @@ void Administration::ReportError(string ErrMessage)
     }
 }
 
+void Administration::FatalError(string ErrMessage)
+{
+    PRINT_ERROR(PLScanner->GetLineNum(), ErrMessage);
+
+    exit(1);
+}
+
 string Administration::TokenToString(const Symbol::Symbol symbol)
 {
     switch(symbol)

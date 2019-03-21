@@ -25,6 +25,7 @@ public:
     Token* GetNextToken();
 
     void ReportError(std::string ErrMessage);
+    void FatalError(std::string ErrMessage);
 
     string TokenToString(const Symbol::Symbol symbol);
 

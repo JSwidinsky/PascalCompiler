@@ -66,6 +66,7 @@ private:
     char CurrentSymbol;
     char LookAheadSymbol;
     int LineNum;
+    bool EOFFlag;
 };
 
 

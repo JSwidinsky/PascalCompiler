@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <set>
+#include <vector>
 #include "./Administration.h"
 #include "./Token.h"
 #include "./BlockTable.h"
@@ -106,13 +107,13 @@ private:
     void VariableDefinition(StopSet Sts);          
     void VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType);     
     TableEntry::Type TypeSymbol(StopSet Sts);   //returns the type of the token that was matched              
-    void VariableList(StopSet Sts);                
+    std::vector<int> VariableList(StopSet Sts); //returns an array of all hash table indecies of discovered names           
     void ProcedureDefinition(StopSet Sts);         
     void StatementPart(StopSet Sts);               
     void Statement(StopSet Sts);                   
     void EmptyStatement(StopSet Sts);              
     void ReadStatement(StopSet Sts);               
-    void VariableAccessList(StopSet Sts);          
+    std::vector<TableEntry::Type> VariableAccessList(StopSet Sts);          
     void WriteStatement(StopSet Sts);              
     void ExpressionList(StopSet Sts);              
     void AssignmentStatement(StopSet Sts);             
@@ -130,7 +131,7 @@ private:
     void Term(StopSet Sts);                        
     void MultiplyingOperator(StopSet Sts);         
     void Factor(StopSet Sts);                          
-    void VariableAccess(StopSet Sts);              
+    int VariableAccess(StopSet Sts);    //returns the index of the name in the block table    
     void IndexedSelector(StopSet Sts);             
     void Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant);                    
     int Numeral(StopSet Sts);       //numeral returns the value of the literal number       
