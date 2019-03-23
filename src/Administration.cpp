@@ -23,7 +23,7 @@ Administration::~Administration()
 
 void Administration::Compile()
 {
-    SymbolTable* HashTable = new SymbolTable();
+    HashTable = new SymbolTable();
     PLScanner = new Scanner(InFile, HashTable);
 
     PLParser = new Parser(this);
@@ -48,6 +48,11 @@ Token* Administration::GetNextToken()
             ReportError(err.what());
         }
     }
+}
+
+Token* Administration::GetTokenFromHashTable(const int Index) const
+{
+    return HashTable->GetTokenAtIndex(Index);
 }
 
 void Administration::ReportError(string ErrMessage)

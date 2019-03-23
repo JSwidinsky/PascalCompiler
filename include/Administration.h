@@ -23,6 +23,7 @@ public:
 
     /** Call the scanner to scan the input file and return the next token it finds */
     Token* GetNextToken();
+    Token* GetTokenFromHashTable(const int Index) const;
 
     void ReportError(std::string ErrMessage);
     void FatalError(std::string ErrMessage);
@@ -34,6 +35,7 @@ private:
     ofstream& OutFile;
     Scanner* PLScanner;
     Parser* PLParser;
+    SymbolTable* HashTable;
 
     int ErrorCount;
 };

@@ -115,24 +115,24 @@ private:
     void ReadStatement(StopSet Sts);               
     std::vector<TableEntry::Type> VariableAccessList(StopSet Sts);          
     void WriteStatement(StopSet Sts);              
-    void ExpressionList(StopSet Sts);              
+    std::vector<TableEntry::Type> ExpressionList(StopSet Sts);              
     void AssignmentStatement(StopSet Sts);             
     void ProcedureStatement(StopSet Sts);          
     void IfStatement(StopSet Sts);                     
     void DoStatement(StopSet Sts);                 
     void GuardedCommandList(StopSet Sts);          
     void GuardedCommand(StopSet Sts);              
-    void Expression(StopSet Sts);                  
+    TableEntry::Type Expression(StopSet Sts);                  
     void PrimaryOperator(StopSet Sts);             
-    void PrimaryExpression(StopSet Sts);           
+    TableEntry::Type PrimaryExpression(StopSet Sts);           
     void RelationalOperator(StopSet Sts);             
-    void SimpleExpression(StopSet Sts);            
+    TableEntry::Type SimpleExpression(StopSet Sts);            
     void AddingOperator(StopSet Sts);                
-    void Term(StopSet Sts);                        
+    TableEntry::Type Term(StopSet Sts);                        
     void MultiplyingOperator(StopSet Sts);         
-    void Factor(StopSet Sts);                          
+    TableEntry::Type Factor(StopSet Sts);                          
     int VariableAccess(StopSet Sts);    //returns the index of the name in the block table    
-    void IndexedSelector(StopSet Sts);             
+    TableEntry::Type IndexedSelector(StopSet Sts);             
     void Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant);                    
     int Numeral(StopSet Sts);       //numeral returns the value of the literal number       
     int BooleanSymbol(StopSet Sts); //boolean symbol returns 0 if the bool was false, 1 if the bool was true

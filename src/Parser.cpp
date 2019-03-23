@@ -5,6 +5,7 @@
 using namespace std;
 
 #define PRINT(s) //cout << s << endl
+#define QUOTE_NAME(s) "'" + s + "' "
 
 //an array containing the follow set for each function, listed in the order the functions were defined in
 //this does not need to be 50x50, but to avoid going over bounds, we pad the array a bit
@@ -296,7 +297,7 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
         {
             if(!Table->Define(TableEntry(HashIndex, 0, TableEntry::VARIABLE, VariableType, 0, Table->GetCurrentLevel())))
             {
-                Admin->ReportError("Ambiguous definition of new variable name");
+                Admin->ReportError("Ambiguous definition of variable name");
             }
         }
     }
@@ -468,18 +469,24 @@ void Parser::WriteStatement(StopSet Sts)
     ExpressionList(Sts);
 }
 
-void Parser::ExpressionList(StopSet Sts)
+vector<TableEntry::Type> Parser::ExpressionList(StopSet Sts)
 {
-    //TODO: Add type checking to this!!
     PRINT("ExpressionList");
-    Expression(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
+
+    vector<TableEntry::Type> Types;
+    
+    TableEntry::Type ExpressionType = Expression(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
+    Types.push_back(ExpressionType);
 
     while (Check(Symbol::COMMA))
     {
         Match(Symbol::COMMA, Union(Sts, CreateSet(EExpression)));
 
-        Expression(Sts);
+        ExpressionType = Expression(Sts);
+        Types.push_back(ExpressionType);
     }
+
+    return Types;
 }
 
 void Parser::AssignmentStatement(StopSet Sts)
@@ -489,7 +496,22 @@ void Parser::AssignmentStatement(StopSet Sts)
 
     Match(Symbol::ASSIGN, Union(Sts, CreateSet(EExpressionList)));
 
-    ExpressionList(Sts);
+    vector<TableEntry::Type> ExpressionTypes = ExpressionList(Sts);
+
+    if(VariableTypes.size() != ExpressionTypes.size())
+    {
+        Admin->ReportError("Mismatch between number of variables on left and right side of assignment operator");
+    }
+    else
+    {
+        for(unsigned int i = 0; i < VariableTypes.size(); ++i)
+        {
+            if(VariableTypes[i] != ExpressionTypes[i])
+            {
+                Admin->ReportError("Mismatch between variable type and expression type in assignment statement");
+            }
+        }
+    }
 }
 
 void Parser::ProcedureStatement(StopSet Sts)
@@ -497,7 +519,22 @@ void Parser::ProcedureStatement(StopSet Sts)
     PRINT("ProcedureStatement");
     Match(Symbol::CALL, Union(Sts, CreateSet(EName)));
 
-    Name(Sts);
+    string TokenName = LookAheadToken->GetLexeme();
+    int NameIndex = Name(Sts);
+
+    bool WasSuccessful;
+    TableEntry Entry = Table->Find(NameIndex, WasSuccessful);
+    if(WasSuccessful)
+    {
+        if(Entry.MyKind != TableEntry::PROCEDURE)
+        {
+            Admin->ReportError(QUOTE_NAME(TokenName) + "is not a procedure");
+        }
+    }
+    else
+    {
+        Admin->ReportError(QUOTE_NAME(TokenName) + "was not declared in this scope");
+    }
 }
 
 void Parser::IfStatement(StopSet Sts)
@@ -536,24 +573,39 @@ void Parser::GuardedCommandList(StopSet Sts)
 void Parser::GuardedCommand(StopSet Sts)
 {
     PRINT("GuardedCommand");
-    Expression(Union(Union(Sts, Symbol::ARROW), CreateSet(EStatementPart)));
+    TableEntry::Type ExpressionType = Expression(Union(Union(Sts, Symbol::ARROW), CreateSet(EStatementPart)));
+
+    if(ExpressionType != TableEntry::BOOLEAN)
+    {
+        Admin->ReportError("Expression does not evaluate to boolean type in guarded command");
+    }
 
     Match(Symbol::ARROW, Union(Sts, CreateSet(EStatementPart)));
 
     StatementPart(Sts);
 }
 
-void Parser::Expression(StopSet Sts)
+TableEntry::Type Parser::Expression(StopSet Sts)
 {
     PRINT("Expression");
-    PrimaryExpression(Union(Sts, CreateSet(EPrimaryOperator))); //WARNING: is this correct?
+    const TableEntry::Type ExpressionType = PrimaryExpression(Union(Sts, CreateSet(EPrimaryOperator))); //WARNING: is this correct?
 
     while (Check(Symbol::AND) || Check(Symbol::OR))
     {
+        if(ExpressionType != TableEntry::BOOLEAN)
+        {
+            Admin->ReportError("Expression does not evaluate to a boolean value");
+        }
         PrimaryOperator(Union(Sts, CreateSet(EPrimaryExpression)));
 
-        PrimaryExpression(Sts);
+        TableEntry::Type ExpressionType2 = PrimaryExpression(Sts);
+
+        if(ExpressionType2 != TableEntry::BOOLEAN)
+        {
+            Admin->ReportError("Expression does not evaluate to a boolean value");
+        }
     }
+    return ExpressionType;
 }
 
 void Parser::PrimaryOperator(StopSet Sts)
@@ -575,17 +627,28 @@ void Parser::PrimaryOperator(StopSet Sts)
     
 }
 
-void Parser::PrimaryExpression(StopSet Sts)
+TableEntry::Type Parser::PrimaryExpression(StopSet Sts)
 {
     PRINT("PrimaryExpression");
-    SimpleExpression(Union(Sts, CreateSet(ERelationalOperator))); //WARNING: is this correct?
+    TableEntry::Type ExpressionType = SimpleExpression(Union(Sts, CreateSet(ERelationalOperator))); //WARNING: is this correct?
 
     if (Member(LookAheadToken->GetSymbolName(), ERelationalOperator))
     {
+        if(ExpressionType != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Relational operator requires integer value type");
+        }
         RelationalOperator(Union(Sts, CreateSet(ESimpleExpression)));
 
-        SimpleExpression(Sts);
+        TableEntry::Type ExpressionType2 = SimpleExpression(Sts);
+        if(ExpressionType2 != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Relational operator requres integer value type");
+        }
+        ExpressionType = TableEntry::BOOLEAN;
     }
+
+    return ExpressionType;
 }
 
 void Parser::RelationalOperator(StopSet Sts)
@@ -608,25 +671,40 @@ void Parser::RelationalOperator(StopSet Sts)
         //can we ever get here currently?
         SyntaxError(string("RELATIONAL OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
-    
 }
 
-void Parser::SimpleExpression(StopSet Sts)
+TableEntry::Type Parser::SimpleExpression(StopSet Sts)
 {
     PRINT("SimpleExpression");
+
+    bool MatchedMinus = false;
     if (Check(Symbol::MINUS))
     {
         Match(Symbol::MINUS, Union(Sts, CreateSet(ETerm)));
     }
 
-    Term(Union(Sts, CreateSet(EAddingOperator))); //WARNNING: is this correct?
+    const TableEntry::Type ExpressionType = Term(Union(Sts, CreateSet(EAddingOperator))); //WARNNING: is this correct?
+
+    if(MatchedMinus && ExpressionType != TableEntry::INTEGER)
+    {
+        Admin->ReportError("Invalid use of negation on a boolean value");
+    }
 
     while (Member(LookAheadToken->GetSymbolName(), EAddingOperator))
     {
+        if(ExpressionType != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Operator requires integer value type");
+        }
         AddingOperator(Union(Sts, CreateSet(ETerm)));
 
-        Term(Sts);
+        TableEntry::Type ExpressionType2 = Term(Sts);
+        if(ExpressionType2 != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Operator requires integer value type");
+        }
     }
+    return ExpressionType;
 }
 
 void Parser::AddingOperator(StopSet Sts)
@@ -647,17 +725,26 @@ void Parser::AddingOperator(StopSet Sts)
     
 }
 
-void Parser::Term(StopSet Sts)
+TableEntry::Type Parser::Term(StopSet Sts)
 {
     PRINT("Term");
-    Factor(Union(Sts, CreateSet(EMultiplyingOperator))); //WARNING: is this correct?
+    const TableEntry::Type ExpressionType = Factor(Union(Sts, CreateSet(EMultiplyingOperator))); //WARNING: is this correct?
 
     while (Member(LookAheadToken->GetSymbolName(), EMultiplyingOperator))
     {
+        if(ExpressionType != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Operator requires integer value type");
+        }
         MultiplyingOperator(Union(Sts, CreateSet(EFactor)));
 
-        Factor(Sts);
+        TableEntry::Type ExpressionType2 = Factor(Sts);
+        if(ExpressionType2 != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Operator requires integer value type");
+        }
     }
+    return ExpressionType;
 }
 
 void Parser::MultiplyingOperator(StopSet Sts)
@@ -682,58 +769,102 @@ void Parser::MultiplyingOperator(StopSet Sts)
     
 }
 
-void Parser::Factor(StopSet Sts)
+TableEntry::Type Parser::Factor(StopSet Sts)
 {
     PRINT("Factor");
 
-    if (Check(Symbol::NUMERAL) || Check(Symbol::TRUE) || Check(Symbol::FALSE))
+    //here, we check to see if our look ahead token is an id, and if it is, we want to see if it is a constant, so that we may
+    //call the appropriate grammar rule
+    bool IsIDConstant = false;
+    if(Check(Symbol::ID))
+    {
+        bool DummyBool;
+        TableEntry Entry = Table->Find(LookAheadToken->GetValue(), DummyBool);
+        if(DummyBool)
+        {
+            IsIDConstant = Entry.MyKind == TableEntry::CONSTANT;
+        }
+    }
+
+    TableEntry::Type Type;
+    if (Check(Symbol::NUMERAL) || Check(Symbol::TRUE) || Check(Symbol::FALSE) || IsIDConstant)
     {  
-        int a; TableEntry::Type b;
-        Constant(Sts, a, b);
+        int Value;
+        Constant(Sts, Value, Type);
     }
     else if (Check(Symbol::ID))
     {
-        //this could also be a constant, however we will treat it as a variable access for now, and fix it in the later stage
-        VariableAccess(Sts);
+        string TokenName = LookAheadToken->GetLexeme();
+        int VariableIndex = VariableAccess(Sts);
+
+        bool WasSuccessful;
+        TableEntry Entry = Table->Find(VariableIndex, WasSuccessful);
+        if(WasSuccessful)
+        {
+            Type = Entry.MyType;
+        }
+        else
+        {
+            Admin->ReportError(QUOTE_NAME(TokenName) + "is an undeclared identifier");
+        }
     }
     else if (Check(Symbol::BRACKETLEFT))
     {
         Match(Symbol::BRACKETLEFT, Union(Union(Sts, CreateSet(EExpression)), Symbol::BRACKETLEFT));
-        Expression(Union(Sts, Symbol::BRACKETRIGHT));
+        Type = Expression(Union(Sts, Symbol::BRACKETRIGHT));
         Match(Symbol::BRACKETRIGHT, Sts);
     }
     else if (Check(Symbol::NEGATE))
     {
         Match(Symbol::NEGATE, Union(Sts, CreateSet(EFactor)));
-        Factor(Sts);
+        Type = Factor(Sts);
+
+        if(Type != TableEntry::BOOLEAN)
+        {
+            Admin->ReportError("Negation requires boolean type on right-hand side of operator");
+        }
     }
     else
     {
         SyntaxError(string("FACTOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);    
     }
     
+    return Type;
 }
 
 int Parser::VariableAccess(StopSet Sts)
 {
     PRINT("VariableAccess");
+    
+    string TokenName = LookAheadToken->GetLexeme();
     int Index = Name(Union(Sts, CreateSet(EIndexedSelector))); //WARNING: is this correct?
+    if(!Table->Search(Index))
+    {
+        Admin->ReportError(QUOTE_NAME(TokenName) + "was not declared in this scope");
+    }
 
     if (Check(Symbol::SQUARELEFT))
     {
-        IndexedSelector(Sts);
+        TableEntry::Type ExpressionType = IndexedSelector(Sts);
+
+        if(ExpressionType != TableEntry::INTEGER)
+        {
+            Admin->ReportError("Non-integer value used for array indexing");
+        }
     }
     return Index;
 }
 
-void Parser::IndexedSelector(StopSet Sts)
+TableEntry::Type Parser::IndexedSelector(StopSet Sts)
 {
     PRINT("IndexedSelector");
     Match(Symbol::SQUARELEFT, Union(Union(Sts, CreateSet(EExpression)), Symbol::SQUARERIGHT));
 
-    Expression(Union(Sts, Symbol::SQUARERIGHT));
+    TableEntry::Type ExpressionType = Expression(Union(Sts, Symbol::SQUARERIGHT));
 
     Match(Symbol::SQUARERIGHT, Sts);
+
+    return ExpressionType;
 }
 
 void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
@@ -751,7 +882,6 @@ void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
     }
     else if (Check(Symbol::ID))
     {
-        //TODO: Verify that if a name appears here, it can only be an integer
         int HashIndex = Name(Sts);
 
         bool FindSuccessful;

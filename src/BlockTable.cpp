@@ -1,6 +1,7 @@
 #include "../include/BlockTable.h"
 
 #include <iostream>
+using namespace std;
 
 BlockTable::BlockTable()
     : CurrentLevel(-1) {}
