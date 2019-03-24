@@ -859,6 +859,17 @@ pair<int, string> Parser::VariableAccess(StopSet Sts)
         {
             TypeError("Non-integer value used for array indexing");
         }
+
+        //check to make sure the type is an array if we are here
+        bool WasSuccessful;
+        TableEntry Entry = Table->Find(Index, WasSuccessful);
+        if(WasSuccessful)
+        {
+            if(Entry.MyKind != TableEntry::ARRAY)
+            {
+                TypeError(QUOTE_NAME(IDName) + "is not an array type");
+            } 
+        }
     }
     return pair<int, string>(Index, IDName);
 }

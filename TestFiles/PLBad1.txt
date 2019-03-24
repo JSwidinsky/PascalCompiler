@@ -35,4 +35,6 @@ begin
       if 5 < true -> call myproc;
       fi;
 
+      c := a[4];
+
 end.
