@@ -1,0 +1,25 @@
+$here, we try to create as many procedures as possible to overflow our block table
+begin
+    proc a begin
+        proc b begin
+            proc c begin
+                proc d begin
+                    proc e begin
+                        proc f begin
+                            proc g begin
+                                proc h begin
+                                    proc i begin
+                                        proc j begin
+
+                                        end;
+                                    end;
+                                end;
+                            end;
+                        end;
+                    end;
+                end;
+            end;
+        end;
+    end;
+
+end.

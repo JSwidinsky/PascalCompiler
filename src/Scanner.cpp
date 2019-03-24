@@ -281,13 +281,13 @@ void Scanner::RecognizeSeparators()
 
 void Scanner::GetNextSymbol()
 {
-    CurrentSymbol = LookAheadSymbol;
-    LookAheadSymbol = InputPLProgram.get();
-
     if(LookAheadSymbol == EOF)
     {
         EOFFlag = true;
     }
+    
+    CurrentSymbol = LookAheadSymbol;
+    LookAheadSymbol = InputPLProgram.get();
 }
 
 void Scanner::ReverseRead()

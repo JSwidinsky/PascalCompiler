@@ -1,0 +1,38 @@
+begin
+      const n = 5; 
+      integer a, b, c; 
+      integer array A[n]; 
+      Boolean b; 
+      integer array A[10];
+      Boolean Good;
+      
+      proc MyProcedure
+      begin
+            integer count;
+            do ~(count = 10) -> a := n*z; count := count + 1;
+            od;
+      end;
+
+      proc MyProcedure
+      begin
+            if n > a -> c := 1, 4;
+            fi;
+      end;
+
+      write a;
+      d := 3;
+      a := true;
+      call MyProc;
+      call c;
+
+      do ~(1 + 3) -> read a;
+      od;
+
+      Good := true & (5+3);
+      Good := true + (5+3);
+      a := A[true | false];
+      
+      if 5 < true -> call myproc;
+      fi;
+
+end.

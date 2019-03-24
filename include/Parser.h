@@ -54,6 +54,9 @@ private:
      */
     void SyntaxError(string Expected, StopSet Sts);
 
+    void ScopeError(string Message);
+    void TypeError(string Message);
+
     /**
      * Checks if a symbol is in the FOLLOW set for a particular non-terminal, which is passed as the function id
      * @param symbol terminal symbol we are checking for membership in the follow set
@@ -107,7 +110,7 @@ private:
     void VariableDefinition(StopSet Sts);          
     void VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType);     
     TableEntry::Type TypeSymbol(StopSet Sts);   //returns the type of the token that was matched              
-    std::vector<int> VariableList(StopSet Sts); //returns an array of all hash table indecies of discovered names           
+    std::vector<std::pair<int, std::string>> VariableList(StopSet Sts); //returns an array of all hash table indecies and lexeme names for all identifiers           
     void ProcedureDefinition(StopSet Sts);         
     void StatementPart(StopSet Sts);               
     void Statement(StopSet Sts);                   
@@ -131,12 +134,12 @@ private:
     TableEntry::Type Term(StopSet Sts);                        
     void MultiplyingOperator(StopSet Sts);         
     TableEntry::Type Factor(StopSet Sts);                          
-    int VariableAccess(StopSet Sts);    //returns the index of the name in the block table    
+    std::pair<int, std::string> VariableAccess(StopSet Sts);    //returns a pair consisting of the index of the id and the name of the id 
     TableEntry::Type IndexedSelector(StopSet Sts);             
     void Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant);                    
     int Numeral(StopSet Sts);       //numeral returns the value of the literal number       
     int BooleanSymbol(StopSet Sts); //boolean symbol returns 0 if the bool was false, 1 if the bool was true
-    int Name(StopSet Sts);                
+    int Name(StopSet Sts, std::string& IDName);                
     /** End grammar rule definitions */
 
     Administration* Admin;

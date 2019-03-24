@@ -69,7 +69,8 @@ void Administration::ReportError(string ErrMessage)
 
 void Administration::FatalError(string ErrMessage)
 {
-    PRINT_ERROR(PLScanner->GetLineNum(), ErrMessage);
+    PRINT_ERROR(PLScanner->GetLineNum(), "FATAL --- " + ErrMessage);
+    cout << "Compilation aborted." << endl;
 
     exit(1);
 }

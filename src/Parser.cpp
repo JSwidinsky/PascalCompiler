@@ -107,6 +107,16 @@ void Parser::SyntaxError(string Expected,  StopSet Sts)
     }
 }
 
+void Parser::ScopeError(string Message)
+{
+    Admin->ReportError("Scope error --- " + Message);
+}
+
+void Parser::TypeError(string Message)
+{
+    Admin->ReportError("Type error --- " + Message);
+}
+
 bool Parser::Member(const Symbol::Symbol symbol, StopSet Sts)
 {
     return Sts.find(symbol) != Sts.end();
@@ -236,7 +246,8 @@ void Parser::ConstDefinition(StopSet Sts)
     PRINT("ConstDefinition");
     Match(Symbol::CONST, Union(Union(Union(Sts, Symbol::EQUAL), CreateSet(EName)), CreateSet(EConstant)));
 
-    int HashIndex = Name(Union(Union(Sts, Symbol::EQUAL), CreateSet(EConstant)));
+    string IDName;
+    int HashIndex = Name(Union(Union(Sts, Symbol::EQUAL), CreateSet(EConstant)), IDName);
 
     Match(Symbol::EQUAL, Union(Sts, CreateSet(EConstant)));
 
@@ -244,9 +255,9 @@ void Parser::ConstDefinition(StopSet Sts)
     TableEntry::Type TypeOfConstant;
     Constant(Sts, Value, TypeOfConstant);
 
-    if(!Table->Define(TableEntry(HashIndex, 0, TableEntry::CONSTANT, TypeOfConstant, Value, Table->GetCurrentLevel())))
+    if(!Table->Define(TableEntry(HashIndex, 1, TableEntry::CONSTANT, TypeOfConstant, Value, Table->GetCurrentLevel())))
     {
-        Admin->ReportError("Ambiguous definition of named constant");
+        ScopeError(QUOTE_NAME(IDName) + "was already declared in this scope");
     }
 }
 
@@ -267,7 +278,7 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
         Match(Symbol::ARRAY, Union(Union(Union(Union(Sts, CreateSet(EVariableList)), Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         //this needs to return a vector of all the variables that it found and discovered
-        vector<int> NameIndicies = VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
+        vector<pair<int, string>> NameIndicies = VariableList(Union(Union(Union(Sts, Symbol::SQUARELEFT), CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
         Match(Symbol::SQUARELEFT, Union(Union(Sts, CreateSet(EConstant)), Symbol::SQUARERIGHT));
 
@@ -278,11 +289,11 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
         //is this right? are all of the variables defined here arrays?
         if(ArraySize != -1)
         {
-            for(const int& HashIndex : NameIndicies)
+            for(const pair<int, string>& HashIndex : NameIndicies)
             {
-                if(!Table->Define(TableEntry(HashIndex, ArraySize, TableEntry::ARRAY, VariableType, 0, Table->GetCurrentLevel())))
+                if(!Table->Define(TableEntry(HashIndex.first, ArraySize, TableEntry::ARRAY, VariableType, 0, Table->GetCurrentLevel())))
                 {
-                    Admin->ReportError("Ambiguous definition of array name");
+                    ScopeError(QUOTE_NAME(HashIndex.second) + "was already declared in this scope");
                 }
             }
         }
@@ -291,13 +302,13 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
     }
     else
     {
-        vector<int> NameIndicies = VariableList(Sts);
+        vector<pair<int, string>> NameIndicies = VariableList(Sts);
 
-        for(const int& HashIndex : NameIndicies)
+        for(const pair<int, string>& HashIndex : NameIndicies)
         {
-            if(!Table->Define(TableEntry(HashIndex, 0, TableEntry::VARIABLE, VariableType, 0, Table->GetCurrentLevel())))
+            if(!Table->Define(TableEntry(HashIndex.first, 1, TableEntry::VARIABLE, VariableType, 0, Table->GetCurrentLevel())))
             {
-                Admin->ReportError("Ambiguous definition of variable name");
+                ScopeError(QUOTE_NAME(HashIndex.second) + "was already declared in this scope");
             }
         }
     }
@@ -324,20 +335,21 @@ TableEntry::Type Parser::TypeSymbol(StopSet Sts)
     
 }
 
-vector<int> Parser::VariableList(StopSet Sts)
+vector<pair<int, string>> Parser::VariableList(StopSet Sts)
 {
     PRINT("VariableList");
+    
+    string IDName;
+    int HashTableIndex = Name(Union(Sts, Symbol::COMMA), IDName); //WARNING: is this correct?
+    vector<pair<int, string>> HashIndexList;
 
-    int HashTableIndex = Name(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
-    vector<int> HashIndexList;
-
-    HashIndexList.push_back(HashTableIndex);
+    HashIndexList.push_back(pair<int, string>(HashTableIndex, IDName));
     while (Check(Symbol::COMMA))
     {
         Match(Symbol::COMMA, Union(Sts, CreateSet(EName)));
 
-        HashTableIndex = Name(Sts);
-        HashIndexList.push_back(HashTableIndex);
+        HashTableIndex = Name(Sts, IDName);
+        HashIndexList.push_back(pair<int, string>(HashTableIndex, IDName));
     }
 
     return HashIndexList;
@@ -348,11 +360,12 @@ void Parser::ProcedureDefinition(StopSet Sts)
     PRINT("ProcedureDefinition");
     Match(Symbol::PROC, Union(Union(Sts, CreateSet(EName)), CreateSet(EBlock)));
 
-    int ProcIndex = Name(Union(Sts, CreateSet(EBlock)));
+    string IDName;
+    int ProcIndex = Name(Union(Sts, CreateSet(EBlock)), IDName);
 
     if(!Table->Define(TableEntry(ProcIndex, 0, TableEntry::PROCEDURE, TableEntry::UNIVERSAL, 0, Table->GetCurrentLevel())))
     {
-        Admin->ReportError("Ambiguous definition of procedure name");
+        ScopeError(QUOTE_NAME(IDName) + "was already declared in this scope");
     }
 
     Block(Sts);
@@ -426,10 +439,10 @@ vector<TableEntry::Type> Parser::VariableAccessList(StopSet Sts)
     PRINT("VariableAccessList");
 
     vector<TableEntry::Type> VariableTypes;
-    int Index = VariableAccess(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
+    pair<int, string> Info = VariableAccess(Union(Sts, Symbol::COMMA)); //WARNING: is this correct?
 
     bool WasSuccessful;
-    TableEntry Entry = Table->Find(Index, WasSuccessful);
+    TableEntry Entry = Table->Find(Info.first, WasSuccessful);
 
     if(WasSuccessful)
     {
@@ -437,16 +450,16 @@ vector<TableEntry::Type> Parser::VariableAccessList(StopSet Sts)
     }
     else
     {
-        Admin->ReportError("Use of undeclared variable in variable access list");
+        ScopeError(QUOTE_NAME(Info.second) + "is an undeclared identifier");
     }
 
     while (Check(Symbol::COMMA))
     {
         Match(Symbol::COMMA, Union(Sts, CreateSet(EVariableAccess)));
 
-        Index = VariableAccess(Sts);
+        Info = VariableAccess(Sts);
 
-        Entry = Table->Find(Index, WasSuccessful);
+        Entry = Table->Find(Info.first, WasSuccessful);
 
         if(WasSuccessful)
         {
@@ -454,7 +467,7 @@ vector<TableEntry::Type> Parser::VariableAccessList(StopSet Sts)
         }
         else
         {
-            Admin->ReportError("Use of undeclared variable in variable access list");
+            ScopeError(QUOTE_NAME(Info.second) + "is an undeclared identifier");
         }
     }
 
@@ -500,7 +513,7 @@ void Parser::AssignmentStatement(StopSet Sts)
 
     if(VariableTypes.size() != ExpressionTypes.size())
     {
-        Admin->ReportError("Mismatch between number of variables on left and right side of assignment operator");
+        TypeError("Mismatch between number of variables on left and right side of assignment operator");
     }
     else
     {
@@ -508,7 +521,7 @@ void Parser::AssignmentStatement(StopSet Sts)
         {
             if(VariableTypes[i] != ExpressionTypes[i])
             {
-                Admin->ReportError("Mismatch between variable type and expression type in assignment statement");
+                TypeError("Mismatch between variable type and expression type in assignment statement");
             }
         }
     }
@@ -519,8 +532,8 @@ void Parser::ProcedureStatement(StopSet Sts)
     PRINT("ProcedureStatement");
     Match(Symbol::CALL, Union(Sts, CreateSet(EName)));
 
-    string TokenName = LookAheadToken->GetLexeme();
-    int NameIndex = Name(Sts);
+    string IDName;
+    int NameIndex = Name(Sts, IDName);
 
     bool WasSuccessful;
     TableEntry Entry = Table->Find(NameIndex, WasSuccessful);
@@ -528,12 +541,12 @@ void Parser::ProcedureStatement(StopSet Sts)
     {
         if(Entry.MyKind != TableEntry::PROCEDURE)
         {
-            Admin->ReportError(QUOTE_NAME(TokenName) + "is not a procedure");
+            TypeError(QUOTE_NAME(IDName) + "is not a procedure");
         }
     }
     else
     {
-        Admin->ReportError(QUOTE_NAME(TokenName) + "was not declared in this scope");
+        ScopeError(QUOTE_NAME(IDName) + "was not declared in this scope");
     }
 }
 
@@ -577,7 +590,7 @@ void Parser::GuardedCommand(StopSet Sts)
 
     if(ExpressionType != TableEntry::BOOLEAN)
     {
-        Admin->ReportError("Expression does not evaluate to boolean type in guarded command");
+        TypeError("Guarded command expression does not evaluate to boolean data type");
     }
 
     Match(Symbol::ARROW, Union(Sts, CreateSet(EStatementPart)));
@@ -594,7 +607,7 @@ TableEntry::Type Parser::Expression(StopSet Sts)
     {
         if(ExpressionType != TableEntry::BOOLEAN)
         {
-            Admin->ReportError("Expression does not evaluate to a boolean value");
+            TypeError("Expression does not evaluate to a boolean value");
         }
         PrimaryOperator(Union(Sts, CreateSet(EPrimaryExpression)));
 
@@ -602,7 +615,7 @@ TableEntry::Type Parser::Expression(StopSet Sts)
 
         if(ExpressionType2 != TableEntry::BOOLEAN)
         {
-            Admin->ReportError("Expression does not evaluate to a boolean value");
+            TypeError("Expression does not evaluate to a boolean value");
         }
     }
     return ExpressionType;
@@ -636,14 +649,14 @@ TableEntry::Type Parser::PrimaryExpression(StopSet Sts)
     {
         if(ExpressionType != TableEntry::INTEGER)
         {
-            Admin->ReportError("Relational operator requires integer value type");
+            TypeError("Relational operator requires integer value type");
         }
         RelationalOperator(Union(Sts, CreateSet(ESimpleExpression)));
 
         TableEntry::Type ExpressionType2 = SimpleExpression(Sts);
         if(ExpressionType2 != TableEntry::INTEGER)
         {
-            Admin->ReportError("Relational operator requres integer value type");
+            TypeError("Relational operator requres integer value type");
         }
         ExpressionType = TableEntry::BOOLEAN;
     }
@@ -687,21 +700,21 @@ TableEntry::Type Parser::SimpleExpression(StopSet Sts)
 
     if(MatchedMinus && ExpressionType != TableEntry::INTEGER)
     {
-        Admin->ReportError("Invalid use of negation on a boolean value");
+        TypeError("Invalid use of negation on a boolean value");
     }
 
     while (Member(LookAheadToken->GetSymbolName(), EAddingOperator))
     {
         if(ExpressionType != TableEntry::INTEGER)
         {
-            Admin->ReportError("Operator requires integer value type");
+            TypeError("Operator requires integer value type");
         }
         AddingOperator(Union(Sts, CreateSet(ETerm)));
 
         TableEntry::Type ExpressionType2 = Term(Sts);
         if(ExpressionType2 != TableEntry::INTEGER)
         {
-            Admin->ReportError("Operator requires integer value type");
+            TypeError("Operator requires integer value type");
         }
     }
     return ExpressionType;
@@ -734,14 +747,14 @@ TableEntry::Type Parser::Term(StopSet Sts)
     {
         if(ExpressionType != TableEntry::INTEGER)
         {
-            Admin->ReportError("Operator requires integer value type");
+            TypeError("Operator requires integer value type");
         }
         MultiplyingOperator(Union(Sts, CreateSet(EFactor)));
 
         TableEntry::Type ExpressionType2 = Factor(Sts);
         if(ExpressionType2 != TableEntry::INTEGER)
         {
-            Admin->ReportError("Operator requires integer value type");
+            TypeError("Operator requires integer value type");
         }
     }
     return ExpressionType;
@@ -794,18 +807,17 @@ TableEntry::Type Parser::Factor(StopSet Sts)
     }
     else if (Check(Symbol::ID))
     {
-        string TokenName = LookAheadToken->GetLexeme();
-        int VariableIndex = VariableAccess(Sts);
+        pair<int, string> VariableInfo = VariableAccess(Sts);
 
         bool WasSuccessful;
-        TableEntry Entry = Table->Find(VariableIndex, WasSuccessful);
+        TableEntry Entry = Table->Find(VariableInfo.first, WasSuccessful);
         if(WasSuccessful)
         {
             Type = Entry.MyType;
         }
         else
         {
-            Admin->ReportError(QUOTE_NAME(TokenName) + "is an undeclared identifier");
+            ScopeError(QUOTE_NAME(VariableInfo.second) + "is an undeclared identifier");
         }
     }
     else if (Check(Symbol::BRACKETLEFT))
@@ -821,7 +833,7 @@ TableEntry::Type Parser::Factor(StopSet Sts)
 
         if(Type != TableEntry::BOOLEAN)
         {
-            Admin->ReportError("Negation requires boolean type on right-hand side of operator");
+            TypeError("Negation requires boolean type on right-hand side of operator");
         }
     }
     else
@@ -832,16 +844,12 @@ TableEntry::Type Parser::Factor(StopSet Sts)
     return Type;
 }
 
-int Parser::VariableAccess(StopSet Sts)
+pair<int, string> Parser::VariableAccess(StopSet Sts)
 {
     PRINT("VariableAccess");
     
-    string TokenName = LookAheadToken->GetLexeme();
-    int Index = Name(Union(Sts, CreateSet(EIndexedSelector))); //WARNING: is this correct?
-    if(!Table->Search(Index))
-    {
-        Admin->ReportError(QUOTE_NAME(TokenName) + "was not declared in this scope");
-    }
+    string IDName;
+    int Index = Name(Union(Sts, CreateSet(EIndexedSelector)), IDName); //WARNING: is this correct?
 
     if (Check(Symbol::SQUARELEFT))
     {
@@ -849,10 +857,10 @@ int Parser::VariableAccess(StopSet Sts)
 
         if(ExpressionType != TableEntry::INTEGER)
         {
-            Admin->ReportError("Non-integer value used for array indexing");
+            TypeError("Non-integer value used for array indexing");
         }
     }
-    return Index;
+    return pair<int, string>(Index, IDName);
 }
 
 TableEntry::Type Parser::IndexedSelector(StopSet Sts)
@@ -882,7 +890,8 @@ void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
     }
     else if (Check(Symbol::ID))
     {
-        int HashIndex = Name(Sts);
+        string IDName;
+        int HashIndex = Name(Sts, IDName);
 
         bool FindSuccessful;
         TableEntry Entry = Table->Find(HashIndex, FindSuccessful);
@@ -896,15 +905,14 @@ void Parser::Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant)
             }
             else
             {
-                Admin->ReportError("Invalid assignment of named boolean constant");
+                TypeError("Invalid assignment of named boolean constant");
             }
         }
         else
         {
-            Admin->ReportError("Use of undefined constant value");
+            TypeError(QUOTE_NAME(IDName) + "was not declared in this scope");
             Value = -1;
         }
-        
     }
     else
     {
@@ -940,10 +948,11 @@ int Parser::BooleanSymbol(StopSet Sts)
     }    
 }
 
-int Parser::Name(StopSet Sts)
+int Parser::Name(StopSet Sts, string& IDName)
 {
     PRINT("Name");
     int HashIndex = LookAheadToken->GetValue();
+    IDName = LookAheadToken->GetLexeme();
     Match(Symbol::ID, Sts);
     
     return HashIndex;
