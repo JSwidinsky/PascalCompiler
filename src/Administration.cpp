@@ -55,6 +55,21 @@ Token* Administration::GetTokenFromHashTable(const int Index) const
     return HashTable->GetTokenAtIndex(Index);
 }
 
+void Administration::Emit1(string Opcode)
+{
+    OutFile << Opcode << endl;
+}
+
+void Administration::Emit2(string Opcode, int Value1)
+{
+    OutFile << Opcode << endl << Value1 << endl;
+}
+
+void Administration::Emit3(string Opcode, int Value1, int Value2)
+{
+    OutFile << Opcode << endl << Value1 << endl << Value2 << endl;
+}
+
 void Administration::ReportError(string ErrMessage)
 {
     PRINT_ERROR(PLScanner->GetLineNum(), ErrMessage);
@@ -121,4 +136,9 @@ string Administration::TokenToString(const Symbol::Symbol symbol)
         case Symbol::SUBSCRIPT: return "'[]'"; break;
         case Symbol::ARROW: return "ARROW"; break;
     }
+}
+
+bool Administration::IsEmitting() const
+{
+    return ErrorCount == 0;
 }

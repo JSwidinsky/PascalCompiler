@@ -25,12 +25,18 @@ public:
     Token* GetNextToken();
     Token* GetTokenFromHashTable(const int Index) const;
 
+    void Emit1(std::string Opcode);
+    void Emit2(std::string Opcode, int Value1);
+    void Emit3(std::string Opcode, int Value1, int Value2);
+
     void ReportError(std::string ErrMessage);
     void FatalError(std::string ErrMessage);
 
     string TokenToString(const Symbol::Symbol symbol);
 
 private:
+    bool IsEmitting() const;
+
     ifstream& InFile;
     ofstream& OutFile;
     Scanner* PLScanner;

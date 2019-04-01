@@ -7,6 +7,8 @@
 #include "./Token.h"
 #include "./BlockTable.h"
 
+#define MAX_LABELS 100
+
 //forward declaration of admin class
 class Administration;
 
@@ -39,6 +41,8 @@ private:
      * Gets next token from the scanner (via the Admin data member)
      */
     void GetNextToken();
+
+    int NewLabel();
 
     /**
      * Matches a given symbol with the look-ahead token; if they agree, the next token is fetched
@@ -103,12 +107,12 @@ private:
      * Note that the names of the functions are the same as the grammar rules for PL 
      */ 
     void Program(StopSet Sts);                     
-    void Block(StopSet Sts);                       
-    void DefinitionPart(StopSet Sts);              
-    void Definition(StopSet Sts);                  
-    void ConstDefinition(StopSet Sts);             
-    void VariableDefinition(StopSet Sts);          
-    void VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType);     
+    void Block(StopSet Sts, int StartLabel, int VariableLabel);                       
+    int DefinitionPart(StopSet Sts);              
+    int Definition(StopSet Sts, int& Displacement);                  
+    void ConstDefinition(StopSet Sts, int& Displacement);             
+    int VariableDefinition(StopSet Sts, int& Displacement);          
+    int VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType, int& Displacement);     
     TableEntry::Type TypeSymbol(StopSet Sts);   //returns the type of the token that was matched              
     std::vector<std::pair<int, std::string>> VariableList(StopSet Sts); //returns an array of all hash table indecies and lexeme names for all identifiers           
     void ProcedureDefinition(StopSet Sts);         
@@ -137,11 +141,12 @@ private:
     std::pair<int, std::string> VariableAccess(StopSet Sts);    //returns a pair consisting of the index of the id and the name of the id 
     TableEntry::Type IndexedSelector(StopSet Sts);             
     void Constant(StopSet Sts, int& Value, TableEntry::Type& TypeOfConstant);                    
-    int Numeral(StopSet Sts);       //numeral returns the value of the literal number       
+    int Numeral(StopSet Sts);       //numeral returns the value of the literal number
     int BooleanSymbol(StopSet Sts); //boolean symbol returns 0 if the bool was false, 1 if the bool was true
     int Name(StopSet Sts, std::string& IDName);                
     /** End grammar rule definitions */
 
+    int LabelNum;
     Administration* Admin;
     Token* LookAheadToken;
     BlockTable* Table;

@@ -53,8 +53,9 @@ Symbol::Symbol FirstSet[50][50] =
 
 Parser::Parser(Administration* A)
 {
+    LabelNum = 0;
     Admin = A;
-    
+
     Table = new BlockTable();
 
     GetNextToken();
@@ -83,6 +84,17 @@ void Parser::GetNextToken()
     {
         LookAheadToken = Admin->GetNextToken();
     }
+}
+
+int Parser::NewLabel()
+{
+    ++LabelNum;
+    if(LabelNum > MAX_LABELS)
+    {
+        Admin->FatalError("Generated code exceeds maximum number of labels");
+    }
+
+    return LabelNum;
 }
 
 void Parser::Match(const Symbol::Symbol symbol, StopSet Sts)
@@ -180,13 +192,20 @@ void Parser::Program(StopSet Sts)
 {
     PRINT("Program");
 
-    //Block(Union(Union(Union(Union(Sts, Symbol::PERIOD), CreateSet(EDefinitionPart)), CreateSet(EStatementPart)), Symbol::END));
-    Block(Union(Sts, Symbol::PERIOD));
+    int VariableLabel, StartLabel;
+    VariableLabel = NewLabel();
+    StartLabel = NewLabel();
+
+    Admin->Emit3("PROG", VariableLabel, StartLabel);
+
+    Block(Union(Sts, Symbol::PERIOD), StartLabel, VariableLabel);
 
     Match(Symbol::PERIOD, Sts);
+
+    Admin->Emit1("ENDPROG");
 }
 
-void Parser::Block(StopSet Sts)
+void Parser::Block(StopSet Sts, int StartLabel, int VariableLabel)
 {
     if(!Table->NewBlock())
     {
@@ -196,7 +215,11 @@ void Parser::Block(StopSet Sts)
     PRINT("Block");
     Match(Symbol::BEGIN, Union(Union(Union(Sts, CreateSet(EDefinitionPart)), CreateSet(EStatementPart)), Symbol::END));
 
-    DefinitionPart(Union(Union(Union(Sts, CreateSet(EStatementPart)), Symbol::END), CreateSet(EDefinition)));
+    int VariableLength = 0;
+    VariableLength = DefinitionPart(Union(Union(Union(Sts, CreateSet(EStatementPart)), Symbol::END), CreateSet(EDefinition)));
+
+    Admin->Emit3("DEFARG", VariableLabel, VariableLength);
+    Admin->Emit2("DEFADDR", StartLabel);
 
     StatementPart(Union(Union(Sts, Symbol::END), CreateSet(EStatement)));
 
@@ -208,29 +231,35 @@ void Parser::Block(StopSet Sts)
     }
 }
 
-void Parser::DefinitionPart(StopSet Sts)
+int Parser::DefinitionPart(StopSet Sts)
 {
     PRINT("DefinitionPart");
+
+    int VariableLength = 0, NextVariableStart = 3;
     while (Member(LookAheadToken->GetSymbolName(), EDefinition))
     {
-        Definition(Union(Sts, Symbol::SEMICOLON));
+        VariableLength += Definition(Union(Sts, Symbol::SEMICOLON), NextVariableStart);
 
         Match(Symbol::SEMICOLON, Sts);
     }
+    return VariableLength;
 }
 
-void Parser::Definition(StopSet Sts)
+int Parser::Definition(StopSet Sts, int& Displacement)
 {
+    int NumDefinitions = 0;
     if (Member(LookAheadToken->GetSymbolName(), EConstantDefinition))
     {
-        ConstDefinition(Sts);
+        //TODO: What do we do here, since we do not store constants on the rutime stack? return 0?
+        ConstDefinition(Sts, Displacement);
     }
     else if (Member(LookAheadToken->GetSymbolName(), EVariableDefinition))
     {
-        VariableDefinition(Sts);
+        NumDefinitions = VariableDefinition(Sts, Displacement);
     }
     else if (Member(LookAheadToken->GetSymbolName(), EProcedureDefinition))
     {
+        //TODO: What do we do here? Return 0?
         ProcedureDefinition(Sts);
     }
     else
@@ -238,10 +267,11 @@ void Parser::Definition(StopSet Sts)
         //can we ever get here?
         SyntaxError(string("DEFINITION before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
-    
+
+    return NumDefinitions;
 }
 
-void Parser::ConstDefinition(StopSet Sts)
+void Parser::ConstDefinition(StopSet Sts, int& Displacement)
 {
     PRINT("ConstDefinition");
     Match(Symbol::CONST, Union(Union(Union(Sts, Symbol::EQUAL), CreateSet(EName)), CreateSet(EConstant)));
@@ -255,21 +285,25 @@ void Parser::ConstDefinition(StopSet Sts)
     TableEntry::Type TypeOfConstant;
     Constant(Sts, Value, TypeOfConstant);
 
-    if(!Table->Define(TableEntry(HashIndex, 1, TableEntry::CONSTANT, TypeOfConstant, Value, Table->GetCurrentLevel())))
+    if(!Table->Define(TableEntry(HashIndex, 1, TableEntry::CONSTANT, TypeOfConstant, Value, Table->GetCurrentLevel(), Displacement, 0)))
     {
         ScopeError(QUOTE_NAME(IDName) + "was already declared in this scope");
     }
+
+    ++Displacement;
 }
 
-void Parser::VariableDefinition(StopSet Sts)
+int Parser::VariableDefinition(StopSet Sts, int& Displacement)
 {
     PRINT("VariableDefinition");
     TableEntry::Type TokenType = TypeSymbol(Union(Sts, CreateSet(EVariableDefinitionPrime)));
 
-    VariableDefinitionPrime(Sts, TokenType);
+    int NumDefinitions = VariableDefinitionPrime(Sts, TokenType, Displacement);
+
+    return NumDefinitions;
 }
 
-void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
+int Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType, int& Displacement)
 {
     PRINT("VariableDefinitionPrime");
 
@@ -291,14 +325,17 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
         {
             for(const pair<int, string>& HashIndex : NameIndicies)
             {
-                if(!Table->Define(TableEntry(HashIndex.first, ArraySize, TableEntry::ARRAY, VariableType, 0, Table->GetCurrentLevel())))
+                if(!Table->Define(TableEntry(HashIndex.first, ArraySize, TableEntry::ARRAY, VariableType, 0, Table->GetCurrentLevel(), Displacement, 0)))
                 {
                     ScopeError(QUOTE_NAME(HashIndex.second) + "was already declared in this scope");
                 }
+                ++Displacement; //TODO: should this not increase displacement by the number of elements defined in the array?
             }
         }
 
         Match(Symbol::SQUARERIGHT, Sts);
+
+        return NameIndicies.size();
     }
     else
     {
@@ -306,11 +343,14 @@ void Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType)
 
         for(const pair<int, string>& HashIndex : NameIndicies)
         {
-            if(!Table->Define(TableEntry(HashIndex.first, 1, TableEntry::VARIABLE, VariableType, 0, Table->GetCurrentLevel())))
+            if(!Table->Define(TableEntry(HashIndex.first, 1, TableEntry::VARIABLE, VariableType, 0, Table->GetCurrentLevel(), Displacement, 0)))
             {
                 ScopeError(QUOTE_NAME(HashIndex.second) + "was already declared in this scope");
             }
+
+            ++Displacement;
         }
+        return NameIndicies.size();
     }
 }
 
@@ -363,12 +403,20 @@ void Parser::ProcedureDefinition(StopSet Sts)
     string IDName;
     int ProcIndex = Name(Union(Sts, CreateSet(EBlock)), IDName);
 
-    if(!Table->Define(TableEntry(ProcIndex, 0, TableEntry::PROCEDURE, TableEntry::UNIVERSAL, 0, Table->GetCurrentLevel())))
+    int ProcLabel = NewLabel();
+
+    if(!Table->Define(TableEntry(ProcIndex, 0, TableEntry::PROCEDURE, TableEntry::UNIVERSAL, 0, Table->GetCurrentLevel(), 0, ProcLabel)))
     {
         ScopeError(QUOTE_NAME(IDName) + "was already declared in this scope");
     }
 
-    Block(Sts);
+    int VariableLabel = NewLabel();
+    int StartLabel = NewLabel();
+
+    Admin->Emit2("DEFADDR", ProcLabel);
+    Admin->Emit3("PROC", VariableLabel, StartLabel);
+
+    Block(Sts, StartLabel, VariableLabel);
 }
 
 void Parser::StatementPart(StopSet Sts)
@@ -431,7 +479,8 @@ void Parser::ReadStatement(StopSet Sts)
     PRINT("ReadStatement");
     Match(Symbol::READ, Union(Sts, CreateSet(EVariableAccessList)));
 
-    VariableAccessList(Sts);
+    vector<TableEntry::Type> MyTypes = VariableAccessList(Sts);
+    Admin->Emit2("READ", MyTypes.size());
 }
 
 vector<TableEntry::Type> Parser::VariableAccessList(StopSet Sts)
@@ -479,7 +528,8 @@ void Parser::WriteStatement(StopSet Sts)
     PRINT("WriteStatement");
     Match(Symbol::WRITE, Union(Sts, CreateSet(EExpressionList)));
 
-    ExpressionList(Sts);
+    vector<TableEntry::Type> MyTypes = ExpressionList(Sts);
+    Admin->Emit2("WRITE", MyTypes.size());
 }
 
 vector<TableEntry::Type> Parser::ExpressionList(StopSet Sts)

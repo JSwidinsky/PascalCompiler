@@ -14,8 +14,9 @@ struct TableEntry
     TableEntry()
         : Index(0), Size(0), Value(0), Level(0) {}
 
-    TableEntry(int NewIndex, int NewSize, Kind NewKind, Type NewType, int NewVal, int NewLevel)
-        : Index(NewIndex), Size(NewSize), MyKind(NewKind), MyType(NewType), Value(NewVal), Level(NewLevel) {}
+    TableEntry(int NewIndex, int NewSize, Kind NewKind, Type NewType, int NewVal, int NewLevel, int NewDisplacement, int NewStartLabel)
+        : Index(NewIndex), Size(NewSize), MyKind(NewKind), MyType(NewType), Value(NewVal), Level(NewLevel), Displacement(NewDisplacement),
+          StartLabel(NewStartLabel) {}
     
     /** Hash table index of the named object */
     int Index;
@@ -34,6 +35,12 @@ struct TableEntry
 
     /** The level for which block the definition was encountered */
     int Level;
+
+    /** Offset from base address of activation record */
+    int Displacement;
+
+    /** Adress of first instruction of a procedure */
+    int StartLabel;
 };
 
 class BlockTable
