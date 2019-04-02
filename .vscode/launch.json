@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/josh/Documents/PascalCompiler/PascalCompiler",
-            "args": ["./TestFiles/PLBad1.txt", "./out.txt"],
+            "args": ["./TestFiles/simpleProg.txt", "./out.txt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

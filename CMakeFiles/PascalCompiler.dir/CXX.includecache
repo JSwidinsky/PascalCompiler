@@ -36,6 +36,12 @@ Scanner.h
 Parser.h
 /home/josh/Documents/PascalCompiler/./include/Parser.h
 
+/home/josh/Documents/PascalCompiler/./include/Assembler.h
+iostream
+-
+string
+-
+
 /home/josh/Documents/PascalCompiler/./include/Parser.h
 set
 -
@@ -191,6 +197,8 @@ fstream
 /home/josh/Documents/PascalCompiler/./include/Administration.h
 ./include/Parser.h
 /home/josh/Documents/PascalCompiler/./include/Parser.h
+./include/Assembler.h
+/home/josh/Documents/PascalCompiler/./include/Assembler.h
 
 /home/josh/Documents/PascalCompiler/src/Administration.cpp
 ../include/Administration.h
@@ -202,6 +210,14 @@ iostream
 stdexcept
 -
 queue
+-
+
+/home/josh/Documents/PascalCompiler/src/Assembler.cpp
+iostream
+-
+Assembler.h
+/home/josh/Documents/PascalCompiler/src/Assembler.h
+fstream
 -
 
 /home/josh/Documents/PascalCompiler/src/BlockTable.cpp
@@ -238,5 +254,25 @@ iostream
 ../include/Token.h
 /home/josh/Documents/PascalCompiler/include/Token.h
 iostream
+-
+
+/home/josh/Documents/PascalCompiler/src/interp.cpp
+iostream
+-
+fstream
+-
+iomanip
+-
+interp.h
+/home/josh/Documents/PascalCompiler/src/interp.h
+
+include/Assembler.h
+iostream
+-
+string
+-
+
+include/interp.h
+string
 -
 

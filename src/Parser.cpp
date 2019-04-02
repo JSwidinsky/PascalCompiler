@@ -372,7 +372,7 @@ TableEntry::Type Parser::TypeSymbol(StopSet Sts)
         //can we ever get here currently?
         SyntaxError(string("TYPE SYMBOL before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
-    
+    return TableEntry::UNIVERSAL; //return a dummy value if the above cases fail; can we ever get here though?
 }
 
 vector<pair<int, string>> Parser::VariableList(StopSet Sts)
@@ -575,6 +575,8 @@ void Parser::AssignmentStatement(StopSet Sts)
             }
         }
     }
+
+    Admin->Emit2("ASSIGN", VariableTypes.size());
 }
 
 void Parser::ProcedureStatement(StopSet Sts)
@@ -593,6 +595,8 @@ void Parser::ProcedureStatement(StopSet Sts)
         {
             TypeError(QUOTE_NAME(IDName) + "is not a procedure");
         }
+
+        Admin->Emit3("CALL", Table->GetCurrentLevel() - Entry.Level, Entry.StartLabel);
     }
     else
     {
@@ -603,9 +607,17 @@ void Parser::ProcedureStatement(StopSet Sts)
 void Parser::IfStatement(StopSet Sts)
 {
     PRINT("IfStatement");
+
     Match(Symbol::IF, Union(Union(Sts, CreateSet(EGuardedCommandList)), Symbol::FI));
 
-    GuardedCommandList(Union(Sts, Symbol::FI));
+    int StartLabel = NewLabel();
+    int DoneLabel = NewLabel();
+
+    GuardedCommandList(Union(Sts, Symbol::FI), StartLabel, DoneLabel);
+
+    Admin->Emit2("DEFADDR", StartLabel);
+    Admin->Emit2("FI", 0); //TODO: change the zero to the line number the scanner is currently on
+    Admin->Emit2("DEFADDR", DoneLabel);
 
     Match(Symbol::FI, Sts);
 }
@@ -615,37 +627,48 @@ void Parser::DoStatement(StopSet Sts)
     PRINT("DoStatement");
     Match(Symbol::DO, Union(Union(Sts, CreateSet(EGuardedCommandList)), Symbol::OD));
 
-    GuardedCommandList(Union(Sts, Symbol::OD));
+    int StartLabel = NewLabel();
+    int LoopLabel = NewLabel();
+
+    Admin->Emit2("DEFADDR", LoopLabel);
+    GuardedCommandList(Union(Sts, Symbol::OD), StartLabel, LoopLabel);
+    Admin->Emit2("DEFADDR", StartLabel);
 
     Match(Symbol::OD, Sts);
 }
 
-void Parser::GuardedCommandList(StopSet Sts)
+void Parser::GuardedCommandList(StopSet Sts, int& StartLabel, int DoneLabel)
 {
     PRINT("GuardedCommandList");
-    GuardedCommand(Union(Sts, Symbol::SUBSCRIPT)); //WARNING: is this correct?
+    GuardedCommand(Union(Sts, Symbol::SUBSCRIPT), StartLabel, DoneLabel); //WARNING: is this correct?
 
     while (Check(Symbol::SUBSCRIPT))
     {
         Match(Symbol::SUBSCRIPT, Union(Sts, CreateSet(EGuardedCommand)));
 
-        GuardedCommand(Sts);
+        GuardedCommand(Sts, StartLabel, DoneLabel);
     }
 }
 
-void Parser::GuardedCommand(StopSet Sts)
+void Parser::GuardedCommand(StopSet Sts, int& StartLabel, int DoneLabel)
 {
     PRINT("GuardedCommand");
+    Admin->Emit2("DEFADDR", StartLabel);
+
     TableEntry::Type ExpressionType = Expression(Union(Union(Sts, Symbol::ARROW), CreateSet(EStatementPart)));
 
     if(ExpressionType != TableEntry::BOOLEAN)
     {
         TypeError("Guarded command expression does not evaluate to boolean data type");
     }
+    
+    StartLabel = NewLabel();
+    Admin->Emit2("ARROW", StartLabel);
 
     Match(Symbol::ARROW, Union(Sts, CreateSet(EStatementPart)));
 
     StatementPart(Sts);
+    Admin->Emit2("BAR", DoneLabel);
 }
 
 TableEntry::Type Parser::Expression(StopSet Sts)
@@ -659,7 +682,7 @@ TableEntry::Type Parser::Expression(StopSet Sts)
         {
             TypeError("Expression does not evaluate to a boolean value");
         }
-        PrimaryOperator(Union(Sts, CreateSet(EPrimaryExpression)));
+        Symbol::Symbol PrimaryOperatorSymbol = PrimaryOperator(Union(Sts, CreateSet(EPrimaryExpression)));
 
         TableEntry::Type ExpressionType2 = PrimaryExpression(Sts);
 
@@ -667,27 +690,38 @@ TableEntry::Type Parser::Expression(StopSet Sts)
         {
             TypeError("Expression does not evaluate to a boolean value");
         }
+
+        if(PrimaryOperatorSymbol == Symbol::AND)
+        {
+            Admin->Emit1("AND");
+        }
+        else if(PrimaryOperatorSymbol == Symbol::OR)
+        {
+            Admin->Emit1("OR");
+        }
     }
     return ExpressionType;
 }
 
-void Parser::PrimaryOperator(StopSet Sts)
+Symbol::Symbol Parser::PrimaryOperator(StopSet Sts)
 {
     PRINT("PrimaryOperator");
     if (Check(Symbol::AND))
     {
         Match(Symbol::AND, Sts);
+        return Symbol::AND;
     }
     else if(Check(Symbol::OR))
     {
         Match(Symbol::OR, Sts);
+        return Symbol::OR;
     }
     else
     {
         //can we ever get here currently?
         SyntaxError(string("PRIMARY OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
-    
+    return Symbol::DUMMYVAL; //we didn't match anything, so return a dummy value; is this ever hit, however?
 }
 
 TableEntry::Type Parser::PrimaryExpression(StopSet Sts)
@@ -701,7 +735,7 @@ TableEntry::Type Parser::PrimaryExpression(StopSet Sts)
         {
             TypeError("Relational operator requires integer value type");
         }
-        RelationalOperator(Union(Sts, CreateSet(ESimpleExpression)));
+        Symbol::Symbol RelationalOperatorSymbol = RelationalOperator(Union(Sts, CreateSet(ESimpleExpression)));
 
         TableEntry::Type ExpressionType2 = SimpleExpression(Sts);
         if(ExpressionType2 != TableEntry::INTEGER)
@@ -709,31 +743,48 @@ TableEntry::Type Parser::PrimaryExpression(StopSet Sts)
             TypeError("Relational operator requres integer value type");
         }
         ExpressionType = TableEntry::BOOLEAN;
+
+        if(RelationalOperatorSymbol == Symbol::LESSTHAN)
+        {
+            Admin->Emit1("LESS");
+        }
+        else if(RelationalOperatorSymbol == Symbol::EQUAL)
+        {
+            Admin->Emit1("EQUAL");
+        }
+        else if(RelationalOperatorSymbol == Symbol::GREATERTHAN)
+        {
+            Admin->Emit1("GREATER");
+        }
     }
 
     return ExpressionType;
 }
 
-void Parser::RelationalOperator(StopSet Sts)
+Symbol::Symbol Parser::RelationalOperator(StopSet Sts)
 {
     PRINT("RelationalOperator");
     if (Check(Symbol::LESSTHAN))
     {
         Match(Symbol::LESSTHAN, Sts);
+        return Symbol::LESSTHAN;
     }
     else if (Check(Symbol::EQUAL))
     {
         Match(Symbol::EQUAL, Sts);
+        return Symbol::EQUAL;
     }
     else if (Check(Symbol::GREATERTHAN))
     {
         Match(Symbol::GREATERTHAN, Sts);
+        return Symbol::GREATERTHAN;
     }
     else
     {
         //can we ever get here currently?
         SyntaxError(string("RELATIONAL OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
+    return Symbol::DUMMYVAL; //return the dummy value if none of the above cases match; can we ever be here through?
 }
 
 TableEntry::Type Parser::SimpleExpression(StopSet Sts)
@@ -759,32 +810,44 @@ TableEntry::Type Parser::SimpleExpression(StopSet Sts)
         {
             TypeError("Operator requires integer value type");
         }
-        AddingOperator(Union(Sts, CreateSet(ETerm)));
+        Symbol::Symbol AddingOperatorSymbol = AddingOperator(Union(Sts, CreateSet(ETerm)));
 
         TableEntry::Type ExpressionType2 = Term(Sts);
         if(ExpressionType2 != TableEntry::INTEGER)
         {
             TypeError("Operator requires integer value type");
         }
+
+        if(AddingOperatorSymbol == Symbol::PLUS)
+        {
+            Admin->Emit1("ADD");
+        }
+        else if(AddingOperatorSymbol == Symbol::MINUS)
+        {
+            Admin->Emit1("SUBTRACT");
+        }
     }
     return ExpressionType;
 }
 
-void Parser::AddingOperator(StopSet Sts)
+Symbol::Symbol Parser::AddingOperator(StopSet Sts)
 {
     PRINT("AddingOperator");
     if (Check(Symbol::PLUS))
     {
         Match(Symbol::PLUS, Sts);
+        return Symbol::PLUS;
     }
     else if(Check(Symbol::MINUS))
     {
         Match(Symbol::MINUS, Sts);
+        return Symbol::MINUS;
     }
     else
     {
         SyntaxError(string("ADDING OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
+    return Symbol::DUMMYVAL; //return a dummy value if all above cases fail; can we ever be here though?
     
 }
 
@@ -799,39 +862,56 @@ TableEntry::Type Parser::Term(StopSet Sts)
         {
             TypeError("Operator requires integer value type");
         }
-        MultiplyingOperator(Union(Sts, CreateSet(EFactor)));
+        Symbol::Symbol MultiplyingOperatorSymbol = MultiplyingOperator(Union(Sts, CreateSet(EFactor)));
 
         TableEntry::Type ExpressionType2 = Factor(Sts);
         if(ExpressionType2 != TableEntry::INTEGER)
         {
             TypeError("Operator requires integer value type");
         }
+
+        if(MultiplyingOperatorSymbol == Symbol::MULTIPLY)
+        {
+            Admin->Emit1("MULTIPLY");
+        }
+        else if(MultiplyingOperatorSymbol == Symbol::DIVIDE)
+        {
+            Admin->Emit1("DIVIDE");
+        }
+        else if(MultiplyingOperatorSymbol == Symbol::MOD)
+        {
+            Admin->Emit1("MODULO");
+        }
     }
     return ExpressionType;
 }
 
-void Parser::MultiplyingOperator(StopSet Sts)
+Symbol::Symbol Parser::MultiplyingOperator(StopSet Sts)
 {
     PRINT("MultiplyingOperator");
     if (Check(Symbol::MULTIPLY))
     {
         Match(Symbol::MULTIPLY, Sts);
+        return Symbol::MULTIPLY;
     }
     else if (Check(Symbol::DIVIDE))
     {
         Match(Symbol::DIVIDE, Sts);
+        return Symbol::DIVIDE;
     }
     else if (Check(Symbol::MOD))
     {
         Match(Symbol::MOD, Sts);
+        return Symbol::MOD;
     }
     else
     {
         SyntaxError(string("MULTIPLYING OPERATOR before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
     }
-    
+    return Symbol::DUMMYVAL; //just return dummy val if all above cases fail; can we ever be here through?
 }
 
+//TODO: verify that this function was done properly
 TableEntry::Type Parser::Factor(StopSet Sts)
 {
     PRINT("Factor");
@@ -854,10 +934,12 @@ TableEntry::Type Parser::Factor(StopSet Sts)
     {  
         int Value;
         Constant(Sts, Value, Type);
+        Admin->Emit2("CONSTANT", Value);
     }
     else if (Check(Symbol::ID))
     {
         pair<int, string> VariableInfo = VariableAccess(Sts);
+        Admin->Emit1("VALUE");
 
         bool WasSuccessful;
         TableEntry Entry = Table->Find(VariableInfo.first, WasSuccessful);
@@ -879,6 +961,7 @@ TableEntry::Type Parser::Factor(StopSet Sts)
     else if (Check(Symbol::NEGATE))
     {
         Match(Symbol::NEGATE, Union(Sts, CreateSet(EFactor)));
+        Admin->Emit1("NOT");
         Type = Factor(Sts);
 
         if(Type != TableEntry::BOOLEAN)
@@ -901,9 +984,14 @@ pair<int, string> Parser::VariableAccess(StopSet Sts)
     string IDName;
     int Index = Name(Union(Sts, CreateSet(EIndexedSelector)), IDName); //WARNING: is this correct?
 
+    bool WasSuccessful;
+    TableEntry Entry = Table->Find(Index, WasSuccessful);
+    Admin->Emit3("VARIABLE", Table->GetCurrentLevel() - Entry.Level, Entry.Displacement);
     if (Check(Symbol::SQUARELEFT))
     {
         TableEntry::Type ExpressionType = IndexedSelector(Sts);
+
+        Admin->Emit3("INDEX", Entry.Size, 0); //TODO: change the zero here to the scanner's line
 
         if(ExpressionType != TableEntry::INTEGER)
         {
@@ -911,8 +999,6 @@ pair<int, string> Parser::VariableAccess(StopSet Sts)
         }
 
         //check to make sure the type is an array if we are here
-        bool WasSuccessful;
-        TableEntry Entry = Table->Find(Index, WasSuccessful);
         if(WasSuccessful)
         {
             if(Entry.MyKind != TableEntry::ARRAY)
@@ -1006,7 +1092,8 @@ int Parser::BooleanSymbol(StopSet Sts)
     else
     {
         SyntaxError(string("BOOLEAN SYMBOL before ") + Admin->TokenToString(LookAheadToken->GetSymbolName()), Sts);
-    }    
+    }
+    return -1; //return a dummy value of -1 if we get here; can we ever be here though?
 }
 
 int Parser::Name(StopSet Sts, string& IDName)

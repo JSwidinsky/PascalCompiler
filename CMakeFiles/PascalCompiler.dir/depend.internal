@@ -6,6 +6,7 @@ CMakeFiles/PascalCompiler.dir/plc.cpp.o
  /home/josh/Documents/PascalCompiler/./include/./BlockTable.h
  /home/josh/Documents/PascalCompiler/./include/./Token.h
  /home/josh/Documents/PascalCompiler/./include/Administration.h
+ /home/josh/Documents/PascalCompiler/./include/Assembler.h
  /home/josh/Documents/PascalCompiler/./include/Parser.h
  /home/josh/Documents/PascalCompiler/./include/Scanner.h
  /home/josh/Documents/PascalCompiler/./include/Symbol.h
@@ -23,6 +24,9 @@ CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o
  /home/josh/Documents/PascalCompiler/include/SymbolTable.h
  /home/josh/Documents/PascalCompiler/include/Token.h
  /home/josh/Documents/PascalCompiler/src/Administration.cpp
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o
+ /home/josh/Documents/PascalCompiler/src/Assembler.cpp
+ include/Assembler.h
 CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o
  /home/josh/Documents/PascalCompiler/include/BlockTable.h
  /home/josh/Documents/PascalCompiler/src/BlockTable.cpp
@@ -51,3 +55,6 @@ CMakeFiles/PascalCompiler.dir/src/Token.cpp.o
  /home/josh/Documents/PascalCompiler/include/Symbol.h
  /home/josh/Documents/PascalCompiler/include/Token.h
  /home/josh/Documents/PascalCompiler/src/Token.cpp
+CMakeFiles/PascalCompiler.dir/src/interp.cpp.o
+ /home/josh/Documents/PascalCompiler/src/interp.cpp
+ include/interp.h

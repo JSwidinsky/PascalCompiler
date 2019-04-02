@@ -76,7 +76,7 @@ void Assembler::secondPass()
 {
    string nextop;
    (*insource) >> nextop;
-//   cout << "got: " << nextop << endl;
+   //cout << "got: " << nextop << endl;
    // Loop until ENDPROG.
    for (;;) {
       if (nextop == "ADD") {

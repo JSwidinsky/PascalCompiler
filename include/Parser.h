@@ -127,16 +127,16 @@ private:
     void ProcedureStatement(StopSet Sts);          
     void IfStatement(StopSet Sts);                     
     void DoStatement(StopSet Sts);                 
-    void GuardedCommandList(StopSet Sts);          
-    void GuardedCommand(StopSet Sts);              
+    void GuardedCommandList(StopSet Sts, int& StartLabel, int DoneLabel);          
+    void GuardedCommand(StopSet Sts, int& StartLabel, int DoneLabel);              
     TableEntry::Type Expression(StopSet Sts);                  
-    void PrimaryOperator(StopSet Sts);             
+    Symbol::Symbol PrimaryOperator(StopSet Sts);  //returns the symbol that we matched
     TableEntry::Type PrimaryExpression(StopSet Sts);           
-    void RelationalOperator(StopSet Sts);             
+    Symbol::Symbol RelationalOperator(StopSet Sts);             
     TableEntry::Type SimpleExpression(StopSet Sts);            
-    void AddingOperator(StopSet Sts);                
+    Symbol::Symbol AddingOperator(StopSet Sts);                
     TableEntry::Type Term(StopSet Sts);                        
-    void MultiplyingOperator(StopSet Sts);         
+    Symbol::Symbol MultiplyingOperator(StopSet Sts);         
     TableEntry::Type Factor(StopSet Sts);                          
     std::pair<int, std::string> VariableAccess(StopSet Sts);    //returns a pair consisting of the index of the id and the name of the id 
     TableEntry::Type IndexedSelector(StopSet Sts);             

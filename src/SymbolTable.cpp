@@ -13,7 +13,7 @@ SymbolTable::SymbolTable()
 
 SymbolTable::~SymbolTable()
 {
-    for(int i = 0; i < HashTable.size(); ++i)
+    for(unsigned int i = 0; i < HashTable.size(); ++i)
         if(HashTable[i])
             delete HashTable[i];
 }
@@ -124,9 +124,9 @@ int SymbolTable::HashLexeme(string Lexeme) const
 
     //here is the hash function (it is a simple hash function)
     //take the ASCII value of the character and add it to our current hash value
-    for(int i = 0; i < Lexeme.size(); i++)
+    for(const char& c : Lexeme)
     {
-        HashValue = (HashValue + Lexeme[i]) % MAX_TABLE_SIZE;
+        HashValue = (HashValue + c) % MAX_TABLE_SIZE;
     }
 
     return HashValue;

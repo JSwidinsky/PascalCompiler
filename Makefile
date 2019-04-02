@@ -177,6 +177,33 @@ src/Administration.cpp.s:
 	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Administration.cpp.s
 .PHONY : src/Administration.cpp.s
 
+src/Assembler.o: src/Assembler.cpp.o
+
+.PHONY : src/Assembler.o
+
+# target to build an object file
+src/Assembler.cpp.o:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o
+.PHONY : src/Assembler.cpp.o
+
+src/Assembler.i: src/Assembler.cpp.i
+
+.PHONY : src/Assembler.i
+
+# target to preprocess a source file
+src/Assembler.cpp.i:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.i
+.PHONY : src/Assembler.cpp.i
+
+src/Assembler.s: src/Assembler.cpp.s
+
+.PHONY : src/Assembler.s
+
+# target to generate assembly for a file
+src/Assembler.cpp.s:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.s
+.PHONY : src/Assembler.cpp.s
+
 src/BlockTable.o: src/BlockTable.cpp.o
 
 .PHONY : src/BlockTable.o
@@ -312,6 +339,33 @@ src/Token.cpp.s:
 	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/Token.cpp.s
 .PHONY : src/Token.cpp.s
 
+src/interp.o: src/interp.cpp.o
+
+.PHONY : src/interp.o
+
+# target to build an object file
+src/interp.cpp.o:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/interp.cpp.o
+.PHONY : src/interp.cpp.o
+
+src/interp.i: src/interp.cpp.i
+
+.PHONY : src/interp.i
+
+# target to preprocess a source file
+src/interp.cpp.i:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/interp.cpp.i
+.PHONY : src/interp.cpp.i
+
+src/interp.s: src/interp.cpp.s
+
+.PHONY : src/interp.s
+
+# target to generate assembly for a file
+src/interp.cpp.s:
+	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/src/interp.cpp.s
+.PHONY : src/interp.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -327,6 +381,9 @@ help:
 	@echo "... src/Administration.o"
 	@echo "... src/Administration.i"
 	@echo "... src/Administration.s"
+	@echo "... src/Assembler.o"
+	@echo "... src/Assembler.i"
+	@echo "... src/Assembler.s"
 	@echo "... src/BlockTable.o"
 	@echo "... src/BlockTable.i"
 	@echo "... src/BlockTable.s"
@@ -342,6 +399,9 @@ help:
 	@echo "... src/Token.o"
 	@echo "... src/Token.i"
 	@echo "... src/Token.s"
+	@echo "... src/interp.o"
+	@echo "... src/interp.i"
+	@echo "... src/interp.s"
 .PHONY : help
 
 

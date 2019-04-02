@@ -5,6 +5,7 @@
 #include "./include/Scanner.h"
 #include "./include/Administration.h"
 #include "./include/Parser.h"
+#include "./include/Assembler.h"
 
 using namespace std;
 
@@ -30,10 +31,17 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    Administration* Compiler = new Administration(InputPLFile, OutputExecutable);
+    ofstream TempOutput("./temp.txt");
+    Administration* Compiler = new Administration(InputPLFile, TempOutput);
     Compiler->Compile();
+    TempOutput.close();
+
+    ifstream AssemblerInput("./temp.txt");
+    Assembler* AssemblerObject = new Assembler(AssemblerInput, OutputExecutable);
+    AssemblerObject->firstPass();
+    AssemblerObject->secondPass();
 
     delete Compiler;
-
+    delete AssemblerObject;
     return 0;
 }
