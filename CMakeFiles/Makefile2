@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /home/josh/Documents/PascalCompiler
 CMakeFiles/PascalCompiler.dir/all:
 	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/depend
 	$(MAKE) -f CMakeFiles/PascalCompiler.dir/build.make CMakeFiles/PascalCompiler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target PascalCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/josh/Documents/PascalCompiler/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target PascalCompiler"
 .PHONY : CMakeFiles/PascalCompiler.dir/all
 
 # Include target in all.
@@ -76,7 +76,7 @@ all: CMakeFiles/PascalCompiler.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/PascalCompiler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler/CMakeFiles 9
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/PascalCompiler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/josh/Documents/PascalCompiler/CMakeFiles 0
 .PHONY : CMakeFiles/PascalCompiler.dir/rule

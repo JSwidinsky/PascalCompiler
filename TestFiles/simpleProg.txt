@@ -1,7 +1,14 @@
 begin
-const b = true;
-integer i;
-read i;
-i := i + 1;
-write i;
+
+    integer array A[10];
+    integer count;
+
+    count := 1;
+    do ~(count>10) -> read A[count]; count := count + 1;
+    od;
+
+    count := 1;
+    do ~(count > 10) -> write A[count]; count := count + 1;
+    od;
+
 end.

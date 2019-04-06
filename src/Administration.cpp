@@ -59,7 +59,7 @@ void Administration::Emit1(string Opcode)
 {
     if(IsEmitting())
     {
-        OutFile << Opcode << endl;
+        OutFile << Opcode << '\n';
     }
 }
 
@@ -67,7 +67,7 @@ void Administration::Emit2(string Opcode, int Value1)
 {
     if(IsEmitting())
     {
-        OutFile << Opcode << endl << Value1 << endl;
+        OutFile << Opcode << '\n' << Value1 << '\n';
     }
 }
 
@@ -75,7 +75,7 @@ void Administration::Emit3(string Opcode, int Value1, int Value2)
 {
     if(IsEmitting())
     {
-        OutFile << Opcode << endl << Value1 << endl << Value2 << endl;
+        OutFile << Opcode << '\n' << Value1 << '\n' << Value2 << '\n';
     }
 }
 

@@ -25,7 +25,14 @@ CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o: include/Token.h
 CMakeFiles/PascalCompiler.dir/src/Administration.cpp.o: src/Administration.cpp
 
 CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: src/Assembler.cpp
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/./Administration.h
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/./BlockTable.h
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/./Scanner.h
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/./Symbol.h
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/./SymbolTable.h
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/./Token.h
 CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/Assembler.h
+CMakeFiles/PascalCompiler.dir/src/Assembler.cpp.o: include/Parser.h
 
 CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o: include/BlockTable.h
 CMakeFiles/PascalCompiler.dir/src/BlockTable.cpp.o: src/BlockTable.cpp
@@ -54,7 +61,4 @@ CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o: src/SymbolTable.cpp
 CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: include/Symbol.h
 CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: include/Token.h
 CMakeFiles/PascalCompiler.dir/src/Token.cpp.o: src/Token.cpp
-
-CMakeFiles/PascalCompiler.dir/src/interp.cpp.o: src/interp.cpp
-CMakeFiles/PascalCompiler.dir/src/interp.cpp.o: include/interp.h
 

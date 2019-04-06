@@ -39,8 +39,8 @@ Parser.h
 /home/josh/Documents/PascalCompiler/./include/Assembler.h
 iostream
 -
-string
--
+Parser.h
+/home/josh/Documents/PascalCompiler/./include/Parser.h
 
 /home/josh/Documents/PascalCompiler/./include/Parser.h
 set
@@ -217,8 +217,6 @@ iostream
 -
 Assembler.h
 /home/josh/Documents/PascalCompiler/src/Assembler.h
-fstream
--
 
 /home/josh/Documents/PascalCompiler/src/BlockTable.cpp
 ../include/BlockTable.h
@@ -256,23 +254,61 @@ iostream
 iostream
 -
 
-/home/josh/Documents/PascalCompiler/src/interp.cpp
-iostream
--
+include/./Administration.h
 fstream
 -
-iomanip
+string
 -
-interp.h
-/home/josh/Documents/PascalCompiler/src/interp.h
+Scanner.h
+include/./Scanner.h
+Parser.h
+include/./Parser.h
+
+include/./BlockTable.h
+vector
+-
+
+include/./Scanner.h
+fstream
+-
+string
+-
+Token.h
+include/./Token.h
+SymbolTable.h
+include/./SymbolTable.h
+
+include/./Symbol.h
+
+include/./SymbolTable.h
+vector
+-
+string
+-
+Token.h
+include/./Token.h
+
+include/./Token.h
+string
+-
+Symbol.h
+include/./Symbol.h
 
 include/Assembler.h
 iostream
 -
-string
--
+Parser.h
+include/Parser.h
 
-include/interp.h
-string
+include/Parser.h
+set
 -
+vector
+-
+./Administration.h
+include/./Administration.h
+./Token.h
+include/./Token.h
+./BlockTable.h
+include/./BlockTable.h
 

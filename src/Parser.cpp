@@ -193,8 +193,8 @@ void Parser::Program(StopSet Sts)
     PRINT("Program");
 
     int VariableLabel, StartLabel;
-    VariableLabel = NewLabel();
     StartLabel = NewLabel();
+    VariableLabel = NewLabel();
 
     Admin->Emit3("PROG", VariableLabel, StartLabel);
 
@@ -289,8 +289,6 @@ void Parser::ConstDefinition(StopSet Sts, int& Displacement)
     {
         ScopeError(QUOTE_NAME(IDName) + "was already declared in this scope");
     }
-
-    ++Displacement;
 }
 
 int Parser::VariableDefinition(StopSet Sts, int& Displacement)
@@ -329,13 +327,13 @@ int Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType, 
                 {
                     ScopeError(QUOTE_NAME(HashIndex.second) + "was already declared in this scope");
                 }
-                ++Displacement; //TODO: should this not increase displacement by the number of elements defined in the array?
+                Displacement += ArraySize; //TODO: should this not increase displacement by the number of elements defined in the array?
             }
         }
 
         Match(Symbol::SQUARERIGHT, Sts);
 
-        return NameIndicies.size();
+        return NameIndicies.size() * ArraySize;
     }
     else
     {
@@ -961,8 +959,9 @@ TableEntry::Type Parser::Factor(StopSet Sts)
     else if (Check(Symbol::NEGATE))
     {
         Match(Symbol::NEGATE, Union(Sts, CreateSet(EFactor)));
-        Admin->Emit1("NOT");
+
         Type = Factor(Sts);
+        Admin->Emit1("NOT"); //emit the not command after we have figured out the bool value of the factor
 
         if(Type != TableEntry::BOOLEAN)
         {
@@ -991,8 +990,6 @@ pair<int, string> Parser::VariableAccess(StopSet Sts)
     {
         TableEntry::Type ExpressionType = IndexedSelector(Sts);
 
-        Admin->Emit3("INDEX", Entry.Size, 0); //TODO: change the zero here to the scanner's line
-
         if(ExpressionType != TableEntry::INTEGER)
         {
             TypeError("Non-integer value used for array indexing");
@@ -1005,6 +1002,8 @@ pair<int, string> Parser::VariableAccess(StopSet Sts)
             {
                 TypeError(QUOTE_NAME(IDName) + "is not an array type");
             } 
+
+            Admin->Emit3("INDEX", Entry.Size, 0); //TODO: change the zero here to the scanner's line
         }
     }
     return pair<int, string>(Index, IDName);

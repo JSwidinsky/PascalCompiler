@@ -37,11 +37,18 @@ int main(int argc, char* argv[])
     TempOutput.close();
 
     ifstream AssemblerInput("./temp.txt");
-    Assembler* AssemblerObject = new Assembler(AssemblerInput, OutputExecutable);
-    AssemblerObject->firstPass();
-    AssemblerObject->secondPass();
+    Assembler* AssemblerObject;
+    if(AssemblerInput.good() && Compiler->IsEmitting())
+    {
+        AssemblerObject = new Assembler(AssemblerInput, OutputExecutable);
+        AssemblerObject->firstPass();
+        AssemblerInput.seekg(0);
+        AssemblerObject->secondPass();
+
+        delete AssemblerObject;
+        //remove("./temp.txt");
+    }
 
     delete Compiler;
-    delete AssemblerObject;
     return 0;
 }

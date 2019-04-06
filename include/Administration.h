@@ -34,8 +34,8 @@ public:
 
     string TokenToString(const Symbol::Symbol symbol);
 
-private:
     bool IsEmitting() const;
+private:
 
     ifstream& InFile;
     ofstream& OutFile;

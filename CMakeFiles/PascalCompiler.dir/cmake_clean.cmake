@@ -6,7 +6,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/PascalCompiler.dir/src/Scanner.cpp.o"
   "CMakeFiles/PascalCompiler.dir/src/SymbolTable.cpp.o"
   "CMakeFiles/PascalCompiler.dir/src/Token.cpp.o"
-  "CMakeFiles/PascalCompiler.dir/src/interp.cpp.o"
   "CMakeFiles/PascalCompiler.dir/plc.cpp.o"
   "PascalCompiler.pdb"
   "PascalCompiler"
