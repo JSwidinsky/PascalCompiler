@@ -29,7 +29,7 @@ bool BlockTable::Search(int Index) const
 bool BlockTable::Define(TableEntry NewTableEntry)
 {
     //return false if our new table entry already exists in our table
-    if(Search(NewTableEntry.Index))
+    if(SearchCurrentLevel(NewTableEntry.Index))
     {
         return false;
     }
@@ -88,4 +88,18 @@ bool BlockTable::PopBlock()
 int BlockTable::GetCurrentLevel() const
 {
     return CurrentLevel;
+}
+
+bool BlockTable::SearchCurrentLevel(int Index) const
+{
+    //perform a linear scan through all the levels we have defined so far in our Table array
+    //this is not the most efficient way, but it does the job
+    for(const TableEntry& CurrentEntry : Table[CurrentLevel])
+    {
+        if(CurrentEntry.Index == Index)
+        {
+            return true;
+        }
+    }
+    return false;
 }

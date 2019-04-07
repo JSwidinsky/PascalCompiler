@@ -3,9 +3,13 @@ begin
     integer array A[10];
     integer count;
 
-    count := 1;
-    do ~(count>10) -> read A[count]; count := count + 1;
-    od;
+    proc ReadNum begin
+            count := 1;
+            do ~(count>10) -> read A[count]; count := count + 1;
+            od;
+        end;
+
+    call ReadNum;
 
     count := 1;
     do ~(count > 10) -> write A[count]; count := count + 1;

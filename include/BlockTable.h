@@ -57,6 +57,8 @@ public:
     int GetCurrentLevel() const;
 
 private:
+    bool SearchCurrentLevel(int Index) const;
+
     std::vector<TableEntry> Table[MAX_BLOCKS];
     int CurrentLevel;
 };

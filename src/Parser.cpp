@@ -415,6 +415,8 @@ void Parser::ProcedureDefinition(StopSet Sts)
     Admin->Emit3("PROC", VariableLabel, StartLabel);
 
     Block(Sts, StartLabel, VariableLabel);
+
+    Admin->Emit1("ENDPROC");
 }
 
 void Parser::StatementPart(StopSet Sts)

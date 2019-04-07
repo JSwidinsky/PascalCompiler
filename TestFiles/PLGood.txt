@@ -3,12 +3,11 @@ $this is a valid program, and should pass parsing with zero errors
 
 begin
 	const n = 10; integer array A[n];
-	integer x, i; Boolean found;
+	integer x, i; Boolean found; integer m;
 
 proc Search
 begin integer m;
       i, m := 1, n;
-      write m;
       do i < m ->
       	if A[i] = x -> m := i; []
 	      ~(A[i]=x)-> i := i + 1;
@@ -20,9 +19,6 @@ begin integer m;
 $input table
 i := 1;
 do ~(i>n)-> read A[i]; i:=i+1; od;
-
-i := 1;
-do ~(i>n) -> write A[i]; i:=i+1; od;
 
 read x;
 do ~(x=0)->
