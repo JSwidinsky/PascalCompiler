@@ -17,6 +17,11 @@ Scanner::Scanner(ifstream& InputPLFile, SymbolTable* Table)
     EOFFlag = false;
 }
 
+Scanner::~Scanner()
+{
+    delete HashTable;
+}
+
 Token* Scanner::GetToken()
 {
     Token* NewToken = nullptr;

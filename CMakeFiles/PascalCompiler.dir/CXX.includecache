@@ -11,6 +11,8 @@ fstream
 -
 string
 -
+stack
+-
 Scanner.h
 /home/josh/Documents/PascalCompiler/./include/./Scanner.h
 Parser.h
@@ -30,6 +32,8 @@ Symbol.h
 fstream
 -
 string
+-
+stack
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/./include/Scanner.h
@@ -85,6 +89,8 @@ fstream
 -
 string
 -
+stack
+-
 Scanner.h
 /home/josh/Documents/PascalCompiler/include/./Scanner.h
 Parser.h
@@ -136,6 +142,8 @@ Symbol.h
 fstream
 -
 string
+-
+stack
 -
 Scanner.h
 /home/josh/Documents/PascalCompiler/include/Scanner.h
@@ -258,6 +266,8 @@ include/./Administration.h
 fstream
 -
 string
+-
+stack
 -
 Scanner.h
 include/./Scanner.h

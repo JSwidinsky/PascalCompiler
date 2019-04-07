@@ -1,0 +1,45 @@
+$this program prompts the user for 10 numbers, and then sorts them using the bubble sort algorithm
+
+begin
+
+    const size = 10; integer array A[size];
+    integer i, j;
+
+    proc bubbleSort
+    begin
+        Boolean swapMade;
+
+        proc swap begin
+            integer temp;
+            temp := A[j];
+            A[j] := A[j+1];
+            A[j+1] := temp;
+        end;
+
+        i := 1;
+        swapMade := true;
+        do ~(i > size) & swapMade ->
+            swapMade := false;
+            j := 1;
+            do ~(j > size - 1) ->
+                if (A[j] > A[j+1]) -> call swap; swapMade := true; []
+                   ~(A[j] > A[j+1]) -> skip;
+                fi;
+                j := j + 1;
+            od;
+
+            i := i + 1;
+        od;
+    end;
+
+    i := 1;
+    do ~(i > size) -> read A[i]; i := i + 1;
+    od;
+
+    call bubbleSort;
+
+    i := 1;
+    do ~(i > size) -> write A[i]; i := i + 1;
+    od;
+
+end.

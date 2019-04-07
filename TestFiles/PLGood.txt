@@ -1,5 +1,5 @@
 $First test input file
-$this is a valid program, and should pass parsing with zero errors
+$reads in numbers from the user, then performs lookups to see if they can be found in the table
 
 begin
 	const n = 10; integer array A[n];

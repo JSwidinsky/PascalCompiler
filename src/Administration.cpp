@@ -19,6 +19,13 @@ Administration::~Administration()
 {
     delete PLScanner;
     delete PLParser;
+
+    while(!TokenStack.empty())
+    {
+        Token* NextToken = TokenStack.top();
+        TokenStack.pop();
+        delete NextToken;
+    }
 }
 
 void Administration::Compile()
@@ -40,6 +47,11 @@ Token* Administration::GetNextToken()
         try
         {
             Token* TokenToAdd = PLScanner->GetToken();
+
+            if(HashTable->Find(TokenToAdd->GetLexeme()) == -1)
+            {
+                TokenStack.push(TokenToAdd);
+            }
 
             return TokenToAdd;
         }
@@ -151,4 +163,9 @@ string Administration::TokenToString(const Symbol::Symbol symbol)
 bool Administration::IsEmitting() const
 {
     return ErrorCount == 0;
+}
+
+int Administration::GetScannerLineNum() const
+{
+    return PLScanner->GetLineNum();
 }

@@ -58,6 +58,8 @@ Parser::Parser(Administration* A)
 
     Table = new BlockTable();
 
+    LookAheadToken = nullptr;
+
     GetNextToken();
 }
 
@@ -250,7 +252,6 @@ int Parser::Definition(StopSet Sts, int& Displacement)
     int NumDefinitions = 0;
     if (Member(LookAheadToken->GetSymbolName(), EConstantDefinition))
     {
-        //TODO: What do we do here, since we do not store constants on the rutime stack? return 0?
         ConstDefinition(Sts, Displacement);
     }
     else if (Member(LookAheadToken->GetSymbolName(), EVariableDefinition))
@@ -259,7 +260,6 @@ int Parser::Definition(StopSet Sts, int& Displacement)
     }
     else if (Member(LookAheadToken->GetSymbolName(), EProcedureDefinition))
     {
-        //TODO: What do we do here? Return 0?
         ProcedureDefinition(Sts);
     }
     else
@@ -327,7 +327,7 @@ int Parser::VariableDefinitionPrime(StopSet Sts, TableEntry::Type VariableType, 
                 {
                     ScopeError(QUOTE_NAME(HashIndex.second) + "was already declared in this scope");
                 }
-                Displacement += ArraySize; //TODO: should this not increase displacement by the number of elements defined in the array?
+                Displacement += ArraySize;
             }
         }
 
@@ -616,7 +616,7 @@ void Parser::IfStatement(StopSet Sts)
     GuardedCommandList(Union(Sts, Symbol::FI), StartLabel, DoneLabel);
 
     Admin->Emit2("DEFADDR", StartLabel);
-    Admin->Emit2("FI", 0); //TODO: change the zero to the line number the scanner is currently on
+    Admin->Emit2("FI", Admin->GetScannerLineNum());
     Admin->Emit2("DEFADDR", DoneLabel);
 
     Match(Symbol::FI, Sts);
@@ -911,7 +911,6 @@ Symbol::Symbol Parser::MultiplyingOperator(StopSet Sts)
     return Symbol::DUMMYVAL; //just return dummy val if all above cases fail; can we ever be here through?
 }
 
-//TODO: verify that this function was done properly
 TableEntry::Type Parser::Factor(StopSet Sts)
 {
     PRINT("Factor");
@@ -1005,7 +1004,7 @@ pair<int, string> Parser::VariableAccess(StopSet Sts)
                 TypeError(QUOTE_NAME(IDName) + "is not an array type");
             } 
 
-            Admin->Emit3("INDEX", Entry.Size, 0); //TODO: change the zero here to the scanner's line
+            Admin->Emit3("INDEX", Entry.Size, Admin->GetScannerLineNum());
         }
     }
     return pair<int, string>(Index, IDName);

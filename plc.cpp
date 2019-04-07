@@ -42,11 +42,11 @@ int main(int argc, char* argv[])
     {
         AssemblerObject = new Assembler(AssemblerInput, OutputExecutable);
         AssemblerObject->firstPass();
-        AssemblerInput.seekg(0);
+        AssemblerInput.seekg(0);  //reset the head of the input file to the beginning of the file
         AssemblerObject->secondPass();
 
         delete AssemblerObject;
-        //remove("./temp.txt");
+        remove("./temp.txt");
     }
 
     delete Compiler;

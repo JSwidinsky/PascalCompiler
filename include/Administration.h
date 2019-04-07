@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <string>
+#include <stack>
 #include "Scanner.h"
 #include "Parser.h"
 
@@ -35,10 +36,13 @@ public:
     string TokenToString(const Symbol::Symbol symbol);
 
     bool IsEmitting() const;
+
+    int GetScannerLineNum() const;
 private:
 
     ifstream& InFile;
     ofstream& OutFile;
+    stack<Token*> TokenStack; //we use this to store all tokens that are not in the symbol table for deletion later
     Scanner* PLScanner;
     Parser* PLParser;
     SymbolTable* HashTable;

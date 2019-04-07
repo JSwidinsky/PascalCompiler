@@ -13,6 +13,8 @@ class Scanner
 public:
     Scanner(ifstream& InputPLFile, SymbolTable* Table);
 
+    ~Scanner();
+
     /**
      * Function that reads the next part of the input file and creates a token for whatever it reads
      * This token is also added to the hash table before the function returns
